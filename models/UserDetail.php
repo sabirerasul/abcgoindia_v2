@@ -42,7 +42,7 @@ class UserDetail extends \yii\db\ActiveRecord
             [['dob'], 'string', 'max' => 12],
             [['whatsapp_number'], 'string', 'max' => 15],
             [['gender'], 'string', 'max' => 10],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => AiUser::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -55,11 +55,11 @@ class UserDetail extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'email' => Yii::t('app', 'Email'),
-            'dob' => Yii::t('app', 'Dob'),
+            'dob' => Yii::t('app', 'Date of Birth'),
             'whatsapp_number' => Yii::t('app', 'Whatsapp Number'),
             'gender' => Yii::t('app', 'Gender'),
             'profile_photo' => Yii::t('app', 'Profile Photo'),
-            'job' => Yii::t('app', 'Job'),
+            'job' => Yii::t('app', 'Occupation'),
             'about' => Yii::t('app', 'About'),
         ];
     }
@@ -71,6 +71,6 @@ class UserDetail extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(AiUser::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

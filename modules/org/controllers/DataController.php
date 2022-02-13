@@ -2,9 +2,9 @@
 
 namespace app\modules\org\controllers;
 
-use app\modules\org\models\User;
-use app\modules\org\models\business\Business;
-use app\modules\org\models\catalog\BusinessCatalog;
+use app\models\User;
+use app\models\business\Business;
+use app\models\business\BusinessCatalog;
 use yii\web\Controller;
 class DataController extends Controller
 {

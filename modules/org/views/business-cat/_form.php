@@ -14,9 +14,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'cat_name')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?php //= $form->field($model, 'created_at')->textInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?php //= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')
+        ->dropDownList(
+            [0 => 'Deactive', 1 => 'Active'],           // Flat array ('id'=>'label')
+            ['prompt'=>'Select Status']    // options
+        ); ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="h3 mb-2 text-gray-800"><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Add Business Catalog', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php //= Html::a('Add Business Catalog', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <p class="mb-4">Here you can manage all business catalog easily.</p>
 

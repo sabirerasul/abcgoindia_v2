@@ -32,8 +32,9 @@ class UserProfileLink extends \yii\db\ActiveRecord
         return [
             [['user_id'], 'required'],
             [['user_id'], 'integer'],
-            [['website', 'facebook'], 'string'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => AiUser::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['title', 'link'], 'string'],
+            ['link', 'url'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -45,8 +46,8 @@ class UserProfileLink extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            'website' => Yii::t('app', 'Website'),
-            'facebook' => Yii::t('app', 'Facebook'),
+            'title' => Yii::t('app', 'Title'),
+            'link' => Yii::t('app', 'Link'),
         ];
     }
 
@@ -57,6 +58,6 @@ class UserProfileLink extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(AiUser::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

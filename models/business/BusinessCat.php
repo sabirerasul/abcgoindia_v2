@@ -30,7 +30,7 @@ class BusinessCat extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cat_name', 'created_at', 'status'], 'required'],
+            [['cat_name', 'status'], 'required'],
             [['cat_name'], 'string'],
             [['created_at'], 'safe'],
             [['status'], 'integer'],

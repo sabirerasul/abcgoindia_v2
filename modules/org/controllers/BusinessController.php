@@ -2,10 +2,10 @@
 
 namespace app\modules\org\controllers;
 
-use app\modules\org\models\business\Business;
+use app\models\business\Business;
 use app\modules\org\models\business\BusinessSearch;
-use app\modules\org\models\User;
-use app\modules\org\models\business\BusinessCat;
+use app\models\User;
+use app\models\business\BusinessCat;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -43,7 +43,6 @@ class BusinessController extends Controller
     {
         $searchModel = new BusinessSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

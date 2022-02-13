@@ -32,7 +32,7 @@ class UserHobby extends \yii\db\ActiveRecord
             [['user_id', 'hobby'], 'required'],
             [['user_id'], 'integer'],
             [['hobby'], 'string'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => AiUser::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -55,6 +55,6 @@ class UserHobby extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(AiUser::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

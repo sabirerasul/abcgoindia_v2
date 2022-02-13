@@ -2,8 +2,8 @@
 
 namespace app\modules\org\controllers;
 
-use app\modules\org\models\catalog\BusinessCatalog;
-use app\modules\org\models\catalog\BusinessCatalogSearch;
+use app\models\business\BusinessCatalog;
+use app\modules\org\models\business\BusinessCatalogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

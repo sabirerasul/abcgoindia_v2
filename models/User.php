@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+$addressStatus = 1;
 
 /**
  * This is the model class for table "ai_user".
@@ -17,10 +18,10 @@ use Yii;
  * @property string $created_at
  * @property int $status
  *
- * @property AiUserAddress[] $aiUserAddresses
- * @property AiUserDetail[] $aiUserDetails
- * @property AiUserHobby[] $aiUserHobbies
- * @property AiUserProfileLink[] $aiUserProfileLinks
+ * @property UserAddress[] $aiUserAddresses
+ * @property UserDetail[] $aiUserDetails
+ * @property UserHobby[] $aiUserHobbies
+ * @property UserProfileLink[] $aiUserProfileLinks
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -83,7 +84,7 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[AiUserAddresses]].
+     * Gets query for [[UserAddresses]].
      *
      * @return \yii\db\ActiveQuery
      */

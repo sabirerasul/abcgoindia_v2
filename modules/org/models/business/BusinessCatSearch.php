@@ -4,7 +4,7 @@ namespace app\modules\org\models\business;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\org\models\business\BusinessCat;
+use app\models\business\BusinessCat;
 
 /**
  * BusinessCatSearch represents the model behind the search form of `app\modules\org\models\business\BusinessCat`.

@@ -42,7 +42,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'id',
                     'cat_name:ntext',
                     'created_at',
-                    'status',
+                    [
+                        'attribute' => 'status',
+                        'format' => 'html',    
+                        'value' => function ($data) {
+                            $newStatus = 1;
+                            
+                            if($data->status == 0){
+                                $newStatus = '<span style=color:red>Deactive</span>';
+                            }
+                            if($data->status == 1){
+                                $newStatus = '<span style=color:green>Active</span>';
+                            }
+                            return $newStatus;
+                        },
+                    ],
 
                     ['class' => 'yii\grid\ActionColumn'],
                 ],

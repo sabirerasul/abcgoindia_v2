@@ -4,7 +4,7 @@ namespace app\modules\org\models\business;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\org\models\business\Business;
+use app\models\business\Business;
 
 /**
  * BusinessSearch represents the model behind the search form of `app\modules\org\models\business\Business`.

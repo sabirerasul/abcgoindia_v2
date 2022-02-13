@@ -2,7 +2,7 @@
 
 namespace app\modules\org\controllers;
 
-use app\modules\org\models\business\BusinessCat;
+use app\models\business\BusinessCat;
 use app\modules\org\models\business\BusinessCatSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -70,8 +70,14 @@ class BusinessCatController extends Controller
         $model = new BusinessCat();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+
+                $model->created_at = date('Y-m-d h:i:s');
+                
+                if($model->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                
             }
         } else {
             $model->loadDefaultValues();

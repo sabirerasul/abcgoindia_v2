@@ -1,7 +1,7 @@
 <?php
 use app\models\User;
 use app\models\business\Business;
-use app\models\catalog\BusinessCatalog;
+use app\models\business\BusinessCatalog;
 use app\models\business\BusinessCat;
 
 $this->title = "ABCGO INDIA ADMIN PANEL";

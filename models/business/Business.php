@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models\business;
+use app\models\User;
 
 use Yii;
 
@@ -19,14 +20,14 @@ use Yii;
  * @property string $created_at
  * @property string|null $updated_at
  *
- * @property AiBusinessAddress[] $aiBusinessAddresses
- * @property AiBusinessCatalogDetail[] $aiBusinessCatalogDetails
- * @property AiBusinessCatalog[] $aiBusinessCatalogs
- * @property AiBusinessDetail[] $aiBusinessDetails
- * @property AiBusinessHour[] $aiBusinessHours
- * @property AiBusinessProfileLink[] $aiBusinessProfileLinks
- * @property AiBusinessCat $busCat
- * @property AiUser $user
+ * @property BusinessAddress[] $BusinessAddresses
+ * @property BusinessCatalogDetail[] $BusinessCatalogDetails
+ * @property BusinessCatalog[] $BusinessCatalogs
+ * @property BusinessDetail[] $BusinessDetails
+ * @property BusinessHour[] $BusinessHours
+ * @property BusinessProfileLink[] $BusinessProfileLinks
+ * @property BusinessCat $busCat
+ * @property User $user
  */
 class Business extends \yii\db\ActiveRecord
 {
@@ -50,8 +51,8 @@ class Business extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'safe'],
             [['bus_name', 'bus_username', 'bus_qrcode'], 'string', 'max' => 100],
             [['bus_number'], 'string', 'max' => 15],
-            [['bus_cat'], 'exist', 'skipOnError' => true, 'targetClass' => AiBusinessCat::className(), 'targetAttribute' => ['bus_cat' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => AiUser::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['bus_cat'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessCat::className(), 'targetAttribute' => ['bus_cat' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -80,59 +81,59 @@ class Business extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAiBusinessAddresses()
+    public function getBusinessAddresses()
     {
-        return $this->hasMany(AiBusinessAddress::className(), ['business_id' => 'id']);
+        return $this->hasMany(BusinessAddress::className(), ['business_id' => 'id']);
     }
 
     /**
-     * Gets query for [[AiBusinessCatalogDetails]].
+     * Gets query for [[BusinessCatalogDetails]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAiBusinessCatalogDetails()
+    public function getBusinessCatalogDetails()
     {
-        return $this->hasMany(AiBusinessCatalogDetail::className(), ['business_id' => 'id']);
+        return $this->hasMany(BusinessCatalogDetail::className(), ['business_id' => 'id']);
     }
 
     /**
-     * Gets query for [[AiBusinessCatalogs]].
+     * Gets query for [[BusinessCatalogs]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAiBusinessCatalogs()
+    public function getBusinessCatalogs()
     {
-        return $this->hasMany(AiBusinessCatalog::className(), ['business_id' => 'id']);
+        return $this->hasMany(BusinessCatalog::className(), ['business_id' => 'id']);
     }
 
     /**
-     * Gets query for [[AiBusinessDetails]].
+     * Gets query for [[BusinessDetails]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAiBusinessDetails()
+    public function getBusinessDetails()
     {
-        return $this->hasMany(AiBusinessDetail::className(), ['business_id' => 'id']);
+        return $this->hasMany(BusinessDetail::className(), ['business_id' => 'id']);
     }
 
     /**
-     * Gets query for [[AiBusinessHours]].
+     * Gets query for [[BusinessHours]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAiBusinessHours()
+    public function getBusinessHours()
     {
-        return $this->hasMany(AiBusinessHour::className(), ['business_id' => 'id']);
+        return $this->hasMany(BusinessHour::className(), ['business_id' => 'id']);
     }
 
     /**
-     * Gets query for [[AiBusinessProfileLinks]].
+     * Gets query for [[BusinessProfileLinks]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAiBusinessProfileLinks()
+    public function getBusinessProfileLinks()
     {
-        return $this->hasMany(AiBusinessProfileLink::className(), ['business_id' => 'id']);
+        return $this->hasMany(BusinessProfileLink::className(), ['business_id' => 'id']);
     }
 
     /**
@@ -142,7 +143,7 @@ class Business extends \yii\db\ActiveRecord
      */
     public function getBusCat()
     {
-        return $this->hasOne(AiBusinessCat::className(), ['id' => 'bus_cat']);
+        return $this->hasOne(BusinessCat::className(), ['id' => 'bus_cat']);
     }
 
     /**
@@ -152,6 +153,6 @@ class Business extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(AiUser::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

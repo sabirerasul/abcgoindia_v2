@@ -14,13 +14,6 @@ use app\models\UserHobby;
 use app\models\UserProfileLink;
 use app\models\business\Business;
 
-use app\models\catalog\BusinessCatalog;
-
-use app\models\catalog\BusinessCatalogLink;
-
-
-
-
 
 class UserController extends Controller
 {

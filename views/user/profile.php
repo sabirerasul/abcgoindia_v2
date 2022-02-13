@@ -138,8 +138,8 @@ $this->title = $model->name. '-' . 'Profile';
                         <?php if(!empty($model->userProfileLinks)>0){
                             foreach ($model->userProfileLinks as $key => $userProfileLinks) { ?>
                             <tr>
-                                <th scop="col"><?=$userProfileLinks->url_name?></th>
-                                <td><a href="<?=$userProfileLinks->url_link?>" target="_blank"><?=$userProfileLinks->url_name?></a></td>
+                                <th scop="col"><?=$userProfileLinks->title?></th>
+                                <td><a href="<?=$userProfileLinks->link?>" target="_blank"><?=$userProfileLinks->title?></a></td>
                             </tr>
                         <?php }} ?>
                     </table>
