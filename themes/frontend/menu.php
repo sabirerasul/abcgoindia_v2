@@ -133,7 +133,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="<?=Yii::getAlias('@web');?>/user/profile?id=18">
+                                <a class="dropdown-item" href="<?=Yii::getAlias('@web');?>/user/profile?id=17">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -169,9 +169,39 @@
                     </ul>
 
                 </nav>
+                <nav class='navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow mobile-nav'>
+                <ul class="navbar-nav" id="left-nav">
+
+<li class="nav-item dropdown no-arrow mx-1">
+      <a class="nav-link" href="<?=Yii::getAlias('@web')?>"> <i class="fas fa-home"></i> Home</a>
+</li>
+
+<li class="nav-item dropdown no-arrow mx-1">
+      <a class="nav-link" href="<?=Yii::getAlias('@web')?>/business"> <i class="fas fa-briefcase"></i> Business</a>
+</li>
+
+<li class="nav-item dropdown no-arrow mx-1">
+      <a class="nav-link" href="<?=Yii::getAlias('@web');?>/e-market"> <i class="fas fa-cube"></i> E-Market</a>
+</li>
+
+</ul>
+                </nav>
 
 
 <style>
+
+    nav.mobile-nav{
+        display:none;
+        margin-top: -1rem;
+    }
+@media (max-width:768px){
+    nav #left-nav{
+        display:none;
+    }
+nav.mobile{
+    display:block;
+}
+}
   nav #left-nav li a i{
     margin-right:10px;
   }

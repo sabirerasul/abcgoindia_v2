@@ -38,6 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
                     <tbody>
+                        <td colspan='2' style="text-align:right">
+                        <a class="btn btn-primary"
+                    href="<?=Yii::getAlias('@web')?>/org/user/update?id=<?=$model->id?>">Update</a>
+                        </td>
 
                         <tr>
                             <th>User ID</th>
@@ -77,8 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     </tbody>
                 </table>
-                <a class="btn btn-primary"
-                    href="<?=Yii::getAlias('@web')?>/org/user/update?id=<?=$model->id?>">Update</a>
+                
             </div>
         </div>
     </div>
@@ -92,6 +95,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
+                    <td colspan='2' style="text-align:right">
+                        <a class="btn btn-primary"
+                    href="<?=Yii::getAlias('@web')?>/org/user/update-other?id=<?=$model->id?>">Update</a>
+
+                    </td>
                     <tbody>
                         <?php if(!empty($model->userDetails)>0){ ?>
                         <tr>
@@ -129,8 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     </tbody>
                 </table>
-                <a class="btn btn-primary"
-                    href="<?=Yii::getAlias('@web')?>/org/user/update-other?id=<?=$model->id?>">Update</a>
+                
 
             </div>
         </div>
