@@ -64,14 +64,14 @@ class Business extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            'bus_name' => Yii::t('app', 'Bus Name'),
-            'bus_username' => Yii::t('app', 'Bus Username'),
-            'bus_cat' => Yii::t('app', 'Bus Cat'),
-            'bus_qrcode' => Yii::t('app', 'Bus Qrcode'),
-            'bus_number' => Yii::t('app', 'Bus Number'),
+            'bus_name' => Yii::t('app', 'Business Name'),
+            'bus_username' => Yii::t('app', 'Business Username'),
+            'bus_cat' => Yii::t('app', 'Business Category'),
+            'bus_qrcode' => Yii::t('app', 'Business Qrcode'),
+            'bus_number' => Yii::t('app', 'Business Number'),
             'status' => Yii::t('app', 'Status'),
-            'bus_token' => Yii::t('app', 'Bus Token'),
-            'created_at' => Yii::t('app', 'Created At'),
+            'bus_token' => Yii::t('app', 'Business Token'),
+            'created_at' => Yii::t('app', 'Business Since'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }

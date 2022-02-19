@@ -12,6 +12,7 @@ use app\modules\org\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Yii;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -72,27 +73,29 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $user = new User();
+        $model = new User();
+        $model->scenario = 'adminCreate';
 
         if ($this->request->isPost) {
-            if ($user->load($this->request->post())) {
+            if ($model->load($this->request->post())) {
                 extract($_REQUEST);
-                $username = $user->name.rand(1,789);
+                $username = $model->name.rand(1,789);
                 $username = str_replace(' ', '', $username);
-                $password_hash = password_hash($user->password, PASSWORD_DEFAULT);
-                $user->username = $username;
-                $user->password_hash = $password_hash;
-                $user->created_at = date('Y-m-d h:i:s');
-                if($user->save()){
-                    return $this->redirect(['view', 'id' => $user->id]);
+                $password_hash = password_hash($model->password, PASSWORD_DEFAULT);
+                $model->username = $username;
+                $model->password_hash = $password_hash;
+                $model->created_at = date('Y-m-d h:i:s');
+
+                if( $model->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
         } else {
-            $user->loadDefaultValues();
+            $model->loadDefaultValues();
         }
 
         return $this->render('create', [
-            'user' => $user,
+            'model' => $model,
         ]);
     }
 
@@ -107,8 +110,16 @@ class UserController extends Controller
     {
         extract($_REQUEST);
         $model = $this->findModel($id);
+        $model->scenario = 'adminUpdate';
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            if(!empty($model->password)){
+                $model->password_hash = password_hash($model->password, PASSWORD_DEFAULT);
+            }
+            
+            $model->updated_at = date('Y-m-d h:i:s');
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -116,13 +127,21 @@ class UserController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionBusiness(){
+        extract($_REQUEST);
+        $url = Yii::getAlias('@web')."/org/user-business?id=".$id;
+        $this->redirect($url);
+    }
     
 
     public function actionUpdateOther()
     {
         extract($_REQUEST);
         $model = $this->findModel($id);
-        $detailModel = $model->userDetails;
+
+        $detailModel = ($model->userDetails) ? $model->userDetails : new UserDetail();
+        $detailModel->user_id = $model->id;
 
         if ($this->request->isPost && $detailModel->load($this->request->post())) {
             

@@ -58,7 +58,27 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     ],
 
-                    ['class' => 'yii\grid\ActionColumn'],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'header' => 'Actions',
+                        'template' => '{view}{business}{delete}',
+                        'buttons' => [
+                            
+                            'view' => function ($data) {
+                                
+                                $html = "<a class='btn btn-primary btn-circle btn-sm ml-1 mb-1' href='".$data."'><i class='fas fa-eye'></i></a>";
+                                return $html;
+                            },
+                            'business' => function ($data) {
+                                $html = "<a class='btn btn-success btn-circle btn-sm ml-1 mb-1'  href='".$data."'><i class='fas fa-briefcase'></i></a>";
+                                return $html;
+                            },
+                            'delete' => function ($data) {
+                                $html = "<a class='btn btn-danger btn-circle btn-sm ml-1 mb-1'  href='".$data."'><i class='fas fa-trash'></i></a>";
+                                return $html;
+                            },
+                          ],
+                    ],
                 ],
             ]); ?>
 

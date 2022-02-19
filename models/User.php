@@ -27,6 +27,7 @@ class User extends \yii\db\ActiveRecord
 {
     public $password;
     public $c_password;
+    
     /**
      * {@inheritdoc}
      */
@@ -41,7 +42,12 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'username', 'mobile', 'password_hash', 'created_at', 'password', 'c_password'], 'required'],
+            
+            [['name', 'username', 'mobile', 'password_hash', 'created_at', 'c_password', 'password'], 'required', 'on' => 'userCreate'], 
+
+            [['name', 'username', 'mobile', 'password_hash', 'created_at', 'password'], 'required', 'on' => 'adminCreate'],  
+            [['name', 'username', 'mobile'], 'required', 'on' => 'adminUpdate'],
+
             [['password'], 'string', 'min'=>6, 'max'=>64],
             [['c_password'], 'string', 'min'=>6, 'max'=>64],
             ['password', 'match', 'pattern' => '/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', 'message' => "Password must contain at least one lower and upper case character and a digit."],

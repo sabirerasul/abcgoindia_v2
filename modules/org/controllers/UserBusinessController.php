@@ -42,14 +42,8 @@ class UserBusinessController extends Controller
     public function actionIndex()
     {
         extract($_REQUEST);
-        //$searchModel = new UserBusinessSearch();
-        //$dataProvider = $searchModel->search($this->request->queryParams, $id);
         $model = Business::find()->where(['user_id' => $id])->all();
-        // return $this->render('index', [
-        //     'searchModel' => $searchModel,
-        //     'dataProvider' => $dataProvider,
-        // ]);
-        return $this->render('index', ['model' => $model]);
+        return $this->render('index', ['model' => $model, 'id' => $id]);
     }
 
     /**
@@ -72,7 +66,9 @@ class UserBusinessController extends Controller
      */
     public function actionCreate()
     {
+        extract($_REQUEST);
         $model = new Business();
+        $model->user_id = $id;
         $users = ArrayHelper::map(User::find()->where(['status' => 1])->all(), 'id', 'name');
         $categories = ArrayHelper::map(BusinessCat::find()->where(['status' => 1])->all(), 'id', 'cat_name');
         if ($this->request->isPost) {

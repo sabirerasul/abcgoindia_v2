@@ -38,50 +38,55 @@ $this->params['breadcrumbs'][] = $this->title;
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
                     <tbody>
-                        <td colspan='2' style="text-align:right">
-                        <a class="btn btn-primary"
-                    href="<?=Yii::getAlias('@web')?>/org/user/update?id=<?=$model->id?>">Update</a>
-                        </td>
+                        <tr>
+                            <td colspan='2' style="text-align:right">
+                                <a class="btn btn-primary"
+                                    href="<?=Yii::getAlias('@web')?>/org/user/update?id=<?=$model->id?>">Update</a>
+                            </td>
+                        </tr>
 
                         <tr>
                             <th>User ID</th>
                             <td><?=$model->id?></td>
+                        </tr>
                         <tr>
                             <th>Name</th>
                             <td><?=$model->name?></td>
+                        </tr>
                         <tr>
                             <th>Username</th>
                             <td><?=$model->username?></td>
+                        </tr>
                         <tr>
                             <th>Mobile</th>
                             <td><?=$model->mobile?></td>
-                        <tr>
-                            <th>Password Hash</th>
-                            <td><?=$model->password_hash?></td>
-                        <tr>
-                            <th>Reset Token</th>
-                            <td><?=$model->reset_token?></td>
+                        </tr>
+                        
                         <tr>
                             <th>Updated At</th>
                             <td><?=$model->updated_at?></td>
+                        </tr>
                         <tr>
                             <th>User Since</th>
                             <td><?=date("jS \of F Y", strtotime($model->created_at))?></td>
+                        </tr>
+                        
                         <tr>
                             <th>Status</th>
                             <td><?php
-                    if($model->status == 0){
-                        $newStatus = '<span style=color:red>Deactive</span>';
-                    }
-                    if($model->status == 1){
-                        $newStatus = '<span style=color:green>Active</span>';
-                    }
-                    echo $newStatus;
-                    ?></td>
+                            if($model->status == 0){
+                                $newStatus = '<span style=color:red>Deactive</span>';
+                            }
+                            if($model->status == 1){
+                                $newStatus = '<span style=color:green>Active</span>';
+                            }
+                            echo $newStatus;
+                            ?></td>
+                        </tr>
 
                     </tbody>
                 </table>
-                
+
             </div>
         </div>
     </div>
@@ -97,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <td colspan='2' style="text-align:right">
                         <a class="btn btn-primary"
-                    href="<?=Yii::getAlias('@web')?>/org/user/update-other?id=<?=$model->id?>">Update</a>
+                            href="<?=Yii::getAlias('@web')?>/org/user/update-other?id=<?=$model->id?>">Update</a>
 
                     </td>
                     <tbody>
@@ -137,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     </tbody>
                 </table>
-                
+
 
             </div>
         </div>
@@ -282,7 +287,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <!-- /.container-fluid -->
 <script>
-    function showModal(){
-        //alert();
-    }
+function showModal() {
+    //alert();
+}
 </script>

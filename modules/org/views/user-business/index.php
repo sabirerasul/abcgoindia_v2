@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\modules\org\models\business\BusinessSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Businesses';
+$this->title = 'Business';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <!-- Begin Page Content -->
@@ -17,78 +17,104 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="h3 mb-2 text-gray-800"><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?php //= Html::a('Add Business', ['create'], ['class' => 'btn btn-success']) ?>
+        <a class="btn btn-success" href="<?=Yii::getAlias('@web')?>/org/user-business/create?id=<?=$id?>">Add Business</a>
     </p>
 
     <p class="mb-4">Here you can manage all business easily.</p>
 
     <!-- DataTales Example -->
+    <?php foreach ($model as $key => $value) { ?>
     <div class="card shadow mb-4">
+        
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary"><?= Html::encode($this->title) ?></h6>
+            <h6 class="m-0 font-weight-bold text-primary"><?= $value->bus_name ?></h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-            <?php Pjax::begin(); ?>
-            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-            <?= GridView::widget([
-                //'dataProvider' => $dataProvider,
-                //'filterModel' => $searchModel,
-                'dataProvider' => $model,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
-                    //'id',
-                    //'user_id',
-                    [
-                        'attribute' => 'user_id',  
-                        'format' => 'html', 
-                        'value' => function ($data) {
-                            return $data->user->name;
-                        },
-                    ],
-                    'bus_name',
-                    'bus_username',
-                    //'bus_cat',
-                    [
-                        'attribute' => 'bus_cat',  
-                        'format' => 'html', 
-                        'value' => function ($data) {
-                            return $data->busCat->cat_name;
-                        },
-                    ],
-                    //'bus_qrcode',
-                    //'bus_number',
-                    //'status',
-                    //'bus_token:ntext',
-                    //'created_at',
-                    //'updated_at',
-                    [
-                        'attribute' => 'status',
-                        'format' => 'html',    
-                        'value' => function ($data) {
-                            $newStatus = 1;
+                    <tbody>
+                        <tr>
+                            <td colspan='2' style="text-align:right">
+                                <a class="btn btn-primary"
+                                    href="<?=Yii::getAlias('@web')?>/org/user-business/update?id=<?=$value->id?>">Update</a>
+                                <a class="btn btn-danger"
+                                    href="<?=Yii::getAlias('@web')?>/org/user-business/delete-address?id=<?=$value->id?>">Delete</a>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>User</th>
+
+                            <td><?=$value->user->name?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Business Name</th>
+                            <td><?=$value->bus_name?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Business Username</th>
+                            <td><?=$value->bus_username?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Business Category</th>
+                            <td><?=$value->busCat->cat_name?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Business Qrcode</th>
+                            <td><?=$value->bus_qrcode?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Business Number</th>
+                            <td><?=$value->bus_number?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+                            <td>
+                                <?php
                             
-                            if($data->status == 0){
-                                $newStatus = '<span style=color:red>Deactive</span>';
-                            }
-                            if($data->status == 1){
-                                $newStatus = '<span style=color:green>Active</span>';
-                            }
-                            if($data->status == 2){
-                                $newStatus = '<span style=color:grey>Hide</span>';
-                            }
-                            return $newStatus;
-                        },
-                    ],
-                    ['class' => 'yii\grid\ActionColumn'],
-                ],
-            ]); ?>
+                                $newStatus = 1;
+                            
+                                if($value->status == 0){
+                                    $newStatus = '<span style=color:red>Deactive</span>';
+                                }
+                                if($value->status == 1){
+                                    $newStatus = '<span style=color:green>Active</span>';
+                                }
+                                if($value->status == 2){
+                                    $newStatus = '<span style=color:grey>Hide</span>';
+                                }
+                                echo $newStatus;
 
-            <?php Pjax::end(); ?>
+                                ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Business Since</th>
+                            <td><?=$value->created_at?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Updated At</th>
+                            <td><?=$value->updated_at?></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
             </div>
         </div>
+        
     </div>
+    <?php } ?>
 
 </div>
