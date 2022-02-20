@@ -17,7 +17,7 @@ class BusinessCatalogSearch extends BusinessCatalog
     public function rules()
     {
         return [
-            [['id', 'business_id', 'user_id'], 'integer'],
+            [['id'], 'integer'],
             [['catalog_name', 'catalog_token', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -59,8 +59,6 @@ class BusinessCatalogSearch extends BusinessCatalog
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'business_id' => $this->business_id,
-            'user_id' => $this->user_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

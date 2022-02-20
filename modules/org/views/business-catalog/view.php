@@ -43,17 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'business_id',  
                         'format' => 'html', 
                         'value' => function ($data) {
-                            return $data->business->bus_name;
+                            return $data->assignmentCatalog->business->bus_name;
                         },
                     ],
                     
-                    [
-                        'attribute' => 'user_id',  
-                        'format' => 'html', 
-                        'value' => function ($data) {
-                            return $data->user->name;
-                        },
-                    ],
                     'catalog_name:ntext',
                     'catalog_token',
                     'created_at',

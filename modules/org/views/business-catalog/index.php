@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="h3 mb-2 text-gray-800"><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?php //= Html::a('Add Business Catalog', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Add Business Catalog', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <p class="mb-4">Here you can manage all business catalog easily.</p>
 
@@ -42,15 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'business_id',  
                         'format' => 'html', 
                         'value' => function ($data) {
-                            return $data->business->bus_name;
-                        },
-                    ],
-                    
-                    [
-                        'attribute' => 'user_id',  
-                        'format' => 'html', 
-                        'value' => function ($data) {
-                            return $data->user->name;
+                            return $data->assignmentCatalog->business->bus_name;
                         },
                     ],
                     
@@ -62,15 +54,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'header' => 'Actions',
-                        'template' => '{view}{business}{delete}',
+                        'template' => '{view}{update}{delete}',
                         'buttons' => [
                             
                             'view' => function ($data) {
                                 $html = "<a class='btn btn-primary btn-circle btn-sm ml-1 mb-1' href='".$data."'><i class='fas fa-eye'></i></a>";
                                 return $html;
                             },
-                            'business' => function ($data) {
-                                $html = "<a class='btn btn-success btn-circle btn-sm ml-1 mb-1'  href='".$data."'><i class='fas fa-briefcase'></i></a>";
+                            'update' => function ($data) {
+                                $html = "<a class='btn btn-success btn-circle btn-sm ml-1 mb-1'  href='".$data."'><i class='fas fa-edit'></i></a>";
                                 return $html;
                             },
                             'delete' => function ($data) {

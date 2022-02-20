@@ -31,6 +31,7 @@ use Yii;
  */
 class Business extends \yii\db\ActiveRecord
 {
+    public $user_id;
     /**
      * {@inheritdoc}
      */
@@ -45,14 +46,13 @@ class Business extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'bus_name', 'bus_username', 'bus_cat', 'bus_qrcode', 'bus_number', 'bus_token', 'created_at'], 'required'],
-            [['user_id', 'bus_cat', 'status'], 'integer'],
+            [['bus_name', 'bus_username', 'bus_cat', 'bus_qrcode', 'bus_number', 'bus_token', 'created_at'], 'required'],
+            [['bus_cat', 'status'], 'integer'],
             [['bus_token'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['bus_name', 'bus_username', 'bus_qrcode'], 'string', 'max' => 100],
             [['bus_number'], 'string', 'max' => 15],
             [['bus_cat'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessCat::className(), 'targetAttribute' => ['bus_cat' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -63,7 +63,6 @@ class Business extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'user_id' => Yii::t('app', 'User ID'),
             'bus_name' => Yii::t('app', 'Business Name'),
             'bus_username' => Yii::t('app', 'Business Username'),
             'bus_cat' => Yii::t('app', 'Business Category'),
@@ -103,7 +102,7 @@ class Business extends \yii\db\ActiveRecord
      */
     public function getBusinessCatalogs()
     {
-        return $this->hasMany(BusinessCatalog::className(), ['business_id' => 'id']);
+        return $this->hasMany(AssignmentCatalog::className(), ['business_id' => 'id']);
     }
 
     /**
@@ -151,8 +150,18 @@ class Business extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getAssignmentBusiness()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(AssignmentBusiness::className(), ['business_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAssignmentCatalog()
+    {
+        return $this->hasMany(AssignmentCatalog::className(), ['business_id' => 'id']);
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
-namespace app\modules\org\controllers;
+namespace app\modules\business\controllers;
 
 use app\models\business\Business;
 use app\models\business\AssignmentBusiness;
 use app\modules\org\models\business\UserBusinessSearch;
-use app\models\business\BusinessCatalog;
 use app\models\User;
 use app\models\business\BusinessCat;
 use yii\web\Controller;
@@ -16,7 +15,7 @@ use yii\helpers\ArrayHelper;
 /**
  * UserBusinessController implements the CRUD actions for Business model.
  */
-class UserBusinessController extends Controller
+class IndexController extends Controller
 {
     public $layout = '@app/themes/backend/main';
     /**
@@ -126,66 +125,6 @@ class UserBusinessController extends Controller
         return $this->render('update', [
             'model' => $model,
             'categories' => $categories
-        ]);
-    }
-
-    /**
-     * Updates an existing Business model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionCatalog($id)
-    {
-        $model = $this->findModel($id);
-
-        $catalog = $model->assignmentCatalog;
-
-        return $this->render('view_catalog', [
-            'model' => $catalog,
-        ]);
-    }
-
-    /**
-     * Creates a new BusinessCatalog model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCatalogCreate()
-    {
-        $model = new BusinessCatalog();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing BusinessCatalog model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionCatalogUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
         ]);
     }
 

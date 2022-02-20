@@ -130,7 +130,7 @@ class UserController extends Controller
 
     public function actionBusiness(){
         extract($_REQUEST);
-        $url = Yii::getAlias('@web')."/org/user-business?id=".$id;
+        $url = Yii::getAlias('@web')."/org/user-business?user_id=".$id;
         $this->redirect($url);
     }
     

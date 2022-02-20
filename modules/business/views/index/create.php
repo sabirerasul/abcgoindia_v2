@@ -5,12 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\org\models\business\Business */
 
-$this->title = Yii::t('app', 'Update Business: {name}', [
-    'name' => $model->bus_name,
-]);
+$this->title = Yii::t('app', 'Create Business');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Businesses'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="container-fluid">
@@ -23,9 +20,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         </div>
         <div class="card-body">
             <div class="table-responsive">
-
-            <?= $this->render('_formUpdate', [
+        
+            <?= $this->render('_form', [
                 'model' => $model,
+                'users' => $users,
                 'categories' => $categories,
             ]) ?>
 

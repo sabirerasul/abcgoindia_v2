@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\modules\org\models\business\BusinessSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Business';
+$this->title = 'Catalog';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <!-- Begin Page Content -->
@@ -17,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="h3 mb-2 text-gray-800"><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <a class="btn btn-success" href="<?=Yii::getAlias('@web')?>/org/user-business/create?user_id=<?=$user_id?>">Add
-            Business</a>
+        <a class="btn btn-success" href="<?=Yii::getAlias('@web')?>/org/user-business/create?user_id=<?=$_REQUEST['id']?>">Add
+            Catalog</a>
     </p>
 
     <p class="mb-4">Here you can manage all business easily.</p>
@@ -26,12 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <!-- DataTales Example -->
         <?php foreach ($model as $key => $val) { ?>
-        <?php $value = $val->business; ?>
+        <?php $value = $val->catalog; ?>
         <div class="col-md-6 col">
             <div class="card shadow mb-4">
 
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary"><?= $value->bus_name ?></h6>
+                    <h6 class="m-0 font-weight-bold text-primary"><?= $value->catalog_name ?></h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -41,28 +41,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             <tbody>
                                 
                                 <tr>
-                                    <th>Business Name</th>
-                                    <td><?=$value->bus_name?></td>
+                                    <th>Catalog Name</th>
+                                    <td><?=$value->catalog_name?></td>
                                 </tr>
 
                                 <tr>
-                                    <th>Business Username</th>
-                                    <td><?=$value->bus_username?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Business Category</th>
-                                    <td><?=$value->busCat->cat_name?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Business Qrcode</th>
-                                    <td><?=$value->bus_qrcode?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Business Number</th>
-                                    <td><?=$value->bus_number?></td>
+                                    <th>Business Token</th>
+                                    <td><?=$value->catalog_token?></td>
                                 </tr>
 
                                 <tr>
@@ -88,19 +73,18 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </tr>
 
                                 <tr>
-                                    <th>Business Since</th>
+                                    <th>Catalog Since</th>
                                     <td><?=date("jS \of F Y", strtotime($value->created_at))?></td>
                                 </tr>
 
                                 <tr>
-                                    <th>Updated At</th>
+                                    <th>Last Update</th>
                                     <td><?=date("jS \of F Y", strtotime($value->updated_at))?></td>
                                 </tr>
 
                                 <tr>
                                     <td colspan='2'>
-                                        <a class="btn btn-success"
-                                            href="<?=Yii::getAlias('@web')?>/org/user-business/catalog?id=<?=$value->id?>">Catalog</a>
+                                        
                                         <a class="btn btn-primary"
                                             href="<?=Yii::getAlias('@web')?>/org/user-business/update?id=<?=$value->id?>">Update</a>
                                         <a class="btn btn-danger"

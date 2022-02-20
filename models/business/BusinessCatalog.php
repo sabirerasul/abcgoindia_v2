@@ -37,13 +37,10 @@ class BusinessCatalog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['business_id', 'user_id', 'catalog_name', 'catalog_token', 'created_at'], 'required'],
-            [['business_id', 'user_id'], 'integer'],
+            [['catalog_name', 'catalog_token', 'created_at'], 'required'],
             [['catalog_name'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['catalog_token'], 'string', 'max' => 20],
-            [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['created_at', 'updated_at', 'status'], 'safe'],
+            [['catalog_token'], 'string', 'max' => 20],            
         ];
     }
 
@@ -54,12 +51,11 @@ class BusinessCatalog extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'user_id' => Yii::t('app', 'User ID'),
             'catalog_name' => Yii::t('app', 'Catalog Name'),
             'catalog_token' => Yii::t('app', 'Catalog Token'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 
@@ -88,18 +84,9 @@ class BusinessCatalog extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBusiness()
+    public function getAssignmentCatalog()
     {
-        return $this->hasOne(Business::className(), ['id' => 'business_id']);
+        return $this->hasOne(AssignmentCatalog::className(), ['catalog_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
 }

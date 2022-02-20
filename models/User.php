@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-
+use app\models\business\AssignmentBusiness;
 use Yii;
 $addressStatus = 1;
 
@@ -127,5 +127,15 @@ class User extends \yii\db\ActiveRecord
     public function getUserProfileLinks()
     {
         return $this->hasMany(UserProfileLink::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAssignmentBusiness()
+    {
+        return $this->hasMany(AssignmentBusiness::className(), ['user_id' => 'id']);
     }
 }

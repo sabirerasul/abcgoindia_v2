@@ -12,11 +12,11 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
-        'admin' => [
-            'class' => 'app\modules\admin\admin',
-        ],
         'org' => [
             'class' => 'app\modules\org\index',
+        ],
+        'business' => [
+            'class' => 'app\modules\business\business',
         ],
     ],
     'layoutPath' => '@app/themes/frontend/',
