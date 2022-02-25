@@ -1,9 +1,10 @@
 <?php
 
 namespace app\models\business;
-use app\models\User;
 
 use Yii;
+use app\models\User;
+use app\models\business\Business;
 
 /**
  * This is the model class for table "ai_assignment_business".
@@ -22,7 +23,7 @@ class AssignmentBusiness extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_assignment_business';
+        return '{{%assignment_business}}';
     }
 
     /**

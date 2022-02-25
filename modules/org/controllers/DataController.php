@@ -2,12 +2,44 @@
 
 namespace app\modules\org\controllers;
 
+use Yii;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\web\Response;
+use yii\filters\VerbFilter;
+
 use app\models\User;
 use app\models\business\Business;
 use app\models\business\BusinessCatalog;
-use yii\web\Controller;
 class DataController extends Controller
 {
+
+    /**
+     * @inheritDoc
+     */
+    public function behaviors()
+    {
+
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['getChartUserData', 'getChartBusinessData'],
+                'rules' => [
+                    [
+                        'actions' => ['getChartUserData', 'getChartBusinessData'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
 
     public function actionGetChartUserData($year)
     {

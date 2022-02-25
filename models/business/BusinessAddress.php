@@ -3,6 +3,7 @@
 namespace app\models\business;
 
 use Yii;
+use app\models\business\Business;
 
 /**
  * This is the model class for table "ai_business_address".
@@ -24,7 +25,7 @@ class BusinessAddress extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_business_address';
+        return '{{%business_address}}';
     }
 
     /**

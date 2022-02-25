@@ -20,7 +20,7 @@ class BusinessCatalogLink extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_business_catalog_link';
+        return '{{%business_catalog_link}}';
     }
 
     /**

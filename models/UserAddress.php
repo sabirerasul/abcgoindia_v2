@@ -24,7 +24,7 @@ class UserAddress extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_user_address';
+        return '{{%user_address}}';
     }
 
     /**

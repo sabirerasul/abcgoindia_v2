@@ -25,10 +25,10 @@ class UserController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['index', 'profile', 'update'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['index', 'profile', 'update'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -66,7 +66,8 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        extract($_REQUEST);
+        $id = Yii::$app->user->identity->id;
+
         return $this->render('profile', [
             'model' => $this->findModel($id),
         ]);
@@ -74,7 +75,7 @@ class UserController extends Controller
 
     public function actionProfile()
     {
-        extract($_REQUEST);
+        $id = Yii::$app->user->identity->id;
         return $this->render('profile', [
             'model' => $this->findModel($id),
         ]);

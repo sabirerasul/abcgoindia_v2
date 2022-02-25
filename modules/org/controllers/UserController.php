@@ -84,6 +84,7 @@ class UserController extends Controller
                 $password_hash = password_hash($model->password, PASSWORD_DEFAULT);
                 $model->username = $username;
                 $model->password_hash = $password_hash;
+                $model->auth_key = password_hash($model->password_hash, PASSWORD_DEFAULT);
                 $model->created_at = date('Y-m-d h:i:s');
 
                 if( $model->save()){

@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 
-$this->title = $model->name. '-' . 'Profile';
+$this->title = $model->name. ' - ' . 'Profile';
 ?>
 
 <div class="container-fluid">

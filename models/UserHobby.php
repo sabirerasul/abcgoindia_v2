@@ -20,7 +20,7 @@ class UserHobby extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_user_hobby';
+        return '{{%user_hobby}}';
     }
 
     /**

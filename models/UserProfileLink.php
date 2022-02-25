@@ -21,7 +21,7 @@ class UserProfileLink extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_user_profile_link';
+        return '{{%user_profile_link}}';
     }
 
     /**

@@ -8,7 +8,6 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\User;
-use app\models\newUser;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
@@ -78,19 +77,20 @@ class SiteController extends Controller
     //     return $this->render('login', ['model' => $model]);
     // }
 
-
     public function actionLogin()
     {
-        $model = new \app\models\LoginForm();
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                // form inputs are valid, do something here
-                return;
-            }
+        $this->layout = '@app/themes/frontend/signlayout';
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
         }
 
-        return $this->render('login1', [
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        }
+
+        $model->password = '';
+        return $this->render('login', [
             'model' => $model,
         ]);
     }
@@ -104,6 +104,11 @@ class SiteController extends Controller
     public function actionRegister()
     {
         $this->layout = '@app/themes/frontend/signlayout';
+
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -114,10 +119,11 @@ class SiteController extends Controller
             $password_hash = password_hash($model->password, PASSWORD_DEFAULT);
             $model->username = $username;
             $model->password_hash = $password_hash;
+            $model->auth_key = password_hash($model->password_hash, PASSWORD_DEFAULT);
             $model->created_at = date('Y-m-d h:i:s');
             $model->status = 1;
             if($model->save()){
-                return $this->redirect('login');
+                return $this->goHome();
             }
         }
         return $this->render('signup', ['model' => $model]);

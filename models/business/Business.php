@@ -1,10 +1,16 @@
 <?php
 
 namespace app\models\business;
-use app\models\User;
 
 use Yii;
-
+use app\models\business\BusinessAddress;
+use app\models\business\BusinessCatalogDetail;
+use app\models\business\AssignmentCatalog;
+use app\models\business\BusinessDetail;
+use app\models\business\BusinessHour;
+use app\models\business\BusinessProfileLink;
+use app\models\business\BusinessCat;
+use app\models\business\AssignmentBusiness;
 /**
  * This is the model class for table "ai_business".
  *
@@ -37,7 +43,7 @@ class Business extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_business';
+        return '{{%business}}';
     }
 
     /**

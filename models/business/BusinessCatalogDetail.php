@@ -26,7 +26,7 @@ class BusinessCatalogDetail extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_business_catalog_details';
+        return '{{%business_catalog_details}}';
     }
 
     /**

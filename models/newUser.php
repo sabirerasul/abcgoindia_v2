@@ -1,4 +1,5 @@
 <?php
+
 namespace app\models;
 use Yii;
 
@@ -9,8 +10,18 @@ use Yii;
  * @property string $email
  * @property string $mobile
  * @property string $password
+ * @property string $username
+ * @property string $mobile
+ * @property string $password_hash
+ * @property string $created_at
+ * @property int $status
+ *
+ *
  */
-class newUser extends \yii\base\ActiveRecord implements \yii\web\IdentityInterface{
+
+ //\yii\db\ActiveRecord
+ //\yii\base\ActiveRecord
+class NewUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface{
 
     public $email;
     public $password;
@@ -53,7 +64,7 @@ class newUser extends \yii\base\ActiveRecord implements \yii\web\IdentityInterfa
         return self::findOne($id);
     }
 
-    public static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentityByAccessToken($token, $type=null)
     {
         return self::findOne(['accessToken' => $token]);
     }
@@ -101,6 +112,6 @@ class newUser extends \yii\base\ActiveRecord implements \yii\web\IdentityInterfa
      */
     public function validatePassword($password)
     {
-        return password_verify($password, $this->password);
+        return password_verify($password, $this->password_hash);
     }
 }

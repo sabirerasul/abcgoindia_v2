@@ -26,7 +26,7 @@ class UserDetail extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_user_details';
+        return '{{%user_details}}';
     }
 
     /**

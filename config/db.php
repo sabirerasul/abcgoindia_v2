@@ -6,6 +6,7 @@ return [
     'username' => 'hindsath_abcgoind_new',
     'password' => 'jhr;i*}S!*~t',
     'charset' => 'utf8',
+    'tablePrefix' => 'ai_',
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,

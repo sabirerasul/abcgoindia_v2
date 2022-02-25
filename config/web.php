@@ -24,14 +24,14 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'Abcgo India',
+            'cookieValidationKey' => 'http://abcgoindia.com',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\newUser',
-            'enableAutoLogin' => true,
+            'identityClass' => 'app\models\User',
+            'enableAutoLogin' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -39,7 +39,7 @@ $config = [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
+            // 'useFileTransport' to false and configure transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
@@ -53,15 +53,19 @@ $config = [
             ],
         ],
         'db' => $db,
-        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 'login' => 'site/login',
+                'forgot' => 'site/forgot',
                 'signup' => 'site/register',
                 'register' => 'site/register'
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['user'],
         ],
         
     ],

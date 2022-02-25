@@ -3,6 +3,8 @@
 namespace app\models\business;
 
 use Yii;
+use app\models\business\Business;
+use app\models\business\BusinessCatalog;
 
 /**
  * This is the model class for table "ai_assignment_catalog".
@@ -21,7 +23,7 @@ class AssignmentCatalog extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_assignment_catalog';
+        return '{{%assignment_catalog}}';
     }
 
     /**

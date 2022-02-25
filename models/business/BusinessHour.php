@@ -22,7 +22,7 @@ class BusinessHour extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_business_hours';
+        return '{{%business_hours}}';
     }
 
     /**

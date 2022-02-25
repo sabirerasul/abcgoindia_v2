@@ -23,7 +23,7 @@ class BusinessProfileLink extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'ai_business_profile_link';
+        return '{{%business_profile_link}}';
     }
 
     /**

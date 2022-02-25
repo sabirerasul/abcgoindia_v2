@@ -2,14 +2,17 @@
 
 namespace app\modules\business\controllers;
 
+use Yii;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\web\Response;
+use yii\filters\VerbFilter;
 use app\models\business\Business;
 use app\models\business\AssignmentBusiness;
 use app\modules\org\models\business\UserBusinessSearch;
 use app\models\User;
 use app\models\business\BusinessCat;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -23,9 +26,21 @@ class IndexController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
+        /*return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['logout'],
+                    'rules' => [
+                        [
+                            'actions' => ['logout'],
+                            'allow' => false,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
+
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -33,7 +48,27 @@ class IndexController extends Controller
                     ],
                 ],
             ]
-        );
+        );*/
+
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
     }
 
     /**
