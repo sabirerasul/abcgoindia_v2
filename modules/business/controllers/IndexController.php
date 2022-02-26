@@ -7,13 +7,15 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
+use yii\rbac\DbManager;
+use yii\helpers\ArrayHelper;
+
 use app\models\business\Business;
 use app\models\business\AssignmentBusiness;
 use app\modules\org\models\business\UserBusinessSearch;
 use app\models\User;
 use app\models\business\BusinessCat;
-use yii\web\NotFoundHttpException;
-use yii\helpers\ArrayHelper;
 
 /**
  * UserBusinessController implements the CRUD actions for Business model.
@@ -26,46 +28,27 @@ class IndexController extends Controller
      */
     public function behaviors()
     {
-        /*return array_merge(
-            parent::behaviors(),
-            [
-                'access' => [
-                    'class' => AccessControl::className(),
-                    'only' => ['logout'],
-                    'rules' => [
-                        [
-                            'actions' => ['logout'],
-                            'allow' => false,
-                            'roles' => ['@'],
-                        ],
-                    ],
-                ],
-
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );*/
+        
 
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                        //'actions' => ['login', 'error'], // Define specific actions
+                        'allow' => true, // Has access
+                        'roles' => ['org'], // '@' All logged in users / or your access role e.g. 'admin', 'user'
+                    ],
+                    [
+                        'allow' => false, // Do not have access
+                        'roles'=>['?'], // Guests '?'
                     ],
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
         ];

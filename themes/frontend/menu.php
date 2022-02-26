@@ -13,7 +13,7 @@ use yii\bootstrap4\NavBar;
 ?>
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id='nav-desktop'>
 
-    <a class="navbar-brand" href="<?=Yii::getAlias('@web')?>">
+    <a class="navbar-brand" href="<?=Yii::getAlias('@web')?>/">
         <img src="https://www.abcgoindia.com/img/banner/1.jpg" width="30" height="30" class="d-inline-block align-top"
             alt="">
         ABCGO INDIA
@@ -23,7 +23,7 @@ use yii\bootstrap4\NavBar;
     <ul class="navbar-nav desk-nav">
 
         <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link" href="<?=Yii::getAlias('@web')?>"> <i class="fas fa-home"></i> Home</a>
+            <a class="nav-link" href="<?=Yii::getAlias('@web')?>/"> <i class="fas fa-home"></i> Home</a>
         </li>
 
         <li class="nav-item dropdown no-arrow mx-1">
@@ -147,7 +147,7 @@ use yii\bootstrap4\NavBar;
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span
-                    class="mr-2 d-none d-lg-inline text-gray-600 small"><?php if($u){echo $u->name; } ?></span>
+                    class="mr-2 d-lg-inline text-gray-600 small"><?php if($u){echo $u->name; } ?></span>
                 <img class="img-profile rounded-circle"
                     src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile.svg">
             </a>
@@ -189,7 +189,7 @@ use yii\bootstrap4\NavBar;
                 <div class="dropdown-divider"></div>
                 
                 <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/site/logout" data-method="post">
-                    <i class="fas fa-logout fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>                   
                     Logout
                 </a>               
 

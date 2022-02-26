@@ -1,3 +1,16 @@
+<?php
+/** @var yii\web\View $this */
+/** @var string $content */
+
+use app\assets\AppAsset;
+use app\widgets\Alert;
+use yii\bootstrap4\Breadcrumbs;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
+
+?>
+
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
     <!-- Sidebar Toggle (Topbar) -->
@@ -165,36 +178,52 @@
 
         <div class="topbar-divider d-none d-sm-block"></div>
 
+        <?php 
+            $u = Yii::$app->user->identity;
+        ?>
+
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
+
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                <span
+                    class="mr-2 d-lg-inline text-gray-600 small"><?php if($u){echo $u->name; } ?></span>
                 <img class="img-profile rounded-circle"
                     src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile.svg">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                
+            <?php 
+                
+                if(!Yii::$app->user->isGuest){ ?>
+
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
+                <?php /*
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Settings
                 </a>
 
-                <?php /*
+                
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     Activity Log
                 </a> */ ?>
                 
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/site/logout" data-method="post">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>                   
                     Logout
-                </a>
+                </a>  
+
+
+                <?php } ?>
             </div>
         </li>
     </ul>

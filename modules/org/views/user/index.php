@@ -3,12 +3,17 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\bootstrap4\Breadcrumbs;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\org\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
+
+/*$this->title = 'Add Employee';
+$this->params['breadcrumbs'][] = ['label' => 'Employees', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;*/
 ?>
 
 <!-- Begin Page Content -->
@@ -16,6 +21,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- Page Heading -->
 
     <h1 class="h3 mb-2 text-gray-800"><?= Html::encode($this->title) ?></h1>
+
+    <?= 
+        Breadcrumbs::widget([
+            'homeLink' => [ 
+                            'label' => Yii::t('yii', 'Dashboard'),
+                            'url' => Yii::$app->homeUrl,
+                        ],
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) 
+    ?>
 
     <p>
         <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>

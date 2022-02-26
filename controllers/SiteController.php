@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\User;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\rbac\DbManager;
 
 class SiteController extends Controller
 {
@@ -89,7 +90,7 @@ class SiteController extends Controller
             return $this->goBack();
         }
 
-        $model->password = '';
+        //$model->password = '';
         return $this->render('login', [
             'model' => $model,
         ]);
@@ -110,19 +111,30 @@ class SiteController extends Controller
         }
         
         $model = new User();
+        $model->scenario = 'userCreate';
 
         if ($model->load(Yii::$app->request->post())) {
 
             extract($_REQUEST);
             $username = $model->name.rand(1,789);
             $username = str_replace(' ', '', $username);
-            $password_hash = password_hash($model->password, PASSWORD_DEFAULT);
             $model->username = $username;
-            $model->password_hash = $password_hash;
-            $model->auth_key = password_hash($model->password_hash, PASSWORD_DEFAULT);
+
+            $model->setPassword($model->password);
+            $model->generateAuthKey();
+
             $model->created_at = date('Y-m-d h:i:s');
             $model->status = 1;
+
+            $auth = new DbManager;
+            $auth->init();
+            $role = $auth->getRole('user');
+
+            $model->user_role = $role->name;
+
             if($model->save()){
+
+                $auth->assign($role, $model->getId());
                 return $this->goHome();
             }
         }

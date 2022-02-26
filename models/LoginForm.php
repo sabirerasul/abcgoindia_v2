@@ -15,6 +15,7 @@ class LoginForm extends Model
 {
     public $username;
     public $password;
+    public $mobile;
     public $rememberMe = true;
 
     private $_user = false;
@@ -32,6 +33,16 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('app', 'Username / Mobile'),
         ];
     }
 
@@ -72,9 +83,21 @@ class LoginForm extends Model
      */
     public function getUser()
     {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
-        }
+
+        if(is_numeric($this->username)){
+
+            $this->mobile = $this->username;
+            if ($this->_user === false) {
+                $this->_user = User::findByMobile($this->mobile);
+            }
+
+        }else{
+
+            if ($this->_user === false) {
+                $this->_user = User::findByUsername($this->username);
+            }
+
+        }        
 
         return $this->_user;
     }

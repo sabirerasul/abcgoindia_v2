@@ -166,6 +166,17 @@ class User extends ActiveRecord  implements IdentityInterface
         return self::findOne(['username' => $username]);
     }
 
+        /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByMobile($mobile)
+    {
+        return self::findOne(['mobile' => $mobile]);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -185,10 +196,27 @@ class User extends ActiveRecord  implements IdentityInterface
     /**
      * {@inheritdoc}
      */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function validateAuthKey($authKey)
     {
         return $this->auth_key === $authKey;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPassword($password) {
+
+		$this->password_hash = Yii::$app->security->generatePasswordHash ( $password );
+
+	}
 
     /**
      * Validates password

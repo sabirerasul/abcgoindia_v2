@@ -25,10 +25,11 @@ $this->title = "Login - ABCGO INDIA";
                             </div>
                             <?php $form = ActiveForm::begin(['action' => '', 'options' => ['class' => 'user']]); ?>
                                 <div class="form-group">
-                                    <?= $form->field($model, 'username')->textInput(['maxlength' => 255, 'class' => 'form-control form-control-user', 'placeholder' => 'Email / Mobile / Username'])->label(false) ?>
+                                    <?= $form->field($model, 'username')->textInput(['maxlength' => 255, 'class' => 'form-control form-control-user', 'placeholder' => 'Mobile / Username'])->label(false) ?>
                                 </div>
                                 <div class="form-group">
                                     <?= $form->field($model, 'password')->passwordInput(['maxlength' => 255, 'class' => 'form-control form-control-user', 'placeholder' => 'Password'])->label(false) ?>
+                                    <?= Html::checkbox('reveal-password', false, ['id' => 'reveal-password']) ?> <?= Html::label('Show password', 'reveal-password') ?>
                                 </div>
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox small">
@@ -43,6 +44,11 @@ $this->title = "Login - ABCGO INDIA";
                                 
                                 <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-user btn-block']) ?>
                                 <?php ActiveForm::end(); ?>
+
+                                <?php
+                                    $this->registerJs("jQuery('#reveal-password').change(function(){jQuery('#loginform-password').attr('type',this.checked?'text':'password');})");
+                                ?>
+
                                 <hr>
                                 <!--<a href="index.html" style='visibility: hidden'
                                     class="btn btn-google btn-user btn-block">

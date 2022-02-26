@@ -2,17 +2,21 @@
 
 namespace app\modules\org\controllers;
 
+use Yii;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\web\Response;
+use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
+use yii\rbac\DbManager;
+
 use app\models\User;
 use app\models\UserAddress;
 use app\models\UserDetail;
 use app\models\UserHobby;
 use app\models\UserProfileLink;
-
 use app\modules\org\models\UserSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use Yii;
+
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -23,6 +27,7 @@ class UserController extends Controller
     /**
      * @inheritDoc
      */
+    /*
     public function behaviors()
     {
         return array_merge(
@@ -35,7 +40,38 @@ class UserController extends Controller
                     ],
                 ],
             ]
-        );
+        );*/
+
+    
+
+    /**
+     * @inheritDoc
+     */
+    public function behaviors()
+    {
+
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        //'actions' => ['login', 'error'], // Define specific actions
+                        'allow' => true, // Has access
+                        'roles' => ['org'], // '@' All logged in users / or your access role e.g. 'admin', 'user'
+                    ],
+                    [
+                        'allow' => false, // Do not have access
+                        'roles'=>['?'], // Guests '?'
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -81,13 +117,24 @@ class UserController extends Controller
                 extract($_REQUEST);
                 $username = $model->name.rand(1,789);
                 $username = str_replace(' ', '', $username);
-                $password_hash = password_hash($model->password, PASSWORD_DEFAULT);
                 $model->username = $username;
-                $model->password_hash = $password_hash;
-                $model->auth_key = password_hash($model->password_hash, PASSWORD_DEFAULT);
+                
+                $model->setPassword($model->password);
+                $model->generateAuthKey();
+                
                 $model->created_at = date('Y-m-d h:i:s');
+                
+                $auth = new DbManager;
+                $auth->init();
+                $role = $auth->getRole('user');
 
-                if( $model->save()){
+                $model->user_role = $role->name;
+                $model->status = 1;
+
+                if($model->save()){
+                    
+                    $auth->assign($role, $model->getId());
+
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }

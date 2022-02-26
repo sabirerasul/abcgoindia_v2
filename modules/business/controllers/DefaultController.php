@@ -7,6 +7,8 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
+use yii\rbac\DbManager;
 
 /**
  * Default controller for the `business` module
@@ -22,23 +24,26 @@ class DefaultController extends Controller
     {
 
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['index'],
-                'rules' => [
-                    [
-                        'actions' => ['index'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'rules' => [
+                        [
+                            //'actions' => ['login', 'error'], // Define specific actions
+                            'allow' => true, // Has access
+                            'roles' => ['user'], // '@' All logged in users / or your access role e.g. 'admin', 'user'
+                        ],
+                        [
+                            'allow' => false, // Do not have access
+                            'roles'=>['?'], // Guests '?'
+                        ],
                     ],
                 ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
                 ],
-            ],
         ];
     }
 

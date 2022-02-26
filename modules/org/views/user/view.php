@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\bootstrap4\Breadcrumbs;
+
+use yii\bootstrap4\Modal;
 //use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
@@ -13,20 +16,46 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 
-<?php /*
+<?php 
     Modal::begin([
-        'header'=>'<h4>Job Created</h4>',
+        
         'id'=>'modal',
         'size'=>'modal-lg',
     ]);
 
     echo "<div id='modalContent'></div>";
-    Modal::end();*/
+    Modal::end();
 ?>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
+
+<?php
+Modal::begin([
+    //'header' => '<h2>Show Modal</h2>',
+    'toggleButton' => false,
+    'id' => 'modal-opened',
+    'size' => 'modal-lg'
+]);
+
+echo 'Modal Opened';
+
+Modal::end();
+?>
+
+
+<?= Html::button('Open Modal', ['id' => 'modal-btn', 'class' => 'btn btn-success']) ?>
+<?php
+
+$this->registerJs(
+    <<<JS
+        $('#modal-btn').on('click', function (event) {
+                 $('#modal-opened').modal('show');
+        });
+     JS
+    );
+?>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -276,7 +305,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php }}} ?>
 
                 <div>
-                    <a onclick="showModal" class="btn btn-success"
+                    
+                    <a class="btn btn-success"
                         href="<?=Yii::getAlias('@web')?>/org/user/create-profile-link?id=<?=$model->id?>">Add New</a>
                 </div>
 
@@ -286,8 +316,3 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <!-- /.container-fluid -->
-<script>
-function showModal() {
-    //alert();
-}
-</script>
