@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+
 use yii\bootstrap4\Breadcrumbs;
 
 use yii\bootstrap4\Modal;
@@ -13,50 +13,11 @@ use yii\bootstrap4\Modal;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
-?>
 
-<?php 
-    Modal::begin([
-        
-        'id'=>'modal',
-        'size'=>'modal-lg',
-    ]);
-
-    echo "<div id='modalContent'></div>";
-    Modal::end();
 ?>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
-
-<?php
-Modal::begin([
-    //'header' => '<h2>Show Modal</h2>',
-    'toggleButton' => false,
-    'id' => 'modal-opened',
-    'size' => 'modal-lg'
-]);
-
-echo 'Modal Opened';
-
-Modal::end();
-?>
-
-
-<?= Html::button('Open Modal', ['id' => 'modal-btn', 'class' => 'btn btn-success']) ?>
-<?php
-
-$this->registerJs(
-    <<<JS
-        $('#modal-btn').on('click', function (event) {
-                 $('#modal-opened').modal('show');
-        });
-     JS
-    );
-?>
-
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -73,11 +34,7 @@ $this->registerJs(
                                     href="<?=Yii::getAlias('@web')?>/org/user/update?id=<?=$model->id?>">Update</a>
                             </td>
                         </tr>
-
-                        <tr>
-                            <th>User ID</th>
-                            <td><?=$model->id?></td>
-                        </tr>
+                        
                         <tr>
                             <th>Name</th>
                             <td><?=$model->name?></td>
@@ -201,6 +158,10 @@ $this->registerJs(
                                     href="<?=Yii::getAlias('@web')?>/org/user/delete-address?id=<?=$model->id?>&address_id=<?=$userAddress->id?>">Delete</a>
 
                             </td>
+                        </tr>
+                        <tr>
+                            <th scop="col">Address</th>
+                            <td><?=$userAddress->address?></td>
                         </tr>
                         <tr>
                             <th scop="col">Zipcode</th>

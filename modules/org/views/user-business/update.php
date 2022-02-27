@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         <div class="card-body">
             <div class="table-responsive">
 
-            <?= $this->render('_formUpdate', [
+            <?= $this->render('_form-update', [
                 'model' => $model,
                 'categories' => $categories,
             ]) ?>

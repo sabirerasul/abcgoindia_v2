@@ -3,18 +3,16 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\org\models\User */
+/* @var $model app\modules\org\models\business\Business */
 
-$this->title = Yii::t('app', 'Update Personal Details: {name}', [
-    'name' => $model->name,
+$this->title = Yii::t('app', 'Update Business: {name}', [
+    'name' => $model->bus_name,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Businesses'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 
-
-<!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
 
@@ -26,8 +24,9 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         <div class="card-body">
             <div class="table-responsive">
 
-            <?= $this->render('_form-user-update', [
-                'model' => $model,
+            <?= $this->render('_form-update-details', [
+                'model' => $businessDetails,
+                
             ]) ?>
 
             </div>

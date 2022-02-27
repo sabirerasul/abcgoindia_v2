@@ -17,6 +17,10 @@ use app\modules\org\models\business\UserBusinessSearch;
 use app\models\business\BusinessCatalog;
 use app\models\User;
 use app\models\business\BusinessCat;
+use app\models\business\BusinessDetail;
+use app\models\business\BusinessAddress;
+use app\models\business\BusinessProfileLink;
+use app\models\business\BusinessWorkingDay;
 
 
 /**
@@ -136,13 +140,198 @@ class UserBusinessController extends Controller
         $model = $this->findModel($id);
         $categories = ArrayHelper::map(BusinessCat::find()->where(['status' => 1])->all(), 'id', 'cat_name');
         
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $model->updated_at = date('Y-m-d h:i:s');
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
             'categories' => $categories
+        ]);
+    }
+
+    /**
+     * Updates an existing Business model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdateDetails($id)
+    {
+
+        $business = $this->findModel($id);
+        $old = BusinessDetail::find()->where(['id' => $business->businessDetails->id])->one();
+        $model = $old ? $old : new BusinessDetail();
+                 
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $model->business_id = $business->id;
+            $model->save();
+            return $this->redirect(['view', 'id' => $business->id]);
+        }
+
+        return $this->render('update-details', [
+            'model' => $business,
+            'businessDetails' => $model,
+        ]);
+    }
+
+    public function actionCreateAddress()
+    {
+        extract($_REQUEST);
+        $model = $this->findModel($id);
+        $addressModel = new BusinessAddress();
+
+        if ($this->request->isPost && $addressModel->load($this->request->post())) {
+           
+            $addressModel->business_id = $model->id;
+            $addressModel->created_at = date('Y-m-d h:i:s');
+            $addressModel->status = 1;
+            $addressModel->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('create-address', [
+            'model' => $model,
+            'details' => $addressModel,
+        ]);
+    }
+
+    public function actionUpdateAddress()
+    {
+        extract($_REQUEST);
+        $model = $this->findModel($id);
+        $addressModel = BusinessAddress::find()->where(['id' => $address_id, 'business_id' => $id])->one();
+
+        if ($this->request->isPost && $addressModel->load($this->request->post())) {
+            
+            $addressModel->updated_at = date('Y-m-d h:i:s');
+            $addressModel->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+            
+        }
+
+        return $this->render('update-address', [
+            'model' => $model,
+            'details' => $addressModel,
+        ]);
+    }
+
+    public function actionDeleteAddress()
+    {
+        extract($_REQUEST);
+        $model = $this->findModel($id);
+        $addressModel = BusinessAddress::find()->where(['id' => $address_id, 'business_id' => $id, 'status' => 1])->one();
+
+        if (!empty($addressModel)) {
+            $addressModel->status = 0;
+            $addressModel->updated_at = date('Y-m-d h:i:s');
+            $addressModel->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+    }
+
+    public function actionCreateProfileLink()
+    {
+        extract($_REQUEST);
+        $model = $this->findModel($id);
+
+        $businessProfileLink = new BusinessProfileLink();
+
+        if ($this->request->isPost && $businessProfileLink->load($this->request->post())) {
+           
+            $businessProfileLink->business_id = $model->id;
+            $businessProfileLink->created_at = date('Y-m-d h:i:s');
+            $businessProfileLink->status = 1;
+            $businessProfileLink->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('create-profile-link', [
+            'model' => $model,
+            'details' => $businessProfileLink,
+        ]);
+    }
+
+    public function actionUpdateProfileLink()
+    {
+        extract($_REQUEST);
+        $model = $this->findModel($id);
+
+        $businessProfileLink = BusinessProfileLink::find()->where(['id' => $profile_link_id, 'business_id' => $id])->one();
+
+        if ($this->request->isPost && $businessProfileLink->load($this->request->post())) {
+            
+            $businessProfileLink->updated_at = date('Y-m-d h:i:s');
+            $businessProfileLink->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+            
+        }
+
+        return $this->render('update-profile-link', [
+            'model' => $model,
+            'details' => $businessProfileLink,
+        ]);
+    }
+
+    public function actionDeleteProfileLink()
+    {
+        extract($_REQUEST);
+        $model = $this->findModel($id);
+
+        $userProfileLink = BusinessProfileLink::find()->where(['id' => $profile_link_id, 'business_id' => $id, 'status' => 1])->one();
+
+        if (!empty($userProfileLink)) {
+            $userProfileLink->status = 0;
+            $userProfileLink->updated_at = date('Y-m-d h:i:s');
+            $userProfileLink->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+    }
+
+    public function actionCreateWorkingDay()
+    {
+        extract($_REQUEST);
+        $model = $this->findModel($id);
+
+        $businessWorkingDay = new BusinessWorkingDay();
+
+        if ($this->request->isPost && $businessWorkingDay->load($this->request->post())) {
+           
+            $businessWorkingDay->business_id = $model->id;
+            $businessWorkingDay->created_at = date('Y-m-d h:i:s');
+            $businessWorkingDay->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('create-working-day', [
+            'model' => $model,
+            'details' => $businessWorkingDay,
+        ]);
+    }
+
+    public function actionUpdateWorkingDay()
+    {
+        extract($_REQUEST);
+        $model = $this->findModel($id);
+
+        $businessWorkingDay = BusinessWorkingDay::find()->where(['id' => $working_day_id, 'business_id' => $id])->one();
+
+        if ($this->request->isPost && $businessWorkingDay->load($this->request->post())) {
+            
+            $businessWorkingDay->updated_at = date('Y-m-d h:i:s');
+            $businessWorkingDay->save();
+            return $this->redirect(['view', 'id' => $model->id]);
+            
+        }
+
+        return $this->render('update-working-day', [
+            'model' => $model,
+            'details' => $businessWorkingDay,
         ]);
     }
 
@@ -181,7 +370,7 @@ class UserBusinessController extends Controller
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
+        return $this->render('create-catalog', [
             'model' => $model,
         ]);
     }
@@ -201,7 +390,27 @@ class UserBusinessController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('update', [
+        return $this->render('update-catalog', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Updates an existing BusinessCatalog model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionCatalogDelete($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('update-catalog', [
             'model' => $model,
         ]);
     }

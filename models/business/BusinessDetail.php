@@ -3,6 +3,8 @@
 namespace app\models\business;
 
 use Yii;
+use app\models\business\Business;
+use app\models\User;
 
 /**
  * This is the model class for table "ai_business_details".
@@ -16,8 +18,8 @@ use Yii;
  * @property string|null $keyword
  * @property int $user_id
  *
- * @property AiBusiness $business
- * @property AiUser $user
+ * @property Business $business
+ * @property User $user
  */
 class BusinessDetail extends \yii\db\ActiveRecord
 {
@@ -35,13 +37,13 @@ class BusinessDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['business_id', 'user_id'], 'required'],
-            [['business_id', 'user_id'], 'integer'],
+            [['business_id'], 'required'],
+            [['business_id'], 'integer'],
             [['description', 'keyword'], 'string'],
-            [['business_logo', 'email'], 'string', 'max' => 100],
+            [['business_logo'], 'string', 'max' => 100],
+            ['email', 'email'],
             [['business_banner'], 'string', 'max' => 50],
-            [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => AiBusiness::className(), 'targetAttribute' => ['business_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => AiUser::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
         ];
     }
 
@@ -58,7 +60,7 @@ class BusinessDetail extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
             'email' => Yii::t('app', 'Email'),
             'keyword' => Yii::t('app', 'Keyword'),
-            'user_id' => Yii::t('app', 'User ID'),
+            
         ];
     }
 
@@ -69,16 +71,7 @@ class BusinessDetail extends \yii\db\ActiveRecord
      */
     public function getBusiness()
     {
-        return $this->hasOne(AiBusiness::className(), ['id' => 'business_id']);
+        return $this->hasOne(Business::className(), ['id' => 'business_id']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(AiUser::className(), ['id' => 'user_id']);
-    }
 }

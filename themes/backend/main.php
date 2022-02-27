@@ -97,7 +97,7 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="<?=Yii::getAlias('@web')?>/themes/backend/vendor/jquery/jquery.min.js"></script>
+    <!--<script src="<?php //=Yii::getAlias('@web')?>/themes/backend/vendor/jquery/jquery.min.js"></script>-->
     <script src="<?=Yii::getAlias('@web')?>/themes/backend/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -110,8 +110,8 @@ AppAsset::register($this);
     <script src="<?=Yii::getAlias('@web')?>/themes/backend/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="<?=Yii::getAlias('@web')?>/themes/backend/js/demo/chart-area-demo.js"></script>
-    <!--<script src="<?=Yii::getAlias('@web')?>/themes/backend/js/demo/chart-pie-demo.js"></script>-->
+    <!--<script src="<?php //=Yii::getAlias('@web')?>/themes/backend/js/demo/chart-area-demo.js"></script>-->
+    <!--<script src="<?php //=Yii::getAlias('@web')?>/themes/backend/js/demo/chart-pie-demo.js"></script>-->
 
 <?php $this->endBody() ?>
 </body>

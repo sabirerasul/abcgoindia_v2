@@ -6,7 +6,8 @@ use app\models\business\BusinessCat;
 
 $this->title = "ABCGO INDIA ADMIN PANEL";
 
-$user = User::find()->all();
+$user = User::find()->where(['is_deleted' => '0'])->all();
+$admin = User::find()->where(['user_role' => 'org', 'is_deleted' => '0'])->all();
 $business = Business::find()->all();
 $businessCat = BusinessCat::find()->all();
 $businessCatalog = BusinessCatalog::find()->all();
@@ -24,6 +25,26 @@ $link = Yii::getAlias("@web")."/org/";
 
                     <!-- Content Row -->
                     <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="<?=$link?>business">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Admin</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?=count($admin)?></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-briefcase fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        </div>
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
@@ -53,7 +74,7 @@ $link = Yii::getAlias("@web")."/org/";
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Business Catalog</div>
+                                                Catalog</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?=count($businessCatalog)?></div>
                                         </div>
                                         <div class="col-auto">
@@ -73,7 +94,7 @@ $link = Yii::getAlias("@web")."/org/";
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                            Categories of business
+                                            Category
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?=count($businessCat)?></div>
                                         </div>

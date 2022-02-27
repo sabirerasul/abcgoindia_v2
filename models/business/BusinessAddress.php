@@ -3,20 +3,23 @@
 namespace app\models\business;
 
 use Yii;
-use app\models\business\Business;
 
 /**
- * This is the model class for table "ai_business_address".
+ * This is the model class for table "{{%business_address}}".
  *
  * @property int $id
  * @property string $zipcode
+ * @property string|null $address
  * @property string $city
  * @property string $state
  * @property string $country
  * @property int $business_id
  * @property string|null $address_type
+ * @property string $created_at
+ * @property string|null $updated_at
+ * @property int $status
  *
- * @property AiBusiness $business
+ * @property Business $business
  */
 class BusinessAddress extends \yii\db\ActiveRecord
 {
@@ -34,12 +37,13 @@ class BusinessAddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'address', 'zipcode', 'city', 'state', 'country', 'business_id'], 'required'],
-            [['id', 'business_id'], 'integer'],
+            [['zipcode', 'city', 'state', 'country', 'business_id'], 'required'],
+            [['address'], 'string'],
+            [['business_id', 'status'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
             [['zipcode', 'address_type'], 'string', 'max' => 20],
             [['city', 'state', 'country'], 'string', 'max' => 100],
-            ['address', 'string'],
-            [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => AiBusiness::className(), 'targetAttribute' => ['business_id' => 'id']],
+            [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
         ];
     }
 
@@ -49,13 +53,17 @@ class BusinessAddress extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'zipcode' => Yii::t('app', 'Zipcode'),
-            'city' => Yii::t('app', 'City'),
-            'state' => Yii::t('app', 'State'),
-            'country' => Yii::t('app', 'Country'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'address_type' => Yii::t('app', 'Address Type'),
+            'id' => 'ID',
+            'zipcode' => 'Zipcode',
+            'address' => 'Address',
+            'city' => 'City',
+            'state' => 'State',
+            'country' => 'Country',
+            'business_id' => 'Business ID',
+            'address_type' => 'Address Type',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'status' => 'Status',
         ];
     }
 
@@ -66,6 +74,6 @@ class BusinessAddress extends \yii\db\ActiveRecord
      */
     public function getBusiness()
     {
-        return $this->hasOne(AiBusiness::className(), ['id' => 'business_id']);
+        return $this->hasOne(Business::className(), ['id' => 'business_id']);
     }
 }

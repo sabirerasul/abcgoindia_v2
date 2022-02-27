@@ -5,14 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\org\models\User */
 
-$this->title = Yii::t('app', 'Update Personal Details: {name}', [
-    'name' => $model->name,
+$this->title = Yii::t('app', 'Add Link: {name}', [
+    'name' => $model->bus_name,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -25,9 +23,9 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         </div>
         <div class="card-body">
             <div class="table-responsive">
-
-            <?= $this->render('_form-user-update', [
-                'model' => $model,
+            
+            <?= $this->render('_form-profile-link', [
+                'model' => $details,
             ]) ?>
 
             </div>

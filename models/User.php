@@ -59,7 +59,7 @@ class User extends ActiveRecord  implements IdentityInterface
             ['c_password', 'compare', 'compareAttribute'=>'password'],
             ['name', 'string', 'max' => 60],
             [['password_hash'], 'string'],
-            [['updated_at', 'created_at'], 'safe'],
+            [['updated_at', 'created_at', 'is_deleted'], 'safe'],
             [['status'], 'integer'],
             [['name', 'username'], 'string', 'max' => 100],
             [['mobile'], 'number', 'min' => 10],

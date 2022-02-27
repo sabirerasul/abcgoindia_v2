@@ -16,7 +16,6 @@ use app\models\UserDetail;
 use app\models\UserHobby;
 use app\models\UserProfileLink;
 use app\modules\org\models\UserSearch;
-use yii\widgets\Pjax;
 
 
 /**
@@ -172,20 +171,9 @@ class UserController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        elseif (Yii::$app->request->isAjax) {
-            return $this->renderAjax('update', [
-                'model' => $model
-            ]);
-        } else {
-            return $this->render('update', [
-                'model' => $model
-            ]);
-        }
-
-        /*
         return $this->render('update', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     public function actionBusiness(){
@@ -205,7 +193,6 @@ class UserController extends Controller
 
         if ($this->request->isPost && $detailModel->load($this->request->post())) {
             
-            $detailModel->about = htmlspecialchars($detailModel->about);
             $detailModel->save();
             return $this->redirect(['view', 'id' => $model->id]);
             
@@ -221,7 +208,7 @@ class UserController extends Controller
     {
         extract($_REQUEST);
         $model = $this->findModel($id);
-        $addressModel = new UserAddress();
+        $addressModel = new userAddress();
 
         if ($this->request->isPost && $addressModel->load($this->request->post())) {
            
@@ -242,7 +229,7 @@ class UserController extends Controller
     {
         extract($_REQUEST);
         $model = $this->findModel($id);
-        $addressModel = UserAddress::find()->where(['id' => $address_id, 'user_id' => $id])->one();
+        $addressModel = userAddress::find()->where(['id' => $address_id, 'user_id' => $id])->one();
 
         if ($this->request->isPost && $addressModel->load($this->request->post())) {
             
@@ -262,7 +249,7 @@ class UserController extends Controller
     {
         extract($_REQUEST);
         $model = $this->findModel($id);
-        $addressModel = UserAddress::find()->where(['id' => $address_id, 'user_id' => $id, 'status' => 1])->one();
+        $addressModel = userAddress::find()->where(['id' => $address_id, 'user_id' => $id, 'status' => 1])->one();
 
         if (!empty($addressModel)) {
             $addressModel->status = 0;

@@ -99,12 +99,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 <tr>
                                     <td colspan='2'>
-                                        <a class="btn btn-success"
-                                            href="<?=Yii::getAlias('@web')?>/org/user-business/catalog?id=<?=$value->id?>">Catalog</a>
-                                        <a class="btn btn-primary"
-                                            href="<?=Yii::getAlias('@web')?>/org/user-business/update?id=<?=$value->id?>">Update</a>
-                                        <a class="btn btn-danger"
-                                            href="<?=Yii::getAlias('@web')?>/org/user-business/delete-address?id=<?=$value->id?>">Delete</a>
+                                        
+                                        <?= Html::a(Yii::t('app', 'Profile'), ['view', 'id' => $value->id], ['class' => 'btn btn-success']) ?>
+
+                                        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $value->id], ['class' => 'btn btn-primary']) ?>
+
+                                        <?= Html::a(Yii::t('app', 'Catalog'), ['catalog', 'id' => $value->id], ['class' => 'btn btn-success']) ?>
+                                        
+                                        <?= Html::a(Yii::t('app', 'Delete'), ['delete-address', 'id' => $value->id], [
+                                            'class' => 'btn btn-danger',
+                                            'data' => [
+                                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                                'method' => 'post',
+                                            ],
+                                        ]) ?>
 
                                     </td>
                                 </tr>

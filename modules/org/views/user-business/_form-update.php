@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'bus_cat')->dropDownList($categories, ['prompt'=>'Select Business Category']) ?>
 
-    <?php //= $form->field($model, 'bus_qrcode')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'bus_username')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'bus_number')->textInput(['maxlength' => true]) ?>
 

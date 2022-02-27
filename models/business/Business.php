@@ -7,7 +7,7 @@ use app\models\business\BusinessAddress;
 use app\models\business\BusinessCatalogDetail;
 use app\models\business\AssignmentCatalog;
 use app\models\business\BusinessDetail;
-use app\models\business\BusinessHour;
+use app\models\business\BusinessWorkingDay;
 use app\models\business\BusinessProfileLink;
 use app\models\business\BusinessCat;
 use app\models\business\AssignmentBusiness;
@@ -55,7 +55,7 @@ class Business extends \yii\db\ActiveRecord
             [['bus_name', 'bus_username', 'bus_cat', 'bus_qrcode', 'bus_number', 'bus_token', 'created_at'], 'required'],
             [['bus_cat', 'status'], 'integer'],
             [['bus_token'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'is_deleted'], 'safe'],
             [['bus_name', 'bus_username', 'bus_qrcode'], 'string', 'max' => 100],
             [['bus_number'], 'string', 'max' => 15],
             [['bus_cat'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessCat::className(), 'targetAttribute' => ['bus_cat' => 'id']],
@@ -118,7 +118,7 @@ class Business extends \yii\db\ActiveRecord
      */
     public function getBusinessDetails()
     {
-        return $this->hasMany(BusinessDetail::className(), ['business_id' => 'id']);
+        return $this->hasOne(BusinessDetail::className(), ['business_id' => 'id']);
     }
 
     /**
@@ -126,9 +126,9 @@ class Business extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBusinessHours()
+    public function getBusinessWorkingDay()
     {
-        return $this->hasMany(BusinessHour::className(), ['business_id' => 'id']);
+        return $this->hasMany(BusinessWorkingDay::className(), ['business_id' => 'id']);
     }
 
     /**
