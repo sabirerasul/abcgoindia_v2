@@ -1,3 +1,8 @@
+
+<?php
+
+$userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role : 'undefined';
+?>
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion bg-gradient-secon" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -16,7 +21,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
 
-        <?php if (\Yii::$app->user->identity->user_role == 'org') { ?>
+        <?php if ($userRole == 'org') { ?>
         <a class="nav-link" href="<?=Yii::getAlias('@web')?>/org">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -32,7 +37,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <?php if (\Yii::$app->user->identity->user_role == 'org') { ?>
+    <?php if ($userRole == 'org') { ?>
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#collapseOne"
@@ -151,7 +156,7 @@
 
     <?php } ?>
 
-    <?php if (\Yii::$app->user->identity->user_role == 'user') { ?>
+    <?php if ($userRole == 'user') { ?>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">

@@ -37,7 +37,7 @@ class IndexController extends Controller
                     [
                         //'actions' => ['login', 'error'], // Define specific actions
                         'allow' => true, // Has access
-                        'roles' => ['org'], // '@' All logged in users / or your access role e.g. 'admin', 'user'
+                        'roles' => ['user'], // '@' All logged in users / or your access role e.g. 'admin', 'user'
                     ],
                     [
                         'allow' => false, // Do not have access

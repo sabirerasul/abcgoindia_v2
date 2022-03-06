@@ -9,8 +9,8 @@ use app\models\business\AssignmentBusiness;
 
 $this->title = "ABCGO INDIA ADMIN PANEL";
 
-$userId = Yii::$app->user->identity->id;
-
+$userId = (Yii::$app->user->identity) ? Yii::$app->user->identity->id : 0;
+$userRole = 
 
 $user = User::find()->all();
 
