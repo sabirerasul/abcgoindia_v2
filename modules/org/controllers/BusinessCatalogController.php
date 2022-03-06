@@ -88,7 +88,12 @@ class BusinessCatalogController extends Controller
         $model = new BusinessCatalog();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+
+                $model->catalog_token = "".rand(1234, 56789);
+                $model->created_at = date('Y-m-d h:i:s');
+                $model->save();
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

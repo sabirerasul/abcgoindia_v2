@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
 
 
-    <?= $form->field($model, 'user_id')->dropDownList($users, ['prompt'=>'Select Users']) ?>
+    <?php //= $form->field($model, 'user_id')->dropDownList($users, ['prompt'=>'Select Users']) ?>
 
 
     <?php /*= $form->field($model, 'user_id')

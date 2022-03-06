@@ -3,7 +3,10 @@
 namespace app\models\business;
 
 use Yii;
-use app\models\User;
+use app\models\business\BusinessCatalogDetail;
+use app\models\business\BusinessCatalogLink;
+use app\models\AssignmentBusiness;
+use app\models\business\AssignmentCatalog;
 
 /**
  * This is the model class for table "ai_business_catalog".
@@ -66,7 +69,7 @@ class BusinessCatalog extends \yii\db\ActiveRecord
      */
     public function getBusinessCatalogDetails()
     {
-        return $this->hasMany(BusinessCatalogDetail::className(), ['catalog_id' => 'id']);
+        return $this->hasOne(BusinessCatalogDetail::className(), ['catalog_id' => 'id']);
     }
 
     /**

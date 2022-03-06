@@ -15,9 +15,18 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
+
+        <?php if (\Yii::$app->user->identity->user_role == 'org') { ?>
         <a class="nav-link" href="<?=Yii::getAlias('@web')?>/org">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
+        <?php } else { ?>
+
+        <a class="nav-link" href="<?=Yii::getAlias('@web')?>/business">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+
+        <?php } ?>
     </li>
 
     <!-- Divider -->
@@ -154,23 +163,15 @@
         <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Business Components:</h6>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business">
+                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user-business">
                     <i class="fas fa-briefcase"></i>
                     Business
                 </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business/create">
+                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user-business/create">
                     <i class="fas fa-plus"></i>
                     Add
                 </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business-catalog">
-                    <i class="fas fa-boxes"></i>
-                    Catalog
-                </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business-catalog/create">
-                    <i class="fas fa-plus"></i>
-                    Add
-                </a>
-                
+
             </div>
         </div>
     </li>
@@ -189,17 +190,17 @@
         <div id="collapseFive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Settings Components:</h6>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/user">
+                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user/change-password">
                     <i class="fas fa-lock"></i>
                     Change Password
                 </a>
 
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/create">
+                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user/user-update">
                     <i class="fas fa-user-edit"></i>
                     Edit Profile
                 </a>
 
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/create">
+                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user/user-profile">
                     <i class="fas fa-user-circle"></i>
                     View Profile
                 </a>
@@ -215,7 +216,5 @@
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
-
-
 
 </ul>

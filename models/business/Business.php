@@ -11,11 +11,11 @@ use app\models\business\BusinessWorkingDay;
 use app\models\business\BusinessProfileLink;
 use app\models\business\BusinessCat;
 use app\models\business\AssignmentBusiness;
+
 /**
  * This is the model class for table "ai_business".
  *
  * @property int $id
- * @property int $user_id
  * @property string $bus_name
  * @property string $bus_username
  * @property int $bus_cat
@@ -37,7 +37,6 @@ use app\models\business\AssignmentBusiness;
  */
 class Business extends \yii\db\ActiveRecord
 {
-    public $user_id;
     /**
      * {@inheritdoc}
      */
@@ -57,7 +56,8 @@ class Business extends \yii\db\ActiveRecord
             [['bus_token'], 'string'],
             [['created_at', 'updated_at', 'is_deleted'], 'safe'],
             [['bus_name', 'bus_username', 'bus_qrcode'], 'string', 'max' => 100],
-            [['bus_number'], 'string', 'max' => 15],
+            
+            [['bus_number'], 'number', 'min' => 10],
             [['bus_cat'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessCat::className(), 'targetAttribute' => ['bus_cat' => 'id']],
         ];
     }
@@ -106,10 +106,10 @@ class Business extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBusinessCatalogs()
+    /*public function getBusinessCatalogs()
     {
         return $this->hasMany(AssignmentCatalog::className(), ['business_id' => 'id']);
-    }
+    }*/
 
     /**
      * Gets query for [[BusinessDetails]].

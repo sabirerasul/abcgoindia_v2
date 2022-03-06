@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'business_id',  
                         'format' => 'html', 
                         'value' => function ($data) {
-                            return $data->assignmentBusiness->user->name;
+                            return ($data->assignmentBusiness) ? $data->assignmentBusiness->user->name : '';
                         },
                     ],
                     'bus_name',
@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return $html;
                             },
                             'delete' => function ($data) {
-                                $html = "<a class='btn btn-danger btn-circle btn-sm ml-1 mb-1'  href='".$data."'><i class='fas fa-trash'></i></a>";
+                                $html = "<a class='btn btn-danger btn-circle btn-sm ml-1 mb-1' method='post' href='".$data."'><i class='fas fa-trash'></i></a>";
                                 return $html;
                             },
                           ],

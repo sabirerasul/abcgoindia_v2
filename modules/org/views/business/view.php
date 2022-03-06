@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'user_id',  
                             'format' => 'html', 
                             'value' => function ($data) {
-                                return $data->assignmentBusiness->user->name;
+                                return ($data->assignmentBusiness) ? $data->assignmentBusiness->user->name : '';
                             },
                         ],
                         'bus_name',

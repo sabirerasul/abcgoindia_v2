@@ -56,8 +56,8 @@ class BusinessCat extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAiBusinesses()
+    public function getBusiness()
     {
-        return $this->hasMany(AiBusiness::className(), ['bus_cat' => 'id']);
+        return $this->hasMany(Business::className(), ['bus_cat' => 'id']);
     }
 }

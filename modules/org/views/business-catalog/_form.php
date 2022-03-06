@@ -12,17 +12,23 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'business_id')->textInput() ?>
+    <?php //= $form->field($model, 'business_id')->textInput() ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+    <?php //= $form->field($model, 'user_id')->textInput() ?>
 
     <?= $form->field($model, 'catalog_name')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'catalog_token')->textInput(['maxlength' => true]) ?>
+    <?php //= $form->field($model, 'catalog_token')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?php //= $form->field($model, 'created_at')->textInput() ?>
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?php //= $form->field($model, 'updated_at')->textInput() ?>
+
+    <?= $form->field($model, 'status')
+        ->dropDownList(
+            [0 => 'Deactive', 1 => 'Active', 2 => 'Hide'],           // Flat array ('id'=>'label')
+            ['prompt'=>'Select Status']    // options
+        ); ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

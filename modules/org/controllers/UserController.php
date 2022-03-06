@@ -8,7 +8,6 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
-use yii\rbac\DbManager;
 
 use app\models\User;
 use app\models\UserAddress;
@@ -96,9 +95,9 @@ class UserController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionUserProfile($id)
     {
-        return $this->render('view', [
+        return $this->render('user-profile', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -108,282 +107,194 @@ class UserController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionUserNew()
     {
-        $model = new User();
-        $model->scenario = 'adminCreate';
+        $user = new User();
+        $userDetail = new UserDetail();
+        $userDetail->gender = 'male';
+        $userDetail->job = 'Student';
+        $user->scenario = 'adminCreate';
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                extract($_REQUEST);
-                $username = $model->name.rand(1,789);
-                $username = str_replace(' ', '', $username);
-                $model->username = $username;
+            if ($user->load($this->request->post()) && $userDetail->load($this->request->post())) {
                 
-                $model->setPassword($model->password);
-                $model->generateAuthKey();
-                
-                $model->created_at = date('Y-m-d h:i:s');
-                
-                $auth = new DbManager;
-                $auth->init();
-                $role = $auth->getRole('user');
-
-                $model->user_role = $role->name;
-                $model->status = 1;
-
-                if($model->save()){
-                    
-                    $auth->assign($role, $model->getId());
-
-                    return $this->redirect(['view', 'id' => $model->id]);
+                $model = $user->saveUser($user, $userDetail);
+                $userDetail->user_id = $model->id;
+                if($model){
+                    if($userDetail->saveUserDetail($userDetail)){
+                        return $this->redirect(['user-profile', 'id' => $user->id]);
+                    }
                 }
+
             }
-        } else {
-            $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
-            'model' => $model,
+        return $this->render('user-new', [
+            'user' => $user,
+            'userDetail' => $userDetail
         ]);
     }
 
     /**
-     * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * Creates a new User model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate()
+    public function actionUserUpdate()
     {
         extract($_REQUEST);
-        $model = $this->findModel($id);
-        $model->scenario = 'adminUpdate';
+        $user = $this->findModel($id);
+        $userDetail = UserDetail::find()->where(['user_id' => $user->id])->one();
+        
+        $user->scenario = 'adminUpdate';
+
+        if ($this->request->isPost) {
+            if ($user->load($this->request->post()) && $userDetail->load($this->request->post())) {
+                
+                $model = $user->updateUser($user, $userDetail);
+                $userDetail->user_id = $model->id;
+                if($model){
+                    if($userDetail->saveUserDetail($userDetail)){
+                        return $this->redirect(['user-profile', 'id' => $user->id]);
+                    }
+                }
+
+            }
+        }
+
+        return $this->render('user-update', [
+            'user' => $user,
+            'userDetail' => $userDetail
+        ]);
+    }
+
+    public function actionSaveUserAddress()
+    {
+        extract($_REQUEST);
+        $userModel = $this->findModel($userId);
+        $old = UserAddress::find()->where(['id' => $userAddressId])->one();
+        $model = $old ? $old : new UserAddress();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-
-            if(!empty($model->password)){
-                $model->password_hash = password_hash($model->password, PASSWORD_DEFAULT);
+           
+            $model->user_id = $userModel->id;
+            
+            if($old){
+                $model->updated_at = date('Y-m-d h:i:s');
+            }else{
+                $model->created_at = date('Y-m-d h:i:s');
             }
             
-            $model->updated_at = date('Y-m-d h:i:s');
+            $model->status = 1;
             $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['user-profile', 'id' => $userModel->id]);
         }
 
-        elseif (Yii::$app->request->isAjax) {
-            return $this->renderAjax('update', [
-                'model' => $model
-            ]);
-        } else {
-            return $this->render('update', [
-                'model' => $model
-            ]);
-        }
-
-        /*
-        return $this->render('update', [
-            'model' => $model,
-        ]);*/
-    }
-
-    public function actionBusiness(){
-        extract($_REQUEST);
-        $url = Yii::getAlias('@web')."/org/user-business?user_id=".$id;
-        $this->redirect($url);
-    }
-    
-
-    public function actionUpdateOther()
-    {
-        extract($_REQUEST);
-        $model = $this->findModel($id);
-
-        $detailModel = ($model->userDetails) ? $model->userDetails : new UserDetail();
-        $detailModel->user_id = $model->id;
-
-        if ($this->request->isPost && $detailModel->load($this->request->post())) {
-            
-            $detailModel->about = htmlspecialchars($detailModel->about);
-            $detailModel->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-            
-        }
-
-        return $this->render('update-other', [
-            'model' => $model,
-            'details' => $detailModel,
+        return $this->render('user-address', [
+            'model' => $userModel,
+            'details' => $model,
         ]);
     }
 
-    public function actionCreateAddress()
+    public function actionDeleteUserAddress()
     {
         extract($_REQUEST);
-        $model = $this->findModel($id);
-        $addressModel = new UserAddress();
-
-        if ($this->request->isPost && $addressModel->load($this->request->post())) {
-           
-            $addressModel->user_id = $model->id;
-            $addressModel->created_at = date('Y-m-d h:i:s');
-            $addressModel->status = 1;
-            $addressModel->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('create-address', [
-            'model' => $model,
-            'details' => $addressModel,
-        ]);
-    }
-
-    public function actionUpdateAddress()
-    {
-        extract($_REQUEST);
-        $model = $this->findModel($id);
-        $addressModel = UserAddress::find()->where(['id' => $address_id, 'user_id' => $id])->one();
-
-        if ($this->request->isPost && $addressModel->load($this->request->post())) {
-            
-            $addressModel->updated_at = date('Y-m-d h:i:s');
-            $addressModel->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-            
-        }
-
-        return $this->render('update-address', [
-            'model' => $model,
-            'details' => $addressModel,
-        ]);
-    }
-
-    public function actionDeleteAddress()
-    {
-        extract($_REQUEST);
-        $model = $this->findModel($id);
-        $addressModel = UserAddress::find()->where(['id' => $address_id, 'user_id' => $id, 'status' => 1])->one();
+        $model = $this->findModel($userId);
+        $addressModel = UserAddress::find()->where(['id' => $userAddressId])->one();
 
         if (!empty($addressModel)) {
             $addressModel->status = 0;
             $addressModel->updated_at = date('Y-m-d h:i:s');
             $addressModel->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['user_profile', 'id' => $model->id]);
         }
     }
 
-    public function actionCreateHobby()
+    public function actionSaveUserHobby()
     {
         extract($_REQUEST);
-        $model = $this->findModel($id);
-        $userHobby = new UserHobby();
+        $userModel = $this->findModel($userId);
 
-        if ($this->request->isPost && $userHobby->load($this->request->post())) {
+        $old = UserHobby::find()->where(['id' => $userHobbyId])->one();
+
+        $model = $old ? $old : new UserHobby();
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
            
-            $userHobby->user_id = $model->id;
-            $userHobby->created_at = date('Y-m-d h:i:s');
-            $userHobby->status = 1;
-            $userHobby->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model->user_id = $userModel->id;
+
+            if($old){
+                $model->updated_at = date('Y-m-d h:i:s');
+            }else{
+                $model->created_at = date('Y-m-d h:i:s');
+            }
+            
+            $model->status = 1;
+            $model->save();
+            return $this->redirect(['user-profile', 'id' => $userModel->id]);
         }
 
-        return $this->render('create-hobby', [
-            'model' => $model,
-            'details' => $userHobby,
+        return $this->render('user-hobby', [
+            'model' => $userModel,
+            'details' => $model,
         ]);
     }
 
-    public function actionUpdateHobby()
+    public function actionDeleteUserHobby()
     {
         extract($_REQUEST);
-        $model = $this->findModel($id);
-               
-        $userHobby = UserHobby::find()->where(['id' => $hobby_id, 'user_id' => $id])->one();
-
-        if ($this->request->isPost && $userHobby->load($this->request->post())) {
-            
-            $userHobby->updated_at = date('Y-m-d h:i:s');
-            $userHobby->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-            
-        }
-
-        return $this->render('update-hobby', [
-            'model' => $model,
-            'details' => $userHobby,
-        ]);
-    }
-
-    public function actionDeleteHobby()
-    {
-        extract($_REQUEST);
-        $model = $this->findModel($id);
+        $model = $this->findModel($userId);
         
-        $userHobby = UserHobby::find()->where(['id' => $address_id, 'user_id' => $id, 'status' => 1])->one();
+        $userHobby = UserHobby::find()->where(['id' => $userHobbyId])->one();
 
         if (!empty($userHobby)) {
             $userHobby->status = 0;
             $userHobby->updated_at = date('Y-m-d h:i:s');
             $userHobby->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['user-profile', 'id' => $model->id]);
         }
     }
 
-    public function actionCreateProfileLink()
+    public function actionSaveUserProfileLink()
     {
         extract($_REQUEST);
-        $model = $this->findModel($id);
+        $userModel = $this->findModel($userId);
 
-        $userProfileLink = new UserProfileLink();
+        $old = UserProfileLink::find()->where(['id' => $userProfileLinkId])->one();
+        $model = $old ? $old : new UserProfileLink();
 
-        if ($this->request->isPost && $userProfileLink->load($this->request->post())) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
            
-            $userProfileLink->user_id = $model->id;
-            $userProfileLink->created_at = date('Y-m-d h:i:s');
-            $userProfileLink->status = 1;
-            $userProfileLink->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model->user_id = $userModel->id;
+
+            if($old){
+                $model->updated_at = date('Y-m-d h:i:s');
+            }else{
+                $model->created_at = date('Y-m-d h:i:s');
+            }
+            
+            $model->status = 1;
+            $model->save();
+            return $this->redirect(['user-profile', 'id' => $userModel->id]);
         }
 
-        return $this->render('create-profile-link', [
-            'model' => $model,
-            'details' => $userProfileLink,
+        return $this->render('user-profile-link', [
+            'model' => $userModel,
+            'details' => $model,
         ]);
     }
 
-    public function actionUpdateProfileLink()
+    public function actionDeleteUserProfileLink()
     {
         extract($_REQUEST);
-        $model = $this->findModel($id);
-
-        $userProfileLink = UserProfileLink::find()->where(['id' => $profile_link_id, 'user_id' => $id])->one();
-
-        if ($this->request->isPost && $userProfileLink->load($this->request->post())) {
-            
-            $userProfileLink->updated_at = date('Y-m-d h:i:s');
-            $userProfileLink->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-            
-        }
-
-        return $this->render('update-profile-link', [
-            'model' => $model,
-            'details' => $userProfileLink,
-        ]);
-    }
-
-    public function actionDeleteProfileLink()
-    {
-        extract($_REQUEST);
-        $model = $this->findModel($id);
-
-        $userProfileLink = UserProfileLink::find()->where(['id' => $address_id, 'user_id' => $id, 'status' => 1])->one();
+        
+        $userProfileLink = UserProfileLink::find()->where(['id' => $userProfileLinkId])->one();
 
         if (!empty($userProfileLink)) {
             $userProfileLink->status = 0;
             $userProfileLink->updated_at = date('Y-m-d h:i:s');
             $userProfileLink->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['user-profile', 'id' => $userId]);
         }
     }
 
@@ -394,14 +305,22 @@ class UserController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionUserDelete($id)
     {
         $model = $this->findModel($id);
         $model->status = 0;
+        $model->is_deleted = 1;
         $model->save();
         //->delete();
 
         return $this->redirect(['index']);
+    }
+
+
+    public function actionUserBusiness(){
+        extract($_REQUEST);
+        $url = Yii::getAlias('@web')."/org/user-business/index?user_id=".$id;
+        $this->redirect($url);
     }
 
     /**
@@ -419,4 +338,5 @@ class UserController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
 }

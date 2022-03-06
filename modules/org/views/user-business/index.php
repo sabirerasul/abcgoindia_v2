@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="h3 mb-2 text-gray-800"><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <a class="btn btn-success" href="<?=Yii::getAlias('@web')?>/org/user-business/create?user_id=<?=$user_id?>">Add
+        <a class="btn btn-success" href="<?=Yii::getAlias('@web')?>/org/user-business/business-update?user_id=<?=$user_id?>">Add
             Business</a>
     </p>
 
@@ -100,11 +100,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <tr>
                                     <td colspan='2'>
                                         
-                                        <?= Html::a(Yii::t('app', 'Profile'), ['view', 'id' => $value->id], ['class' => 'btn btn-success']) ?>
+                                        <?= Html::a(Yii::t('app', 'Profile'), ['business-profile', 'user_id' => $user_id, 'id' => $value->id], ['class' => 'btn btn-success']) ?>
 
-                                        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $value->id], ['class' => 'btn btn-primary']) ?>
-
-                                        <?= Html::a(Yii::t('app', 'Catalog'), ['catalog', 'id' => $value->id], ['class' => 'btn btn-success']) ?>
+                                        <?= Html::a(Yii::t('app', 'Catalog'), ['catalog', 'id' => $value->id], ['class' => 'btn btn-primary']) ?>
                                         
                                         <?= Html::a(Yii::t('app', 'Delete'), ['delete-address', 'id' => $value->id], [
                                             'class' => 'btn btn-danger',

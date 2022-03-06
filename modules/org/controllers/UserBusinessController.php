@@ -21,6 +21,12 @@ use app\models\business\BusinessDetail;
 use app\models\business\BusinessAddress;
 use app\models\business\BusinessProfileLink;
 use app\models\business\BusinessWorkingDay;
+use app\models\business\AssignmentCatalog;
+use app\models\business\BusinessCatalogLink;
+use app\models\business\BusinessCatalogDetail;
+
+
+
 
 
 /**
@@ -65,6 +71,10 @@ class UserBusinessController extends Controller
     public function actionIndex()
     {
         extract($_REQUEST);
+
+        if(empty($user_id)){
+            return $this->redirect('../');
+        }
         $user = User::find()->where(['id' => $user_id])->one();
         $model = $user->assignmentBusiness;
         return $this->render('index', ['model' => $model, 'user_id' => $user_id]);
@@ -76,10 +86,12 @@ class UserBusinessController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionBusinessProfile()
     {
-        return $this->render('view', [
+        extract($_REQUEST);
+        return $this->render('business-profile', [
             'model' => $this->findModel($id),
+            'user_id' => $user_id
         ]);
     }
 
@@ -88,40 +100,42 @@ class UserBusinessController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionBusinessUpdate($user_id, $id=0)
     {
-        extract($_REQUEST);
-        $model = new Business();
-        $model->user_id = $user_id;
-        $users = ArrayHelper::map(User::find()->where(['status' => 1])->all(), 'id', 'name');
+        $old = Business::find()->where(['id' => $id])->one();
+        $model = $old ? $old : new Business();
         $categories = ArrayHelper::map(BusinessCat::find()->where(['status' => 1])->all(), 'id', 'cat_name');
+
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 
-                $username = $model->bus_name.rand(1,789);
-                $username = str_replace(' ', '', $username);
-                $password_hash = password_hash($username, PASSWORD_DEFAULT);
-                $model->bus_username = $username;
-                $model->bus_qrcode = "demoqr.png";
-                $model->bus_token = $password_hash;
-                $model->created_at = date('Y-m-d h:i:s');
-                $model->save();
+                if($old){
+                    $model->updated_at = date('Y-m-d h:i:s');
+                    $model->save();
+                }else{
+                    $username = $model->bus_name.rand(1,789);
+                    $username = str_replace(' ', '', $username);
+                    $password_hash = password_hash($username, PASSWORD_DEFAULT);
+                    $model->bus_username = $username;
+                    $model->bus_qrcode = "demoqr.png";
+                    $model->bus_token = password_hash($password_hash, PASSWORD_DEFAULT);
+                    $model->created_at = date('Y-m-d h:i:s');
+                    $model->save();
 
-                $AssignmentBusiness = new AssignmentBusiness();
+                    $AssignmentBusiness = new AssignmentBusiness();
+                    $AssignmentBusiness->user_id = $user_id;
+                    $AssignmentBusiness->business_id = $model->id;
+                    $AssignmentBusiness->save();
+                }
 
-                $AssignmentBusiness->user_id = $user_id;
-                $AssignmentBusiness->business_id = $model->id;
-                $AssignmentBusiness->save();
-
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index', 'user_id' => $user_id]);
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
+        return $this->render('business-update', [
             'model' => $model,
-            'users' => $users,
             'categories' => $categories
         ]);
 
@@ -135,34 +149,9 @@ class UserBusinessController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionBusinessUpdateDetails()
     {
-        $model = $this->findModel($id);
-        $categories = ArrayHelper::map(BusinessCat::find()->where(['status' => 1])->all(), 'id', 'cat_name');
-        
-        if ($this->request->isPost && $model->load($this->request->post())) {
-
-            $model->updated_at = date('Y-m-d h:i:s');
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-            'categories' => $categories
-        ]);
-    }
-
-    /**
-     * Updates an existing Business model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdateDetails($id)
-    {
-
+        extract($_REQUEST);
         $business = $this->findModel($id);
         $old = BusinessDetail::find()->where(['id' => $business->businessDetails->id])->one();
         $model = $old ? $old : new BusinessDetail();
@@ -177,13 +166,15 @@ class UserBusinessController extends Controller
         return $this->render('update-details', [
             'model' => $business,
             'businessDetails' => $model,
+            'user_id' => $user_id
         ]);
     }
 
-    public function actionCreateAddress()
+    public function actionUpdateAddress()
     {
         extract($_REQUEST);
         $model = $this->findModel($id);
+        
         $addressModel = new BusinessAddress();
 
         if ($this->request->isPost && $addressModel->load($this->request->post())) {
@@ -201,7 +192,7 @@ class UserBusinessController extends Controller
         ]);
     }
 
-    public function actionUpdateAddress()
+/*    public function actionUpdateAddress()
     {
         extract($_REQUEST);
         $model = $this->findModel($id);
@@ -219,7 +210,7 @@ class UserBusinessController extends Controller
             'model' => $model,
             'details' => $addressModel,
         ]);
-    }
+    }*/
 
     public function actionDeleteAddress()
     {
@@ -235,44 +226,30 @@ class UserBusinessController extends Controller
         }
     }
 
-    public function actionCreateProfileLink()
+    public function actionUpdateProfileLink($business_id, $id=0)
     {
         extract($_REQUEST);
         $model = $this->findModel($id);
 
-        $businessProfileLink = new BusinessProfileLink();
+        $old = BusinessProfileLink::find()->where(['id' => $id])->one();
+        $model = $old ? $old : new BusinessProfileLink();
 
-        if ($this->request->isPost && $businessProfileLink->load($this->request->post())) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
            
-            $businessProfileLink->business_id = $model->id;
-            $businessProfileLink->created_at = date('Y-m-d h:i:s');
-            $businessProfileLink->status = 1;
-            $businessProfileLink->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+            if($old){
+                $model->updated_at = date('Y-m-d h:i:s');
+            }else{
+                $model->business_id = $model->id;
+                $model->created_at = date('Y-m-d h:i:s');
+                $model->status = 1;
+            }
+
+            $model->save();
+            
+            return $this->redirect(['view', 'id' => $model->business_id]);
         }
 
         return $this->render('create-profile-link', [
-            'model' => $model,
-            'details' => $businessProfileLink,
-        ]);
-    }
-
-    public function actionUpdateProfileLink()
-    {
-        extract($_REQUEST);
-        $model = $this->findModel($id);
-
-        $businessProfileLink = BusinessProfileLink::find()->where(['id' => $profile_link_id, 'business_id' => $id])->one();
-
-        if ($this->request->isPost && $businessProfileLink->load($this->request->post())) {
-            
-            $businessProfileLink->updated_at = date('Y-m-d h:i:s');
-            $businessProfileLink->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-            
-        }
-
-        return $this->render('update-profile-link', [
             'model' => $model,
             'details' => $businessProfileLink,
         ]);
@@ -350,6 +327,7 @@ class UserBusinessController extends Controller
 
         return $this->render('view_catalog', [
             'model' => $catalog,
+            'business_id' => $id
         ]);
     }
 
@@ -358,19 +336,55 @@ class UserBusinessController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCatalogCreate()
+    public function actionUpdateCatalog($business_id, $id=0)
     {
-        $model = new BusinessCatalog();
+        $old = BusinessCatalog::find()->where(['id' => $id])->one();
+        $model = $old ? $old : new BusinessCatalog();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                if($old){
+
+                    $model->updated_at = date('Y-m-d h:i:s');
+                    $model->save();
+
+                }else{
+                    $model->catalog_token = "".rand(1234, 56789);
+                    $model->created_at = date('Y-m-d h:i:s');
+                    $model->save();
+                    $assignmentModel = new AssignmentCatalog();
+                    $assignmentModel->catalog_id = $model->id;
+                    $assignmentModel->business_id = $business_id;
+                    $assignmentModel->save();
+                }
+
+                return $this->redirect(['catalog-view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->render('create-catalog', [
+        return $this->render('update-catalog', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Updates an existing BusinessCatalog model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionCatalogView($id)
+    {
+        $model = $this->findCatalogModel($id);
+
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('details-catalog', [
             'model' => $model,
         ]);
     }
@@ -394,6 +408,62 @@ class UserBusinessController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionUpdateCatalogDetails($id)
+    {
+        $old = BusinessCatalogDetail::find()->where(['catalog_id' => $id])->one();
+        $model = $old ? $old : new BusinessCatalogDetail();
+        $model->catalog_id = $id;
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                if($old){
+                    //$model->updated_at = date('Y-m-d h:i:s');
+                }else{
+                    //$model->created_at = date('Y-m-d h:i:s');
+                }
+
+                $model->save();
+                return $this->redirect(['catalog-view', 'id' => $model->catalog_id]);
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('update-catalog-details', [
+            'model' => $model
+        ]);
+    }
+
+    public function actionCatalogLink($catalogId, $id=0)
+    {
+        
+        $old = BusinessCatalogLink::find()->where(['id' => $id])->one();
+
+        $model = $old ? $old : new BusinessCatalogLink();
+
+        $model->catalog_id = $catalogId;
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+           
+            
+            
+            $model->status = 1;
+            if($old){
+                $model->updated_at = date('Y-m-d h:i:s');
+            }else{
+                $model->created_at = date('Y-m-d h:i:s');
+            }
+
+            $model->save();
+            return $this->redirect(['catalog-view', 'id' => $model->catalog_id]);
+        }
+
+        return $this->render('catalog-link', [
+            'model' => $model
+        ]);
+    }
+
+
 
     /**
      * Updates an existing BusinessCatalog model.
@@ -439,6 +509,15 @@ class UserBusinessController extends Controller
     protected function findModel($id)
     {
         if (($model = Business::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    protected function findCatalogModel($id)
+    {
+        if (($model = BusinessCatalog::findOne($id)) !== null) {
             return $model;
         }
 

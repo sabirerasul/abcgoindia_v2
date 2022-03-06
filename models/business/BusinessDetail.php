@@ -4,7 +4,6 @@ namespace app\models\business;
 
 use Yii;
 use app\models\business\Business;
-use app\models\User;
 
 /**
  * This is the model class for table "ai_business_details".

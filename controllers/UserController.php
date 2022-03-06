@@ -94,46 +94,6 @@ class UserController extends Controller
             'model' => $model,
         ]);
     }
-    
-    public function actionDatabase()
-    {
-        
-        $host1 = "hindsathi.com";
-        $user1 = "hindsath_ashutosh";
-        $pass1 = "12@Ashutosh%%##";
-        $database1 = "hindsath_abcgoind_business";
-        $db = mysqli_connect($host1, $user1, $pass1, $database1);
-    
-        
-        $business = BusinessCatalog::find()->all();
-        
-        foreach($business as $key => $value){
-            
-            // $q = "SELECT * FROM items WHERE id='$value->id'";
-            
-            // $r = mysqli_query($db, $q);
-            
-            // $row = mysqli_fetch_array($r);
-
-            // if(!empty($row['link'])){
-            //     $BusinessCatalogDetail = new BusinessCatalogLink();
-            // $BusinessCatalogDetail->catalog_id = $value->id;
-            // $BusinessCatalogDetail->link = $row['link'];
-              
-            //     if($BusinessCatalogDetail->save(false)){
-            //         echo 1;
-            //     }else{
-            //         echo 0;
-            //     }
-            // }
-   
-            
-            
-        }
-        
-        die();
-        
-    }
 
     protected function findModel($id)
     {

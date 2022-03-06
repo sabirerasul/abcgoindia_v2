@@ -3,6 +3,7 @@
 namespace app\models\business;
 
 use Yii;
+use app\models\business\Business;
 
 /**
  * This is the model class for table "{{%business_address}}".

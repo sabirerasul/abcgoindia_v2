@@ -13,8 +13,8 @@ use app\models\business\BusinessCatalog;
  * @property int $business_id
  * @property int $catalog_id
  *
- * @property AiBusiness $business
- * @property AiBusinessCatalog $catalog
+ * @property Business $business
+ * @property BusinessCatalog $catalog
  */
 class AssignmentCatalog extends \yii\db\ActiveRecord
 {

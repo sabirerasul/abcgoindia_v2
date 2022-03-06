@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\User;
+use app\models\UserDetail;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\rbac\DbManager;
@@ -112,33 +113,24 @@ class SiteController extends Controller
         
         $model = new User();
         $model->scenario = 'userCreate';
+        $userDetail = new UserDetail();
+        $userDetail->gender = 'male';
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $userDetail->load(Yii::$app->request->post())) {
 
-            extract($_REQUEST);
-            $username = $model->name.rand(1,789);
-            $username = str_replace(' ', '', $username);
-            $model->username = $username;
+            $user = $model->saveUser($model);
+            if($user){
+                $userDetail->user_id = $user->id;
+                if($userDetail->saveUserDetail($userDetail)){
 
-            $model->setPassword($model->password);
-            $model->generateAuthKey();
+                    \Yii::$app->getSession()->setFlash('success', 'You have Successfully Registered, please re-login to active your account');
+                    return $this->redirect('login');
 
-            $model->created_at = date('Y-m-d h:i:s');
-            $model->status = 1;
-
-            $auth = new DbManager;
-            $auth->init();
-            $role = $auth->getRole('user');
-
-            $model->user_role = $role->name;
-
-            if($model->save()){
-
-                $auth->assign($role, $model->getId());
-                return $this->goHome();
+                }
+                
             }
         }
-        return $this->render('signup', ['model' => $model]);
+        return $this->render('signup', ['model' => $model, 'userDetail' => $userDetail]);
     }
 
     /**

@@ -17,11 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="h3 mb-2 text-gray-800"><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <a class="btn btn-success" href="<?=Yii::getAlias('@web')?>/org/user-business/create?user_id=<?=$_REQUEST['id']?>">Add
+        <a class="btn btn-success" href="<?=Yii::getAlias('@web')?>/org/user-business/update-catalog?business_id=<?=$business_id?>">Add
             Catalog</a>
     </p>
 
-    <p class="mb-4">Here you can manage all business easily.</p>
+    <p class="mb-4">Here you can manage all business catalogs easily.</p>
 
     <div class="row">
         <!-- DataTales Example -->
@@ -41,15 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             <tbody>
                                 
                                 <tr>
-                                    <th>Catalog Name</th>
+                                    <th>Cataog Name</th>
                                     <td><?=$value->catalog_name?></td>
                                 </tr>
-
-                                <tr>
-                                    <th>Business Token</th>
-                                    <td><?=$value->catalog_token?></td>
-                                </tr>
-
                                 <tr>
                                     <th>Status</th>
                                     <td>
@@ -73,22 +67,29 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </tr>
 
                                 <tr>
-                                    <th>Catalog Since</th>
+                                    <th>catalog Since</th>
                                     <td><?=date("jS \of F Y", strtotime($value->created_at))?></td>
                                 </tr>
 
                                 <tr>
-                                    <th>Last Update</th>
+                                    <th>Updated At</th>
                                     <td><?=date("jS \of F Y", strtotime($value->updated_at))?></td>
                                 </tr>
 
                                 <tr>
                                     <td colspan='2'>
                                         
-                                        <a class="btn btn-primary"
-                                            href="<?=Yii::getAlias('@web')?>/org/user-business/update?id=<?=$value->id?>">Update</a>
-                                        <a class="btn btn-danger"
-                                            href="<?=Yii::getAlias('@web')?>/org/user-business/delete-address?id=<?=$value->id?>">Delete</a>
+                                        <?= Html::a(Yii::t('app', 'view'), ['catalog-view', 'id' => $value->id], ['class' => 'btn btn-success']) ?>
+
+                                        <?= Html::a(Yii::t('app', 'Edit'), ['update-catalog','business_id' => 0, 'id' => $value->id], ['class' => 'btn btn-primary']) ?>
+                                        
+                                        <?= Html::a(Yii::t('app', 'Delete'), ['catalog-delete', 'id' => $value->id], [
+                                            'class' => 'btn btn-danger',
+                                            'data' => [
+                                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                                'method' => 'post',
+                                            ],
+                                        ]) ?>
 
                                     </td>
                                 </tr>

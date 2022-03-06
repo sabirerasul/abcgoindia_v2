@@ -24,7 +24,13 @@ $this->title = "Signup - ABCGO INDIA";
                         <div class="col-sm-12 mb-3 mb-sm-0">
                             <?= $form->field($model, 'name')->textInput(['maxlength' => 255, 'class' => 'form-control form-control-user', 'placeholder' => 'Name'])->label(false) ?>
                         </div>
-                        <div class="col-sm-12">
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-12">
+                            <?=$form->field($userDetail, 'gender')->radioList( ['male'=>'male', 'female' => 'female', 'other' => 'other'] );?>
+                        </div>
+                        <div class="col-sm-6">
                             <?= $form->field($model, 'mobile')->textInput(['maxlength' => 15, 'class' => 'form-control form-control-user', 'placeholder' => 'Mobile'])->label(false) ?>
                         </div>
                     </div>

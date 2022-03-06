@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;*/
     ?>
 
     <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('New User', ['user-new'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <p class="mb-4">Here you can manage all user easily.</p>
@@ -82,19 +82,24 @@ $this->params['breadcrumbs'][] = $this->title;*/
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'header' => 'Actions',
-                        'template' => '{view}{business}{delete}',
+                        'template' => '{user-profile}{user-update}{user-business}{user-delete}',
                         'buttons' => [
                             
-                            'view' => function ($data) {
+                            'user-profile' => function ($data) {
                                 
                                 $html = "<a class='btn btn-primary btn-circle btn-sm ml-1 mb-1' href='".$data."'><i class='fas fa-eye'></i></a>";
                                 return $html;
                             },
-                            'business' => function ($data) {
-                                $html = "<a class='btn btn-success btn-circle btn-sm ml-1 mb-1'  href='".$data."'><i class='fas fa-briefcase'></i></a>";
+                            'user-update' => function ($data) {
+                                
+                                $html = "<a class='btn btn-success btn-circle btn-sm ml-1 mb-1' href='".$data."'><i class='fas fa-edit'></i></a>";
                                 return $html;
                             },
-                            'delete' => function ($data) {
+                            'user-business' => function ($data) {
+                                $html = "<a class='btn btn-warning btn-circle btn-sm ml-1 mb-1'  href='".$data."'><i class='fas fa-briefcase'></i></a>";
+                                return $html;
+                            },
+                            'user-delete' => function ($data) {
                                 $html = "<a class='btn btn-danger btn-circle btn-sm ml-1 mb-1'  href='".$data."'><i class='fas fa-trash'></i></a>";
                                 return $html;
                             },

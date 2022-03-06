@@ -17,10 +17,11 @@ use Yii;
  * @property string|null $job
  * @property string|null $about
  *
- * @property AiUser $user
+ * @property User $user
  */
 class UserDetail extends \yii\db\ActiveRecord
 {
+    public $userProfilePhoto = '';
     /**
      * {@inheritdoc}
      */
@@ -38,9 +39,11 @@ class UserDetail extends \yii\db\ActiveRecord
             [['user_id'], 'required'],
             [['user_id'], 'integer'],
             [['about'], 'string'],
-            [['email', 'profile_photo', 'job'], 'string', 'max' => 100],
+            [['profile_photo', 'job'], 'string', 'max' => 100],
+            ['email', 'email'],
             [['dob'], 'string', 'max' => 12],
-            [['whatsapp_number'], 'string', 'max' => 15],
+            [['userProfilePhoto'], 'file'],
+            [['whatsapp_number'], 'number', 'min' => 10],
             [['gender'], 'string', 'max' => 10],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -72,5 +75,11 @@ class UserDetail extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function saveUserDetail($model){
+
+        $model->save();
+        return true;
     }
 }

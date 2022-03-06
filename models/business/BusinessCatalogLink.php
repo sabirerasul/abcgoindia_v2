@@ -5,13 +5,16 @@ namespace app\models\business;
 use Yii;
 
 /**
- * This is the model class for table "ai_business_catalog_link".
+ * This is the model class for table "{{%business_catalog_link}}".
  *
  * @property int $id
  * @property string $link
+ * @property string|null $title
  * @property int $catalog_id
+ * @property string|null $created_at
+ * @property string|null $updated_at
  *
- * @property AiBusinessCatalog $catalog
+ * @property BusinessCatalog $catalog
  */
 class BusinessCatalogLink extends \yii\db\ActiveRecord
 {
@@ -30,9 +33,11 @@ class BusinessCatalogLink extends \yii\db\ActiveRecord
     {
         return [
             [['link', 'catalog_id'], 'required'],
-            [['link'], 'string'],
+            [['link', 'title'], 'string'],
             [['catalog_id'], 'integer'],
-            [['catalog_id'], 'exist', 'skipOnError' => true, 'targetClass' => AiBusinessCatalog::className(), 'targetAttribute' => ['catalog_id' => 'id']],
+            ['link', 'url'],
+            [['created_at', 'updated_at', 'status'], 'safe'],
+            [['catalog_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessCatalog::className(), 'targetAttribute' => ['catalog_id' => 'id']],
         ];
     }
 
@@ -42,9 +47,12 @@ class BusinessCatalogLink extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'link' => Yii::t('app', 'Link'),
-            'catalog_id' => Yii::t('app', 'Catalog ID'),
+            'id' => 'ID',
+            'link' => 'Link',
+            'title' => 'Title',
+            'catalog_id' => 'Catalog ID',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 
@@ -55,6 +63,6 @@ class BusinessCatalogLink extends \yii\db\ActiveRecord
      */
     public function getCatalog()
     {
-        return $this->hasOne(AiBusinessCatalog::className(), ['id' => 'catalog_id']);
+        return $this->hasOne(BusinessCatalog::className(), ['id' => 'catalog_id']);
     }
 }

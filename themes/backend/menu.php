@@ -17,7 +17,7 @@ use yii\bootstrap4\NavBar;
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
     </button>
-<?php
+    <?php
     /*
 
     <!-- Topbar Search -->
@@ -35,7 +35,7 @@ use yii\bootstrap4\NavBar;
 */ ?>
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
-    <?php /*
+        <?php /*
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none">
             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
@@ -128,51 +128,51 @@ use yii\bootstrap4\NavBar;
                     <div class="dropdown-list-image mr-3">
                         <img class="rounded-circle"
                             src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile_1.svg" alt="...">
-                        <div class="status-indicator bg-success"></div>
-                    </div>
-                    <div class="font-weight-bold">
-                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                            problem I've been having.</div>
-                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle"
-                            src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile_2.svg" alt="...">
-                        <div class="status-indicator"></div>
-                    </div>
-                    <div>
-                        <div class="text-truncate">I have the photos that you ordered last month, how
-                            would you like them sent to you?</div>
-                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle"
-                            src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile_3.svg" alt="...">
-                        <div class="status-indicator bg-warning"></div>
-                    </div>
-                    <div>
-                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                            the progress so far, keep up the good work!</div>
-                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
-                        <div class="status-indicator bg-success"></div>
-                    </div>
-                    <div>
-                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                            told me that people say this to all dogs, even if they aren't good...</div>
-                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                    </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+        <div class="status-indicator bg-success"></div>
+        </div>
+        <div class="font-weight-bold">
+            <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                problem I've been having.</div>
+            <div class="small text-gray-500">Emily Fowler · 58m</div>
+        </div>
+        </a>
+        <a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="dropdown-list-image mr-3">
+                <img class="rounded-circle" src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile_2.svg"
+                    alt="...">
+                <div class="status-indicator"></div>
             </div>
+            <div>
+                <div class="text-truncate">I have the photos that you ordered last month, how
+                    would you like them sent to you?</div>
+                <div class="small text-gray-500">Jae Chun · 1d</div>
+            </div>
+        </a>
+        <a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="dropdown-list-image mr-3">
+                <img class="rounded-circle" src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile_3.svg"
+                    alt="...">
+                <div class="status-indicator bg-warning"></div>
+            </div>
+            <div>
+                <div class="text-truncate">Last month's report looks great, I am very happy with
+                    the progress so far, keep up the good work!</div>
+                <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+            </div>
+        </a>
+        <a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="dropdown-list-image mr-3">
+                <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
+                <div class="status-indicator bg-success"></div>
+            </div>
+            <div>
+                <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                    told me that people say this to all dogs, even if they aren't good...</div>
+                <div class="small text-gray-500">Chicken the Dog · 2w</div>
+            </div>
+        </a>
+        <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+        </div>
         </li>
         */?>
 
@@ -187,23 +187,45 @@ use yii\bootstrap4\NavBar;
 
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span
-                    class="mr-2 d-lg-inline text-gray-600 small"><?php if($u){echo $u->name; } ?></span>
+                <span class="mr-2 d-lg-inline text-gray-600 small"><?php if($u){echo $u->name; } ?></span>
                 <img class="img-profile rounded-circle"
                     src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile.svg">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                
-            <?php 
-                
-                if(!Yii::$app->user->isGuest){ ?>
 
-                <a class="dropdown-item" href="#">
+                <?php 
+                
+                if(!Yii::$app->user->isGuest){ 
+
+                    if(Yii::$app->user->identity->user_role == 'org'){ ?>
+
+
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business/user/user-profile">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
-                <?php /*
+
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business/user/user-update">
+                    <i class="fas fa-user-edit fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Edit Profile
+                </a>
+
+                <?php }
+                
+                if(Yii::$app->user->identity->user_role == 'user'){ ?>
+
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business/user/user-profile">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Profile
+                </a>
+
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business/user/user-update">
+                    <i class="fas fa-user-edit fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Edit Profile
+                </a>
+
+                <?php }/*
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Settings
@@ -214,13 +236,13 @@ use yii\bootstrap4\NavBar;
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     Activity Log
                 </a> */ ?>
-                
+
                 <div class="dropdown-divider"></div>
 
                 <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/site/logout" data-method="post">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>                   
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
-                </a>  
+                </a>
 
 
                 <?php } ?>

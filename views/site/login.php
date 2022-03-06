@@ -20,6 +20,26 @@ $this->title = "Login - ABCGO INDIA";
                     <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                     <div class="col-lg-6">
                         <div class="p-5">
+
+                        
+                        <?php if (Yii::$app->session->hasFlash('success')): ?>
+                            <div class="alert alert-success alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                <h4><i class="icon fa fa-check"></i>Saved!</h4>
+                                <?= Yii::$app->session->getFlash('success') ?>
+                            </div>
+                        <?php endif; ?>
+
+
+                        <?php if (Yii::$app->session->hasFlash('error')): ?>
+                            <div class="alert alert-danger alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                <h4><i class="icon fa fa-check"></i>Saved!</h4>
+                                <?= Yii::$app->session->getFlash('error') ?>
+                            </div>
+                        <?php endif; ?>
+
+
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4" style="font-size: 1.5rem;font-weight: 400;">Welcome Back!</h1>
                             </div>

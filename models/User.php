@@ -6,6 +6,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\rbac\DbManager;
 
 $addressStatus = 1;
 
@@ -227,5 +228,58 @@ class User extends ActiveRecord  implements IdentityInterface
     public function validatePassword($password)
     {
         return password_verify($password, $this->password_hash);
+    }
+
+    public function saveUser($model){
+
+        $username = $model->name.rand(1,789);
+        $username = str_replace(' ', '', $username);
+        $model->username = strtolower($username);
+                
+        $model->setPassword($model->password);
+        $model->generateAuthKey();
+                
+        $model->created_at = date('Y-m-d h:i:s');
+        $model->user_role = 'user';
+        if(!empty($model->password)){
+
+            $model->password_hash = password_hash($model->password, PASSWORD_DEFAULT);
+
+        }
+
+        $auth = new DbManager;
+        $auth->init();
+        $role = $auth->getRole('user');
+        $model->user_role = $role->name;
+        $model->status = 1;
+    
+        if($model->save()){
+            
+            $auth->assign($role, $model->getId());
+
+            return $model;
+        }else{
+            return false;
+        }
+        
+    }
+
+    public function updateUser($model){
+
+           
+        $model->updated_at = date('Y-m-d h:i:s');
+        
+        if(!empty($model->password)){
+            $model->setPassword($model->password);
+            //$model->password_hash = password_hash($model->password, PASSWORD_DEFAULT);
+
+        }
+    
+        if($model->save()){
+            return $model;
+        }else{
+            return false;
+        }
+        
     }
 }

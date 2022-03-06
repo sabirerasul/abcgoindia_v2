@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '2.0.45',
-        'version' => '2.0.45.0',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '56982db4196bcb2bbc3e1ee71e98fcf706069f23',
         'name' => 'yiisoft/yii2-app-basic',
         'dev' => true,
     ),
@@ -35,6 +35,15 @@
             'install_path' => __DIR__ . '/../bower-asset/jquery',
             'aliases' => array(),
             'reference' => 'e786e3d9707ffd9b0dd330ca135b66344dcef85a',
+            'dev_requirement' => false,
+        ),
+        'bower-asset/jquery-ui' => array(
+            'pretty_version' => '1.12.1',
+            'version' => '1.12.1.0',
+            'type' => 'bower-asset',
+            'install_path' => __DIR__ . '/../bower-asset/jquery-ui',
+            'aliases' => array(),
+            'reference' => '44ecf3794cc56b65954cc19737234a3119d036cc',
             'dev_requirement' => false,
         ),
         'bower-asset/punycode' => array(
@@ -761,12 +770,12 @@
             'dev_requirement' => false,
         ),
         'yiisoft/yii2-app-basic' => array(
-            'pretty_version' => '2.0.45',
-            'version' => '2.0.45.0',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '56982db4196bcb2bbc3e1ee71e98fcf706069f23',
             'dev_requirement' => false,
         ),
         'yiisoft/yii2-bootstrap4' => array(
@@ -813,6 +822,15 @@
             'aliases' => array(),
             'reference' => '80893fc4c0df97f3638938948bf34ca43dd8bff6',
             'dev_requirement' => true,
+        ),
+        'yiisoft/yii2-jui' => array(
+            'pretty_version' => '2.0.7',
+            'version' => '2.0.7.0',
+            'type' => 'yii2-extension',
+            'install_path' => __DIR__ . '/../yiisoft/yii2-jui',
+            'aliases' => array(),
+            'reference' => 'ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed',
+            'dev_requirement' => false,
         ),
         'yiisoft/yii2-swiftmailer' => array(
             'pretty_version' => '2.1.3',
