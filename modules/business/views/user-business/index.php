@@ -3,13 +3,20 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\bootstrap4\Breadcrumbs;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\org\models\business\BusinessSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Business';
+$this->title = Yii::t('app', 'Business');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
+
+<div class="m-3">
+<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+</div>
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -57,7 +64,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 <tr>
                                     <th>Business Qrcode</th>
-                                    <td><?=$value->bus_qrcode?></td>
+                                    <td>
+                                        <?php if($value->bus_qrcode){ ?>
+                                        <img 
+                                            src='<?=Yii::getAlias('@web')?>/web/img/business/qr-code/<?=$value->bus_qrcode?>' 
+                                            width='150px' 
+                                            alt='<?=$value->bus_qrcode?>' 
+                                        />
+                                        <?php } ?>
+                                    </td>
                                 </tr>
 
                                 <tr>

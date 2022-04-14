@@ -12,6 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 
+<div class="m-3">
+<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+</div>
+
 <div class="container-fluid">
     <!-- Page Heading -->
 
@@ -88,11 +92,29 @@ $this->params['breadcrumbs'][] = $this->title;
                             
                         <tr>
                             <th scop="col">Catalog Picture</th>
-                            <td><?=$model->businessCatalogDetails->catalog_picture?></td>
+                            <td>
+                                <?php if($model->businessCatalogDetails->catalog_picture){ ?>
+                                <img 
+                                    src='<?=Yii::getAlias('@web')?>/web/img/business/catalog/image/high/<?=$model->businessCatalogDetails->catalog_picture?>' 
+                                    alt='<?=$model->businessCatalogDetails->catalog_picture?>'
+                                    style="width:300px;max-width:100%"
+                                     
+                                />
+                                <?php } ?>
+                            </td>
                         </tr>
                         <tr>
                             <th scop="col">Catalog Video</th>
-                            <td><?=$model->businessCatalogDetails->catalog_video?></td>
+                            <td>
+                                <?php if($model->businessCatalogDetails->catalog_video){ ?>
+                                <video 
+                                    src='<?=Yii::getAlias('@web')?>/web/img/business/catalog/video/<?=$model->businessCatalogDetails->catalog_video?>' 
+                                    width='100%'
+                                    controls
+                                >
+                                </video>
+                                <?php } ?>
+                            </td>
                         </tr>
                         <tr>
                             <th scop="col">Catalog Price</th>

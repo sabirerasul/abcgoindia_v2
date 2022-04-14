@@ -24,6 +24,7 @@ use app\models\business\BusinessWorkingDay;
 use app\models\business\AssignmentCatalog;
 use app\models\business\BusinessCatalogLink;
 use app\models\business\BusinessCatalogDetail;
+use yii\web\UploadedFile;
 
 /**
  * UserBusinessController implements the CRUD actions for Business model.
@@ -115,7 +116,16 @@ class UserBusinessController extends Controller
                     $username = str_replace(' ', '', $username);
                     $password_hash = password_hash($username, PASSWORD_DEFAULT);
                     $model->bus_username = $username;
-                    $model->bus_qrcode = "demoqr.png";
+
+                    //start creating qrcode
+                    $iddat = "https://www.abcgoindia.com/services/profile.php?user=".$username;
+                    $root_path = Yii::getAlias('@webroot').'/web/img/business/qr-code/';
+                    $img_url = 'https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl='.$iddat;
+                    $labelle_name = basename(md5($iddat).'.png');
+                    $this->grabImage($img_url, $root_path.$labelle_name);
+
+                    //$model->bus_qrcode = "demoqr.png";
+                    $model->bus_qrcode = $labelle_name;
                     $model->bus_token = password_hash($password_hash, PASSWORD_DEFAULT);
                     $model->created_at = date('Y-m-d h:i:s');
                     $model->save();
@@ -140,6 +150,22 @@ class UserBusinessController extends Controller
 
     }
 
+    public function grabImage($url,$saveto){
+        $ch = curl_init ($url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+        $raw=curl_exec($ch);
+        curl_close ($ch);
+
+        if(file_exists($saveto)){
+            unlink($saveto);
+        }
+        $fp = fopen($saveto,'x');
+        fwrite($fp, $raw);
+        fclose($fp);
+    }
+
     /**
      * Updates an existing Business model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -158,7 +184,25 @@ class UserBusinessController extends Controller
         if ($this->request->isPost && $model->load($this->request->post())) {
 
             $model->business_id = $business->id;
+
+            $model->business_logo_file = UploadedFile::getInstance($model, 'business_logo_file');
+            if(!empty($model->business_logo_file)){
+                $uploadPath1 = Yii::getAlias('@webroot') .'/web/img/business/business-logo/high/';
+                $fileName1 = $model->business_logo_file->baseName . '.' . $model->business_logo_file->extension;
+                $model->business_logo = $fileName1;
+                $model->business_logo_file->saveAs($uploadPath1 . $fileName1);
+
+            }
+            $model->business_banner_file = UploadedFile::getInstance($model, 'business_banner_file');
+            if(!empty($model->business_banner_file)){
+                $uploadPath2 = Yii::getAlias('@webroot') .'/web/img/business/business-banner/high/';
+                $fileName2 = $model->business_banner_file->baseName . '.' . $model->business_banner_file->extension;
+                $model->business_banner = $fileName2;
+                $model->business_banner_file->saveAs($uploadPath2 . $fileName2);
+            }
+
             $model->save();
+
             return $this->redirect(['business-profile', 'id' => $business->id]);
         }
 
@@ -168,6 +212,8 @@ class UserBusinessController extends Controller
             'user_id' => $user_id
         ]);
     }
+
+    
 
     public function actionCreateAddress()
     {
@@ -385,6 +431,24 @@ class UserBusinessController extends Controller
                 }else{
                     //$model->created_at = date('Y-m-d h:i:s');
                 }
+
+
+                $model->catalog_picture_file = UploadedFile::getInstance($model, 'catalog_picture_file');
+                if(!empty($model->catalog_picture_file)){
+                    $uploadPath1 = Yii::getAlias('@webroot') .'/web/img/business/catalog/image/high/';
+                    $fileName1 = $model->catalog_picture_file->baseName . '.' . $model->catalog_picture_file->extension;
+                    $model->catalog_picture = $fileName1;
+                    $model->catalog_picture_file->saveAs($uploadPath1 . $fileName1);
+                }
+
+                $model->catalog_video_file = UploadedFile::getInstance($model, 'catalog_video_file');
+                if(!empty($model->catalog_video_file)){
+                    $uploadPath2 = Yii::getAlias('@webroot') .'/web/img/business/catalog/video/';
+                    $fileName2 = $model->catalog_video_file->baseName . '.' . $model->catalog_video_file->extension;
+                    $model->catalog_video = $fileName2;
+                    $model->catalog_video_file->saveAs($uploadPath2 . $fileName2);
+                }
+
 
                 $model->save();
                 return $this->redirect(['catalog-view', 'id' => $model->catalog_id]);

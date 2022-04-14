@@ -14,9 +14,9 @@ use yii\bootstrap4\NavBar;
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id='nav-desktop'>
 
     <a class="navbar-brand" href="<?=Yii::getAlias('@web')?>/">
-        <img src="https://www.abcgoindia.com/img/banner/1.jpg" width="30" height="30" class="d-inline-block align-top"
+        <img src="<?=Yii::getAlias('@web')?>/web/img/logo/rlogo.png" width="100px" height="30px" class="d-inline-block align-top"
             alt="">
-        ABCGO INDIA
+        
     </a>
 
     <!--ml-auto -->
@@ -26,9 +26,20 @@ use yii\bootstrap4\NavBar;
             <a class="nav-link" href="<?=Yii::getAlias('@web')?>/"> <i class="fas fa-home"></i> Home</a>
         </li>
 
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link" href="<?=Yii::getAlias('@web')?>/business"> <i class="fas fa-briefcase"></i>
-                Business</a>
+        <li class="nav-item dropdown mx-1">
+            
+            <a class="nav-link dropdown-toggle" href="#" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-briefcase"></i>
+                Business
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <?php if(!Yii::$app->user->isGuest){ ?>
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business">Business</a>
+                <?php } ?>
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business-plan">Business Plan</a>
+            </div>
+
         </li>
 
         <li class="nav-item dropdown no-arrow mx-1">
@@ -148,8 +159,17 @@ use yii\bootstrap4\NavBar;
                 aria-haspopup="true" aria-expanded="false">
                 <span
                     class="mr-2 d-lg-inline text-gray-600 small"><?php if($u){echo $u->name; } ?></span>
+
+                    <?php
+                                if($u && $u->userDetails->profile_photo != ''){
+                                    $path = Yii::getAlias('@web').'/web/img/user/high/'.$u->userDetails->profile_photo;
+                                }else{
+                                    $path = Yii::getAlias('@web').'/themes/backend/img/undraw_profile.svg';
+                                }
+                            ?>
+
                 <img class="img-profile rounded-circle"
-                    src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile.svg">
+                    src="<?=$path?>">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -206,9 +226,19 @@ use yii\bootstrap4\NavBar;
             <a class="nav-link" href="<?=Yii::getAlias('@web')?>"> <i class="fas fa-home"></i> Home</a>
         </li>
 
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link" href="<?=Yii::getAlias('@web')?>/business"> <i class="fas fa-briefcase"></i>
-                Business</a>
+        
+        <li class="nav-item dropdown mx-1">
+            <a class="nav-link dropdown-toggle" href="#" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-briefcase"></i>
+                Business
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <?php if(!Yii::$app->user->isGuest){ ?>
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business">Business</a>
+                <?php } ?>
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business-plan">Business Plan</a>
+            </div>
         </li>
 
         <li class="nav-item dropdown no-arrow mx-1">

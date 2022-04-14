@@ -12,12 +12,11 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
         <?php //= $form->field($model, 'business_id') ?>
-        
+        <?= $form->field($model, 'email') ?>
         <?= $form->field($model, 'description')->textarea(['rows' => '6']) ?>
         <?= $form->field($model, 'keyword')->textarea(['rows' => '6']) ?>
-        <?= $form->field($model, 'business_logo') ?>
-        <?= $form->field($model, 'email') ?>
-        <?= $form->field($model, 'business_banner') ?>
+        <?= $form->field($model, 'business_logo_file')->fileInput() ?>
+        <?= $form->field($model, 'business_banner_file')->fileInput() ?>      
     
         <div class="form-group">
             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>

@@ -27,6 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
+<div class="m-3">
+<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+</div>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="row">
@@ -39,10 +43,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
 
                         <div class="image-container">
-
-                            <img class="img-circle rounded-circle"
+                            <?php
+                                if($model && $model->userDetails->profile_photo != ''){
+                                    $path = Yii::getAlias('@web').'/web/img/user/high/'.$model->userDetails->profile_photo;
+                                }else{
+                                    $path = Yii::getAlias('@web').'/themes/backend/img/undraw_profile.svg';
+                                }
+                            ?>
+                            <img 
+                                class="img-circle rounded-circle"
                                 style="width:120px;height:120px;flex-direction:column"
-                                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80" />
+                                src='<?=$path?>'
+                            />
+
+
                         </div>
 
                         <div style="text-align:center" class="mt-4">

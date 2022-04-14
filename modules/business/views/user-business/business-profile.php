@@ -2,15 +2,23 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\widgets\Pjax;
+use yii\bootstrap4\Breadcrumbs;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\org\models\business\Business */
 
-$this->title = $model->bus_name;
+$this->title =  Yii::t('app', $model->bus_name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Businesses'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 \yii\web\YiiAsset::register($this);
 ?>
+
+<div class="m-3">
+<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+</div>
 
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -48,7 +56,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <tr>
                             <th>QR Code</th>
-                            <td><?=$model->bus_qrcode?></td>
+                            <td>
+                                <?php if($model->bus_qrcode){ ?>
+                                <img 
+                                    src='<?=Yii::getAlias('@web')?>/web/img/business/qr-code/<?=$model->bus_qrcode?>' 
+                                    width='150px' alt='<?=$model->bus_qrcode?>'
+                                    style="border:1px solid #7A0BC0;box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;" 
+                                />
+                                <?php } ?>
+                                </td>
                         </tr>
 
                         <tr>
@@ -106,11 +122,27 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php if(!empty($model->businessDetails)>0){ ?>
                         <tr>
                             <th scop="col">Business Logo</th>
-                            <td><?=$model->businessDetails->business_logo?></td>
+                            <td>
+                                <?php if($model->businessDetails->business_logo){ ?>
+                                <img
+                                    src="<?=Yii::getAlias('@web')?>/web/img/business/business-logo/high/<?=$model->businessDetails->business_logo?>"
+                                    style="width:100px;height:100px;border-radius:50%;border:2px solid #7A0BC0;box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
+                                    alt='<?=$model->businessDetails->business_logo?>'
+                                />
+                                <?php } ?>
+                            </td>
                         </tr>
                         <tr>
                             <th scop="col">Business Banner</th>
-                            <td><?=$model->businessDetails->business_banner?></td>
+                            <td>
+                                <?php if($model->businessDetails->business_banner){ ?>
+                                <img
+                                    src="<?=Yii::getAlias('@web')?>/web/img/business/business-banner/high/<?=$model->businessDetails->business_banner?>"
+                                    width='100%'
+                                    alt='<?=$model->businessDetails->business_banner?>'
+                                />
+                                <?php } ?>
+                            </td>
                         </tr>
                         <tr>
                             <th scop="col">Description</th>

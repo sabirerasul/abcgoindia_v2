@@ -32,6 +32,10 @@ class User extends ActiveRecord  implements IdentityInterface
 {
     public $password;
     public $c_password;
+
+    public $old_password;
+    public $new_password;
+    public $confirm_new_password;
     
     /**
      * {@inheritdoc}
@@ -53,8 +57,19 @@ class User extends ActiveRecord  implements IdentityInterface
             [['name', 'username', 'mobile', 'password_hash', 'created_at', 'password'], 'required', 'on' => 'adminCreate'],  
             [['name', 'username', 'mobile'], 'required', 'on' => 'adminUpdate'],
 
+            [['old_password', 'new_password', 'confirm_new_password'], 'required', 'on' => 'updatePassword'],
+
+
             [['password'], 'string', 'min'=>6, 'max'=>64],
             [['c_password'], 'string', 'min'=>6, 'max'=>64],
+
+            [['old_password', 'new_password', 'confirm_new_password'], 'string', 'min'=>6, 'max'=>64],
+
+            ['old_password', 'match', 'pattern' => '/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', 'message' => "Old Password must contain at least one lower and upper case character and a digit."],
+            ['new_password', 'match', 'pattern' => '/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', 'message' => "New Password must contain at least one lower and upper case character and a digit."],
+            ['confirm_new_password', 'match', 'pattern' => '/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', 'message' => "Confirm New Password must contain at least one lower and upper case character and a digit."],
+            ['confirm_new_password', 'compare', 'compareAttribute'=>'new_password'],
+
             ['password', 'match', 'pattern' => '/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', 'message' => "Password must contain at least one lower and upper case character and a digit."],
             ['c_password', 'match', 'pattern' => '/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', 'message' => "Confirm Password must contain at least one lower and upper case character and a digit."],
             ['c_password', 'compare', 'compareAttribute'=>'password'],
@@ -217,6 +232,10 @@ class User extends ActiveRecord  implements IdentityInterface
 
 		$this->password_hash = Yii::$app->security->generatePasswordHash ( $password );
 
+	}
+
+    public function getPasswordHash($password) {
+		return Yii::$app->security->generatePasswordHash ( $password );
 	}
 
     /**

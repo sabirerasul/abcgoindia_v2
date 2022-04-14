@@ -20,12 +20,12 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+    <meta name="keywords" content="abcgo india, abcgoindia.com, india abcgo, abcgo, india, all branch communicate, group of india, abcgoindia, ABCGO, INDIA, ABCGO INDIA, ABCGOINDIA.COM, Add business, online add businesses, free qr code, business qr code provider, qr code generator, free business listing">
     <!-- Custom fonts for this template-->
     <link href="<?=Yii::getAlias('@web')?>/themes/backend/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="<?=Yii::getAlias('@web')?>/themes/backend/css/sb-admin-2.min.css" rel="stylesheet">
-    
+    <link href="<?=Yii::getAlias('@web')?>/web/img/logo/fevicon.ico" rel="icon" type="image" />
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>

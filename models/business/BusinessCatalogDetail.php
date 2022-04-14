@@ -22,6 +22,8 @@ use app\models\business\Business;
  */
 class BusinessCatalogDetail extends \yii\db\ActiveRecord
 {
+    public $catalog_picture_file;
+    public $catalog_video_file;
     /**
      * {@inheritdoc}
      */
@@ -42,6 +44,7 @@ class BusinessCatalogDetail extends \yii\db\ActiveRecord
             [['catalog_picture'], 'string', 'max' => 255],
             [['catalog_video'], 'string', 'max' => 150],
             [['catalog_price'], 'string', 'max' => 100],
+            [['catalog_picture_file', 'catalog_video_file'], 'file'],
             [['catalog_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessCatalog::className(), 'targetAttribute' => ['catalog_id' => 'id']],
         ];
     }
@@ -57,6 +60,8 @@ class BusinessCatalogDetail extends \yii\db\ActiveRecord
             'catalog_picture' => Yii::t('app', 'Catalog Picture'),
             'catalog_video' => Yii::t('app', 'Catalog Video'),
             'catalog_price' => Yii::t('app', 'Catalog Price'),
+            'catalog_picture_file' => Yii::t('app', 'Catalog Picture'),
+            'catalog_video_file' => Yii::t('app', 'Catalog Video'),
             'catalog_description' => Yii::t('app', 'Catalog Description'),
             'catalog_keyword' => Yii::t('app', 'Catalog Keyword'),
         ];

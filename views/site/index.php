@@ -17,7 +17,7 @@ $this->title = 'WELCOME - ABCGOINDIA.COM(service provider portal)';
             <div class="col-lg-12">
                 <h2>Business Profile</h2>
 
-                <img src='https://www.abcgoindia.com/img/Business%20profile.jpg' width="100%">
+                <img src='<?=Yii::getAlias('@web')?>/web/img/Business%20profile.jpg' width="100%">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                     ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
@@ -39,13 +39,13 @@ $this->title = 'WELCOME - ABCGOINDIA.COM(service provider portal)';
             <div class="col-lg-12">
                 <h2>E- market</h2>
 
-                <img src='https://www.abcgoindia.com/img/ads/img/20072020_022910.png' width="100%">
+                <img src='<?=Yii::getAlias('@web')?>/web/img/ads/img/20072020_022910.png' width="100%">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                     ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
                     fugiat nulla pariatur.</p>
 
-                <p><a class="btn btn-outline-secondary" href="https://www.abcgoindia.com/e-market/">learn more &raquo;</a></p>
+                <p><a class="btn btn-outline-secondary" href="<?=Yii::getAlias('@web')?>/web/e-market/">learn more &raquo;</a></p>
             </div>
         </div>
 </div>
@@ -56,13 +56,13 @@ $this->title = 'WELCOME - ABCGOINDIA.COM(service provider portal)';
             <div class="col-lg-12">
                 <h2>Ads</h2>
 
-                <img src='https://www.abcgoindia.com/img/Ads.png' width="100%">
+                <img src='<?=Yii::getAlias('@web')?>/web/img/Ads.png' width="100%">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                     ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
                     fugiat nulla pariatur.</p>
 
-                <p><a class="btn btn-outline-secondary" href="https://www.abcgoindia.com/promote/index.php">learn more &raquo;</a></p>
+                <p><a class="btn btn-outline-secondary" href="<?=Yii::getAlias('@web')?>/web/promote/index.php">learn more &raquo;</a></p>
             </div>
         </div>
 </div>
@@ -80,7 +80,7 @@ $this->title = 'WELCOME - ABCGOINDIA.COM(service provider portal)';
                     धन्यवाद आपका दिन शुभ हो
                 </p>
 
-                <p><a class="btn btn-outline-secondary" href="https://www.abcgoindia.com/aboutus.php/">learn more &raquo;</a></p>
+                <p><a class="btn btn-outline-secondary" href="<?=Yii::getAlias('@web')?>/web/aboutus.php/">learn more &raquo;</a></p>
             </div>
         </div>
     </div>

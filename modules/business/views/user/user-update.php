@@ -10,10 +10,14 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<div class="m-3">
+<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+</div>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-    <?= $this->render('_form-user-update', [
+    <?= $this->render('_form-user-update0', [
         'user' => $user,
         'userDetail' => $userDetail,
     ]) ?>

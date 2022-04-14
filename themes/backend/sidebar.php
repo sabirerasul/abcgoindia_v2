@@ -6,10 +6,10 @@ $userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion bg-gradient-secon" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?=Yii::getAlias('@web')?>/org">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?=Yii::getAlias('@web')?>/">
         <div class="sidebar-brand-icon rotate-n-15">
             <!--<i class="fas fa-laugh-wink"></i>-->
-            <img src="https://www.abcgoindia.com/img/banner/1.jpg" width="30" height="30"
+            <img src="<?=Yii::getAlias('@web')?>/web/img/logo/Relogo.png" width="30" height="30"
                 class="d-inline-block align-top" alt="">
         </div>
         <div class="sidebar-brand-text mx-3">ABCGO INDIA</div>
@@ -172,13 +172,17 @@ $userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role
                     <i class="fas fa-briefcase"></i>
                     Business
                 </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user-business/create">
+                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user-business/business-update">
                     <i class="fas fa-plus"></i>
                     Add
                 </a>
 
             </div>
         </div>
+
+        <a class="nav-link" href="<?=Yii::getAlias('@web')?>/" target="_blank">
+            <i class="fas fa-fw fa-globe"></i>
+            <span>Visit Site</span></a>
     </li>
 
     <?php } ?>

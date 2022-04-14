@@ -10,6 +10,11 @@ use yii\widgets\Pjax;
 $this->title = 'Catalog';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<div class="m-3">
+<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+</div>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->

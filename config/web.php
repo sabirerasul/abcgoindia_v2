@@ -60,7 +60,9 @@ $config = [
                 'login' => 'site/login',
                 'forgot' => 'site/forgot',
                 'signup' => 'site/register',
-                'register' => 'site/register'
+                'register' => 'site/register',
+                'about' => 'site/about',
+                'why-join' => 'site/why-join'
             ],
         ],
         'authManager' => [

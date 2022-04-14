@@ -188,8 +188,16 @@ use yii\bootstrap4\NavBar;
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-lg-inline text-gray-600 small"><?php if($u){echo $u->name; } ?></span>
+                <?php
+                                if($u && $u->userDetails->profile_photo != ''){
+                                    $path = Yii::getAlias('@web').'/web/img/user/high/'.$u->userDetails->profile_photo;
+                                }else{
+                                    $path = Yii::getAlias('@web').'/themes/backend/img/undraw_profile.svg';
+                                }
+                            ?>
+
                 <img class="img-profile rounded-circle"
-                    src="<?=Yii::getAlias('@web')?>/themes/backend/img/undraw_profile.svg">
+                    src="<?=$path?>">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

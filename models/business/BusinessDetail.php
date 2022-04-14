@@ -22,6 +22,8 @@ use app\models\business\Business;
  */
 class BusinessDetail extends \yii\db\ActiveRecord
 {
+    public $business_logo_file;
+    public $business_banner_file;
     /**
      * {@inheritdoc}
      */
@@ -42,6 +44,7 @@ class BusinessDetail extends \yii\db\ActiveRecord
             [['business_logo'], 'string', 'max' => 100],
             ['email', 'email'],
             [['business_banner'], 'string', 'max' => 50],
+            [['business_logo_file', 'business_banner_file'], 'file'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
         ];
     }
@@ -56,6 +59,8 @@ class BusinessDetail extends \yii\db\ActiveRecord
             'business_id' => Yii::t('app', 'Business ID'),
             'business_logo' => Yii::t('app', 'Business Logo'),
             'business_banner' => Yii::t('app', 'Business Banner'),
+            'business_logo_file' => Yii::t('app', 'Business Logo'),
+            'business_banner_file' => Yii::t('app', 'Business Banner'),
             'description' => Yii::t('app', 'Description'),
             'email' => Yii::t('app', 'Email'),
             'keyword' => Yii::t('app', 'Keyword'),

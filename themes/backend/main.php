@@ -27,6 +27,7 @@ AppAsset::register($this);
 
     <!-- Custom styles for this template-->
     <link href="<?=Yii::getAlias('@web')?>/themes/backend/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?=Yii::getAlias('@web')?>/web/img/logo/fevicon.ico" rel="icon" type="image" />
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>

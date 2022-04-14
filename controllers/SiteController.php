@@ -184,4 +184,33 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    /**
+     * Displays about page.
+     *
+     * @return string
+     */
+    public function actionWhyJoin()
+    {
+        return $this->render('why-join');
+    }
+
+    // public function actionAssignUserRole()
+    // {
+
+    //     $model = User::find()->all();
+        
+    //     foreach ($model as $key => $value) {
+            
+    //         $auth = new DbManager;
+    //         $auth->init();
+    //         $role = $auth->getRole('user');
+    //         $auth->assign($role, $value->id);
+        
+    //     }
+        
+
+        
+    // }
+
 }

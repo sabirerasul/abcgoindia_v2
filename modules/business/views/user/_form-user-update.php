@@ -20,7 +20,8 @@ use yii\widgets\ActiveForm;
                     <div class="row">
                         <div class="col-12">
                         
-                            <?= $form->field($userDetail, 'profile_photo') ?>
+                            
+                            <?= $form->field($userDetail, 'profile_photo_file')->fileInput() ?>
                          
                         </div>
                     </div>

@@ -16,6 +16,7 @@ use app\models\UserHobby;
 use app\models\UserProfileLink;
 use app\modules\org\models\UserSearch;
 use yii\widgets\Pjax;
+use yii\web\UploadedFile;
 
 
 /**
@@ -107,6 +108,7 @@ class UserController extends Controller
             if ($user->load($this->request->post()) && $userDetail->load($this->request->post())) {
                 
                 $model = $user->updateUser($user, $userDetail);
+
                 $userDetail->user_id = $model->id;
                 if($model){
                     if($userDetail->saveUserDetail($userDetail)){
@@ -265,6 +267,51 @@ class UserController extends Controller
         $url = Yii::getAlias('@web')."/business/user-business/index?user_id=".$id;
         $this->redirect($url);
     }
+
+
+    public function actionChangePassword()
+    {
+        $id = $this->userId();
+        $model = $this->findModel($id);
+                
+        $model->scenario = 'updatePassword';
+
+        if ($model->load($this->request->post())) {
+            
+            if(password_verify($model->old_password, $model->password_hash)){
+
+                if($model->old_password != $model->new_password){
+                    $model->setPassword($model->new_password);
+                    $model->save();
+
+                    \Yii::$app->getSession()->setFlash('success', 'Your password successfully change');
+
+                    return $this->redirect('change-password');
+                }else{
+
+                    \Yii::$app->getSession()->setFlash('danger1', 'Old password and New password cannot be same');
+
+                    return $this->redirect('change-password');
+                }
+
+            }else{
+
+                \Yii::$app->getSession()->setFlash('danger', 'Your old password incorrect');
+
+                return $this->redirect('change-password');
+            }
+
+            //'old_password', 'new_password', 'confirm_new_password'
+            
+
+        }
+
+        return $this->render('user-change-password', [
+            'model' => $model
+        ]);
+
+    }
+
 
     /**
      * Finds the User model based on its primary key value.

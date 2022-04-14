@@ -10,6 +10,10 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Businesses'), 'url' 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<div class="m-3">
+<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+</div>
+
 <div class="container-fluid">
     <!-- Page Heading -->
 

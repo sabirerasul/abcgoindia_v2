@@ -17,17 +17,17 @@
       <div class="footer-quicklink col-3">
         <h5>QUICK LINK</h5>
         <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="../services/" class="nav-link p-0 text-muted">E-Market</a></li>
-            <li class="nav-item mb-2"><a href="../application/" class="nav-link p-0 text-muted">Web Apps</a></li>
-            <li class="nav-item mb-2"><a href="../aboutus.php" class="nav-link p-0 text-muted">About us</a></li>
-            <li class="nav-item mb-2"><a href="../whyjoin.php" class="nav-link p-0 text-muted">Why Join</a></li>
-            <li class="nav-item mb-2"><a href="../help_center/" class="nav-link p-0 text-muted">Help Center</a></li>
-            <li class="nav-item mb-2"><a href="<?=Yii::getAlias('@web')?>/site/register" class="nav-link p-0 text-muted">Register</a></li>
-            <li class="nav-item mb-2"><a href="<?=Yii::getAlias('@web')?>/site/login" class="nav-link p-0 text-muted">Log In</a></li>
+            <li class="nav-item mb-2"><a href="<?=Yii::getAlias('@web')?>/e-market" class="nav-link p-0 text-muted">E-Market</a></li>
+            <!--<li class="nav-item mb-2"><a href="../application/" class="nav-link p-0 text-muted">Web Apps</a></li>-->
+            <li class="nav-item mb-2"><a href="<?=Yii::getAlias('@web')?>/why-join" class="nav-link p-0 text-muted">Why Join</a></li>
+            <li class="nav-item mb-2"><a href="<?=Yii::getAlias('@web')?>/about" class="nav-link p-0 text-muted">About us</a></li>
+            <li class="nav-item mb-2"><a href="https://blog.abcgoindia.com" class="nav-link p-0 text-muted">Help Center</a></li>
+            <li class="nav-item mb-2"><a href="<?=Yii::getAlias('@web')?>/register" class="nav-link p-0 text-muted">Register</a></li>
+            <li class="nav-item mb-2"><a href="<?=Yii::getAlias('@web')?>/login" class="nav-link p-0 text-muted">Log In</a></li>
         </ul>
       </div>
 
-      <div class="footer-services col-3">
+      <!--<div class="footer-services col-3">
         <h5>OUR SERVICES</h5>
         <ul class="nav flex-column">
             <li class="nav-item mb-2"><a href="../promote/" class="nav-link p-0 text-muted">Create Ads</a></li>
@@ -35,13 +35,13 @@
             <li class="nav-item mb-2"><a href="../promote/business.php" class="nav-link p-0 text-muted">Promote Business</a></li>
             <li class="nav-item mb-2"><a href="../promote/items.php" class="nav-link p-0 text-muted">Promote Items/Services</a></li>
         </ul>
-      </div>
+      </div>-->
 
       <div class="footer-terms col-3">
         <h5>OUR TERM&apos;S AND POLICY</h5>
         <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="../terms_and_policy/terms.php" target="_blank" class="nav-link p-0 text-muted">Term&apos;s and Conditions</a></li>
-            <li class="nav-item mb-2"><a href="../terms_and_policy/policy.php" target="_blank" class="nav-link p-0 text-muted">Privacy and Policy</a></li>
+            <li class="nav-item mb-2"><a href="<?=Yii::getAlias('@web')?>/terms-policy/terms" target="_blank" class="nav-link p-0 text-muted">Term&apos;s and Conditions</a></li>
+            <li class="nav-item mb-2"><a href="<?=Yii::getAlias('@web')?>/terms-policy/policy" target="_blank" class="nav-link p-0 text-muted">Privacy and Policy</a></li>
         </ul>
       </div>
     </div>
