@@ -11,6 +11,7 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    //'catchAll' => ['site/offline'],
     'modules' => [
         'org' => [
             'class' => 'app\modules\org\index',
@@ -62,7 +63,7 @@ $config = [
                 'signup' => 'site/register',
                 'register' => 'site/register',
                 'about' => 'site/about',
-                'why-join' => 'site/why-join'
+                'why-join' => 'site/why-join',
             ],
         ],
         'authManager' => [

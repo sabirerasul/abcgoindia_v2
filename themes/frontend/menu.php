@@ -197,7 +197,7 @@ use yii\bootstrap4\NavBar;
                 </a>
                 <?php }else{ ?>
 
-                <a class="dropdown-item" href="<?=Yii::getAlias('@web');?>/user/profile">
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web');?>/business/user/user-profile">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
@@ -214,6 +214,14 @@ use yii\bootstrap4\NavBar;
                 </a>               
 
                 <?php } ?>
+
+                <div class="dropdown-divider"></div>
+                
+                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/scan/">
+                    <i class="fas fa-qrcode fa-sm fa-fw mr-2 text-gray-400"></i>        
+                    Scan QR Code
+                </a>
+
             </div>
         </li>
     </ul>

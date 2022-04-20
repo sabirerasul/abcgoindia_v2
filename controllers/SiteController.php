@@ -213,4 +213,9 @@ class SiteController extends Controller
         
     // }
 
+    public function actionOffile()
+    {
+        echo "You are offline";
+    }
+
 }

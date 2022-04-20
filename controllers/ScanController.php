@@ -8,15 +8,11 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\User;
-use app\models\UserAddress;
-use app\models\UserDetail;
-use app\models\UserHobby;
-use app\models\UserProfileLink;
-use app\models\business\Business;
+use app\models\newUser;
+use app\models\LoginForm;
+use app\models\ContactForm;
 
-
-
-class UserController extends Controller
+class ScanController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -26,10 +22,10 @@ class UserController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'profile', 'update'],
+                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'profile', 'update'],
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -67,42 +63,13 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $id = Yii::$app->user->identity->id;
-
-        return $this->render('profile', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->render('index');
     }
 
-    public function actionProfile()
+    public function actionBusinessProfile()
     {
-        $id = Yii::$app->user->identity->id;
-        return $this->render('profile', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->render('business-profile');
     }
+   
 
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    protected function findModel($id)
-    {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    
 }

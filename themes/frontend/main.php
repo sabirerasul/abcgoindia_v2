@@ -28,6 +28,8 @@ AppAsset::register($this);
     <link href="<?=Yii::getAlias('@web')?>/web/img/logo/fevicon.ico" rel="icon" type="image" />
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <?php $this->head() ?>
 </head>
 <body id="page-top">
@@ -80,7 +82,7 @@ AppAsset::register($this);
     <!-- Page level custom scripts -->
     <!--<script src="<?=Yii::getAlias('@web')?>/themes/backend/js/demo/chart-area-demo.js"></script>-->
     <!--<script src="<?=Yii::getAlias('@web')?>/themes/backend/js/demo/chart-pie-demo.js"></script>-->
-
+    
 </body>
 </html>
 <?php $this->endPage() ?>
