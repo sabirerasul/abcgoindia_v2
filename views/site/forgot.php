@@ -1,5 +1,9 @@
 <?php
 
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 $this->title = "Forgot Password - ABCGO INDIA";
 
 ?>
@@ -21,25 +25,25 @@ $this->title = "Forgot Password - ABCGO INDIA";
                                 <p class="mb-4">We get it, stuff happens. Just enter your email address below
                                     and we'll send you a link to reset your password!</p>
                             </div>
-                            <form class="user">
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        aria-describedby="emailHelp" placeholder="Enter Email Address...">
-                                </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                    Reset Password
-                                </a>
-                            </form>
+                            
+                            <?php $form = ActiveForm::begin(['action' => '', 'options' => ['class' => 'user']]); ?>
+
+                            <?= $form->field($model, 'email')->textInput(['maxlength' => 255, 'class' => 'form-control form-control-user', 'placeholder' => 'Email / Mobile'])->label(false) ?>
+
+                            <?= Html::submitButton('Reset Password', ['class' => 'btn btn-primary btn-user btn-block']) ?>
+                            
+                            <?php ActiveForm::end(); ?>
+
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="<?=Yii::getAlias('@web')?>/register">Create an Account!</a>
+                                <a class="small" href="<?=Url::to(['/site/signup/'])?>">Create an Account!</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="<?=Yii::getAlias('@web')?>/login">Already have an account?
+                                <a class="small" href="<?=Url::to(['/site/login/'])?>">Already have an account?
                                     Login!</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="<?=Yii::getAlias('@web')?>/">Go Home</a>
+                                <a class="small" href="<?=Url::to(['/'])?>">Go Home</a>
                             </div>
                         </div>
                     </div>

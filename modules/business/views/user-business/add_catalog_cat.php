@@ -5,14 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\org\models\User */
 
-$this->title = Yii::t('app', 'Update Address: {name}', [
-    'name' => 'ddfd',
-]);
+$this->title = Yii::t('app', 'Add Catalog Category');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'sdsdsd', 'url' => ['view', 'id' => '32']];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-
 
 <div class="m-3">
 <?= Html::a( 'Back', Yii::$app->request->referrer)?>
@@ -29,8 +25,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         </div>
         <div class="card-body">
             <div class="table-responsive">
-
-            <?= $this->render('_form-catalog-details', [
+            
+            <?= $this->render('_form-catalog-cat', [
                 'model' => $model,
             ]) ?>
 

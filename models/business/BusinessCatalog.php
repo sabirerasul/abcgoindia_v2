@@ -42,7 +42,7 @@ class BusinessCatalog extends \yii\db\ActiveRecord
         return [
             [['catalog_name', 'catalog_token', 'created_at'], 'required'],
             [['catalog_name'], 'string'],
-            [['created_at', 'updated_at', 'status'], 'safe'],
+            [['catalog_cat_id', 'created_at', 'updated_at', 'status'], 'safe'],
             [['catalog_token'], 'string', 'max' => 20],            
         ];
     }
@@ -55,6 +55,7 @@ class BusinessCatalog extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'catalog_name' => Yii::t('app', 'Catalog Name'),
+            'catalog_cat_id' => Yii::t('app', 'Catalog Category'),
             'catalog_token' => Yii::t('app', 'Catalog Token'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
@@ -90,6 +91,16 @@ class BusinessCatalog extends \yii\db\ActiveRecord
     public function getAssignmentCatalog()
     {
         return $this->hasOne(AssignmentCatalog::className(), ['catalog_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[BusinessCatalogs]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessCatalogCat()
+    {
+        return $this->hasOne(BusinessCatalogCat::className(), ['id' => 'catalog_cat_id']);
     }
 
 }

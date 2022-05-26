@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="m-3">
-<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+    <?=Html::a("Back", ["/business/"]);?>
 </div>
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="h3 mb-2 text-gray-800"><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <a class="btn btn-success" href="<?=Yii::getAlias('@web')?>/business/user-business/business-update">Add
+        <a class="btn btn-success" href="<?=Yii::getAlias('@web')?>/business/user-business/create-business">Add
             Business</a>
     </p>
 
@@ -34,6 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- DataTales Example -->
         <?php foreach ($model as $key => $val) { ?>
         <?php $value = $val->business; ?>
+
+        <?php if($value->is_deleted == 1){continue;} ?>
         <div class="col-md-6 col">
             <div class="card shadow mb-4">
 
@@ -115,14 +117,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <tr>
                                     <td colspan='2'>
                                         
+                                        <?= Html::a(Yii::t('app', 'Public Profile'), ['/e-market/business-profile', 'id' => $value->bus_username], ['target' => '_blank', 'class' => 'btn btn-success']) ?>
                                         <?= Html::a(Yii::t('app', 'Profile'), ['business-profile', 'id' => $value->id], ['class' => 'btn btn-success']) ?>
 
                                         <?= Html::a(Yii::t('app', 'Catalog'), ['catalog', 'id' => $value->id], ['class' => 'btn btn-primary']) ?>
                                         
-                                        <?= Html::a(Yii::t('app', 'Delete'), ['delete-address', 'id' => $value->id], [
+                                        <?= Html::a(Yii::t('app', 'Delete'), ['delete-business', 'id' => $value->id], [
                                             'class' => 'btn btn-danger',
                                             'data' => [
-                                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                                'confirm' => Yii::t('app', 'Are you sure you want to delete this business?'),
                                                 'method' => 'post',
                                             ],
                                         ]) ?>

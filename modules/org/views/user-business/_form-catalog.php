@@ -17,6 +17,13 @@ use yii\widgets\ActiveForm;
         <?php //= $form->field($model, 'updated_at') ?>
         <?php //= $form->field($model, 'status') ?>
 
+        <?= $form->field($model, 'catalog_cat_id')->dropDownList($categories, ['prompt'=>'Select Catalog Category']) ?>
+            
+
+            <div class="my-3">
+                <a href="<?=Yii::getAlias('@web')?>/org/user-business/add-catalog-cat?business_id=<?=$_GET['business_id']?>&id=<?=$_GET['id']?>" class="btn btn-primary">Add</a>
+            </div>
+
         <?= $form->field($model, 'status')
         ->dropDownList(
             [0 => 'Deactive', 1 => 'Active', 2 => 'Hide'],           // Flat array ('id'=>'label')

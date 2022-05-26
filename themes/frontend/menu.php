@@ -9,7 +9,7 @@ use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
-
+use yii\helpers\Url;
 ?>
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id='nav-desktop'>
 
@@ -23,28 +23,32 @@ use yii\bootstrap4\NavBar;
     <ul class="navbar-nav desk-nav">
 
         <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link" href="<?=Yii::getAlias('@web')?>/"> <i class="fas fa-home"></i> Home</a>
+            <a class="nav-link" href="<?=Url::to(['/'])?>"> <i class="fas fa-home"></i> Home</a>
         </li>
 
         <li class="nav-item dropdown mx-1">
             
-            <a class="nav-link dropdown-toggle" href="#" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle dropdown-icon-deg" href="#" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-briefcase"></i>
                 Business
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <?php if(!Yii::$app->user->isGuest){ ?>
-                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business">Business</a>
+                <a class="dropdown-item" href="<?=Url::to(['/business/'])?>">Business</a>
                 <?php } ?>
-                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/business-plan">Business Plan</a>
+                <a class="dropdown-item" href="<?=Url::to(['/business-plan/'])?>">Business Plan</a>
             </div>
 
         </li>
 
         <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link" href="<?=Yii::getAlias('@web');?>/e-market"> <i class="fas fa-cube"></i> E-Market</a>
+            <a class="nav-link" href="<?=Url::to(['/e-market/'])?>"> <i class="fas fa-cube"></i> E-Market</a>
         </li>
+
+        <!-- <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link" href="<?=Url::to(['/e-market/search'])?>"> <i class="fas fa-search"></i> Search</a>
+        </li> -->
 
     </ul>
     <?php /*
@@ -68,7 +72,7 @@ use yii\bootstrap4\NavBar;
                     </form> */ ?>
 
     <!-- Topbar Navbar -->
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto text-nowrap">
 
         <?php /*
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -186,18 +190,18 @@ use yii\bootstrap4\NavBar;
                 */ ?>
 
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/site/login">
+                <a class="dropdown-item" href="<?=Url::to(['/site/login/'])?>">
                     <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Log In
                 </a>
 
-                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/site/register">
+                <a class="dropdown-item" href="<?=Url::to(['/site/register/'])?>">
                     <i class="fas fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
                     Register
                 </a>
                 <?php }else{ ?>
 
-                <a class="dropdown-item" href="<?=Yii::getAlias('@web');?>/business/user/user-profile">
+                <a class="dropdown-item" href="<?=Url::to(['/business/user/user-profile'])?>">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
@@ -208,7 +212,7 @@ use yii\bootstrap4\NavBar;
 
                 <div class="dropdown-divider"></div>
                 
-                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/site/logout" data-method="post">
+                <a class="dropdown-item" href="<?=Url::to(['/site/logout/'])?>" data-method="post">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>                   
                     Logout
                 </a>               
@@ -217,7 +221,7 @@ use yii\bootstrap4\NavBar;
 
                 <div class="dropdown-divider"></div>
                 
-                <a class="dropdown-item" href="<?=Yii::getAlias('@web')?>/scan/">
+                <a class="dropdown-item" href="<?=Url::to(['/scan/'])?>">
                     <i class="fas fa-qrcode fa-sm fa-fw mr-2 text-gray-400"></i>        
                     Scan QR Code
                 </a>
@@ -228,15 +232,15 @@ use yii\bootstrap4\NavBar;
 
 </nav>
 <nav class='navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow mobile-nav' id="nav-mobile">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav text-nowrap">
 
         <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link" href="<?=Yii::getAlias('@web')?>"> <i class="fas fa-home"></i> Home</a>
+            <a class="nav-link" href="<?=Url::to(['/'])?>"> <i class="fas fa-home"></i> Home</a>
         </li>
 
         
         <li class="nav-item dropdown mx-1">
-            <a class="nav-link dropdown-toggle" href="#" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle dropdown-icon-deg" href="#" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-briefcase"></i>
                 Business
             </a>
@@ -252,6 +256,10 @@ use yii\bootstrap4\NavBar;
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link" href="<?=Yii::getAlias('@web');?>/e-market"> <i class="fas fa-cube"></i> E-Market</a>
         </li>
+
+        <!-- <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link" href="<?=Url::to(['/e-market/search'])?>"> <i class="fas fa-search"></i> Search</a>
+        </li> -->
 
     </ul>
 </nav>
@@ -284,4 +292,22 @@ nav li a i {
 #nav-mobile ul li a, #nav-desktop ul li a{
     color: #333;
 }
+
+.dropdown-icon-deg::after{
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+
+.topbar .nav-item.dropdown.show .dropdown-icon-deg::after {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
 </style>

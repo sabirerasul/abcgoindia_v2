@@ -25,9 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
             <div class="table-responsive">
         
-            <?= $this->render('_form-business', [
+            <?= $this->render('_form-update-business', [
                 'model' => $model,
                 'categories' => $categories,
+                'modelDetails' => $modelDetails
             ]) ?>
 
             </div>

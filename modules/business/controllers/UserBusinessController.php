@@ -24,7 +24,9 @@ use app\models\business\BusinessWorkingDay;
 use app\models\business\AssignmentCatalog;
 use app\models\business\BusinessCatalogLink;
 use app\models\business\BusinessCatalogDetail;
+use app\models\business\BusinessCatalogCat;
 use yii\web\UploadedFile;
+use yii\helpers\Url;
 
 /**
  * UserBusinessController implements the CRUD actions for Business model.
@@ -98,56 +100,81 @@ class UserBusinessController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionBusinessUpdate($id=0)
+    public function actionCreateBusiness()
     {
         $user_id = $this->userId();
-        $old = Business::find()->where(['id' => $id])->one();
-        $model = $old ? $old : new Business();
+
+        $model = new Business();
+        $modelDetails = new BusinessDetail();
+        $AssignmentBusiness = new AssignmentBusiness();
+
         $categories = ArrayHelper::map(BusinessCat::find()->where(['status' => 1])->all(), 'id', 'cat_name');
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                
-                if($old){
-                    $model->updated_at = date('Y-m-d h:i:s');
-                    $model->save();
+        if ($this->request->isPost && $model->load($this->request->post())) {
+                                    
+            $username = $model->bus_name.rand(1,789);
+            $username = str_replace(' ', '', $username);
+            $password_hash = password_hash($username, PASSWORD_DEFAULT);
+            $model->bus_username = $username;
+
+            //start creating qrcode
+            $iddat = "https://abcgoindia.com/e-market/".$username;
+            $root_path = Yii::getAlias('@webroot').'/web/img/business/qr-code/';
+            $img_url = 'https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl='.$iddat;
+            $labelle_name = basename(md5($iddat).'.png');
+            $this->grabImage($img_url, $root_path.$labelle_name);
+
+            //$model->bus_qrcode = "demoqr.png";
+            $model->bus_qrcode = $labelle_name;
+            $model->bus_token = password_hash($password_hash, PASSWORD_DEFAULT);
+            $model->created_at = date('Y-m-d h:i:s');
+            $model->save();
+
+            $modelDetails->business_id = $model->id;
+            $modelDetails->save();
+
+            $openTime = "10:00:00";
+            $closeTime = "17:00:00";
+
+            $day = [
+                '0' => 'Sunday',
+                '1' => 'Monday',
+                '2' => 'Tuesday',
+                '3' => 'Wednesday',
+                '4' => 'Thursday',
+                '5' => 'Friday',
+                '6' => 'Saturday'
+            ];
+            
+            foreach ($day as $k => $v) {
+                $m = new BusinessWorkingDay();
+                $m->business_id = $model->id;
+                $m->day = $v;
+                $m->from_time = $openTime;
+                $m->to_time = $closeTime;
+                if($v == 'Sunday'){
+                    $m->working_day = 0;
                 }else{
-                    $username = $model->bus_name.rand(1,789);
-                    $username = str_replace(' ', '', $username);
-                    $password_hash = password_hash($username, PASSWORD_DEFAULT);
-                    $model->bus_username = $username;
-
-                    //start creating qrcode
-                    $iddat = "https://www.abcgoindia.com/services/profile.php?user=".$username;
-                    $root_path = Yii::getAlias('@webroot').'/web/img/business/qr-code/';
-                    $img_url = 'https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl='.$iddat;
-                    $labelle_name = basename(md5($iddat).'.png');
-                    $this->grabImage($img_url, $root_path.$labelle_name);
-
-                    //$model->bus_qrcode = "demoqr.png";
-                    $model->bus_qrcode = $labelle_name;
-                    $model->bus_token = password_hash($password_hash, PASSWORD_DEFAULT);
-                    $model->created_at = date('Y-m-d h:i:s');
-                    $model->save();
-
-                    $AssignmentBusiness = new AssignmentBusiness();
-                    $AssignmentBusiness->user_id = $user_id;
-                    $AssignmentBusiness->business_id = $model->id;
-                    $AssignmentBusiness->save();
+                    $m->working_day = 1;
                 }
-
-                return $this->redirect(['index']);
+                
+                $m->created_at = date('Y-m-d h:i:s');
+                $m->save();
             }
-        } else {
+
+            $AssignmentBusiness->user_id = $user_id;
+            $AssignmentBusiness->business_id = $model->id;
+            $AssignmentBusiness->save();
+
+            return $this->redirect(['index']);
+        }else{
             $model->loadDefaultValues();
         }
 
-        return $this->render('business-update', [
+        return $this->render('business-create', [
             'model' => $model,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
-
-
     }
 
     public function grabImage($url,$saveto){
@@ -166,54 +193,61 @@ class UserBusinessController extends Controller
         fclose($fp);
     }
 
-    /**
-     * Updates an existing Business model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionBusinessUpdateDetails()
+    public function actionUpdateBusiness($id)
     {
-        extract($_REQUEST);
         $user_id = $this->userId();
-        $business = $this->findModel($id);
-        $old = BusinessDetail::find()->where(['business_id' => $id])->one();
-        $model = $old ? $old : new BusinessDetail();
-                 
-        if ($this->request->isPost && $model->load($this->request->post())) {
 
-            $model->business_id = $business->id;
+        $model = Business::find()->where(['id' => $id])->one();
+        $modelDetails = BusinessDetail::find()->where(['business_id' => $id])->one();
+        
+        $categories = ArrayHelper::map(BusinessCat::find()->where(['status' => 1])->all(), 'id', 'cat_name');
 
-            $model->business_logo_file = UploadedFile::getInstance($model, 'business_logo_file');
-            if(!empty($model->business_logo_file)){
-                $uploadPath1 = Yii::getAlias('@webroot') .'/web/img/business/business-logo/high/';
-                $fileName1 = $model->business_logo_file->baseName . '.' . $model->business_logo_file->extension;
-                $model->business_logo = $fileName1;
-                $model->business_logo_file->saveAs($uploadPath1 . $fileName1);
-
-            }
-            $model->business_banner_file = UploadedFile::getInstance($model, 'business_banner_file');
-            if(!empty($model->business_banner_file)){
-                $uploadPath2 = Yii::getAlias('@webroot') .'/web/img/business/business-banner/high/';
-                $fileName2 = $model->business_banner_file->baseName . '.' . $model->business_banner_file->extension;
-                $model->business_banner = $fileName2;
-                $model->business_banner_file->saveAs($uploadPath2 . $fileName2);
-            }
-
+        if ($this->request->isPost && $model->load($this->request->post()) && $modelDetails->load($this->request->post())) {
+            
+            $model->created_at = date('Y-m-d h:i:s');            
             $model->save();
 
-            return $this->redirect(['business-profile', 'id' => $business->id]);
+            $modelDetails->business_logo_file = UploadedFile::getInstance($modelDetails, 'business_logo_file');
+            if(!empty($modelDetails->business_logo_file)){
+                $uploadPath1 = Yii::getAlias('@webroot') .'/web/img/business/business-logo/high/';
+                $fileName1 = $modelDetails->business_logo_file->baseName . '.' . $modelDetails->business_logo_file->extension;
+                $modelDetails->business_logo = $fileName1;
+                $modelDetails->business_logo_file->saveAs($uploadPath1 . $fileName1);
+
+            }
+
+            $modelDetails->business_banner_file = UploadedFile::getInstance($modelDetails, 'business_banner_file');
+            if(!empty($modelDetails->business_banner_file)){
+                $uploadPath2 = Yii::getAlias('@webroot') .'/web/img/business/business-banner/high/';
+                $fileName2 = $modelDetails->business_banner_file->baseName . '.' . $modelDetails->business_banner_file->extension;
+                $modelDetails->business_banner = $fileName2;
+                $modelDetails->business_banner_file->saveAs($uploadPath2 . $fileName2);
+            }
+
+            $modelDetails->save();
+            
+            return $this->redirect(['business-profile', 'id' =>$model->id]);
+        }else{
+            $model->loadDefaultValues();
         }
 
-        return $this->render('update-details', [
-            'model' => $business,
-            'businessDetails' => $model,
-            'user_id' => $user_id
+        return $this->render('business-update', [
+            'model' => $model,
+            'categories' => $categories,
+            'modelDetails' => $modelDetails
         ]);
     }
-
     
+    public function actionDeleteBusiness($id){
+        $model = $this->findModel($id);
+
+        $model->is_deleted = 1;
+        $model->status = 0;
+        $model->save();
+        
+        $url = Url::to(['/business/user-business']);
+        return $this->redirect($url);
+    }
 
     public function actionCreateAddress()
     {
@@ -373,11 +407,62 @@ class UserBusinessController extends Controller
     {
         $model = $this->findModel($id);
 
-        $catalog = $model->assignmentCatalog;
+        //$catalog = $model->assignmentCatalog;
+        $catalog = assignmentCatalog::find()->where(['business_id' => $model->id])->orderBy(['catalog_id' => SORT_DESC])->all();
 
         return $this->render('view_catalog', [
             'model' => $catalog,
             'business_id' => $id
+        ]);
+    }
+
+    public function actionCreateCatalog($businessId)
+    {
+        $model = new BusinessCatalog();
+        $modelDetails = new BusinessCatalogDetail();
+
+        $categories = ArrayHelper::map(BusinessCatalogCat::find()->where(['status' => 1])->all(), 'id', 'title');
+
+        if ($this->request->isPost && $model->load($this->request->post()) && $modelDetails->load($this->request->post())) {
+
+            $model->catalog_token = "".rand(1234, 56789);
+            $model->created_at = date('Y-m-d h:i:s');
+            $model->save();
+            $assignmentModel = new AssignmentCatalog();
+            $assignmentModel->catalog_id = $model->id;
+            $assignmentModel->business_id = $businessId;
+            $assignmentModel->save();
+            
+            $modelDetails->catalog_id = $model->id;
+            $modelDetails->catalog_picture_file = UploadedFile::getInstance($modelDetails, 'catalog_picture_file');
+            if(!empty($modelDetails->catalog_picture_file)){
+                $uploadPath1 = Yii::getAlias('@webroot') .'/web/img/business/catalog/image/high/';
+                $fileName1 = $modelDetails->catalog_picture_file->baseName . '.' . $modelDetails->catalog_picture_file->extension;
+                $modelDetails->catalog_picture = $fileName1;
+                $modelDetails->catalog_picture_file->saveAs($uploadPath1 . $fileName1);
+            }
+
+            $modelDetails->catalog_video_file = UploadedFile::getInstance($modelDetails, 'catalog_video_file');
+            if(!empty($modelDetails->catalog_video_file)){
+                $uploadPath2 = Yii::getAlias('@webroot') .'/web/img/business/catalog/video/';
+                $fileName2 = $modelDetails->catalog_video_file->baseName . '.' . $modelDetails->catalog_video_file->extension;
+                $modelDetails->catalog_video = $fileName2;
+                $modelDetails->catalog_video_file->saveAs($uploadPath2 . $fileName2);
+            }
+
+            $modelDetails->save();
+            return $this->redirect(['catalog', 'id' => $businessId]);
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('update-catalog', [
+            'model' => $model,
+            'modelDetails' => $modelDetails,
+            'categories' => $categories,
+            'businessId' => $businessId,
+            'type' => 'new',
+            'catalogId' => 0
         ]);
     }
 
@@ -386,79 +471,92 @@ class UserBusinessController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionUpdateCatalog($businessId, $id=0)
+    public function actionUpdateCatalog($id=0)
     {
         $old = BusinessCatalog::find()->where(['id' => $id])->one();
-        $model = $old ? $old : new BusinessCatalog();
+        $bid = $old->assignmentCatalog->business_id;
+        
+        if($old){
+            $model = $old;
+            $modelDetails = BusinessCatalogDetail::find()->where(['catalog_id' => $model->id])->one();
+        }else{
+            $model = new BusinessCatalog();
+            $modelDetails = new BusinessCatalogDetail();
+        }
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                if($old){
+        $categories = ArrayHelper::map(BusinessCatalogCat::find()->where(['status' => 1])->all(), 'id', 'title');
 
-                    $model->updated_at = date('Y-m-d h:i:s');
-                    $model->save();
-
-                }else{
-                    $model->catalog_token = "".rand(1234, 56789);
-                    $model->created_at = date('Y-m-d h:i:s');
-                    $model->save();
-                    $assignmentModel = new AssignmentCatalog();
-                    $assignmentModel->catalog_id = $model->id;
-                    $assignmentModel->business_id = $businessId;
-                    $assignmentModel->save();
-                }
-
-                return $this->redirect(['catalog-view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post()) && $modelDetails->load($this->request->post())) {
+                
+            if($old){
+                $model->updated_at = date('Y-m-d h:i:s');
+                $model->save();
+            }else{
+                $model->catalog_token = "".rand(1234, 56789);
+                $model->created_at = date('Y-m-d h:i:s');
+                $model->save();
             }
+
+            $modelDetails->catalog_picture_file = UploadedFile::getInstance($modelDetails, 'catalog_picture_file');
+            if(!empty($modelDetails->catalog_picture_file)){
+                $uploadPath1 = Yii::getAlias('@webroot') .'/web/img/business/catalog/image/high/';
+                $fileName1 = $modelDetails->catalog_picture_file->baseName . '.' . $modelDetails->catalog_picture_file->extension;
+                $modelDetails->catalog_picture = $fileName1;
+                $modelDetails->catalog_picture_file->saveAs($uploadPath1 . $fileName1);
+            }
+
+            $modelDetails->catalog_video_file = UploadedFile::getInstance($modelDetails, 'catalog_video_file');
+            if(!empty($modelDetails->catalog_video_file)){
+                $uploadPath2 = Yii::getAlias('@webroot') .'/web/img/business/catalog/video/';
+                $fileName2 = $modelDetails->catalog_video_file->baseName . '.' . $modelDetails->catalog_video_file->extension;
+                $modelDetails->catalog_video = $fileName2;
+                $modelDetails->catalog_video_file->saveAs($uploadPath2 . $fileName2);
+            }
+
+            $modelDetails->save();
+            return $this->redirect(['catalog', 'id' => $bid]);
+
         } else {
             $model->loadDefaultValues();
         }
 
         return $this->render('update-catalog', [
             'model' => $model,
+            'modelDetails' => $modelDetails,
+            'categories' => $categories,
+            'businessId' => $bid,
+            'type' => 'old',
+            'catalogId' => $model->id
         ]);
     }
-
-    public function actionUpdateCatalogDetails($id)
+    
+    public function actionAddCatalogCat($businessId=0, $id=0, $type='new')
     {
-        $old = BusinessCatalogDetail::find()->where(['catalog_id' => $id])->one();
-        $model = $old ? $old : new BusinessCatalogDetail();
-        $model->catalog_id = $id;
+        $model = new BusinessCatalogCat();
+
+        if(empty($businessId)){
+            $this->redirect(Yii::getAlias('@web').'/business/user-business/');
+        }
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                if($old){
-                    //$model->updated_at = date('Y-m-d h:i:s');
-                }else{
-                    //$model->created_at = date('Y-m-d h:i:s');
-                }
 
-
-                $model->catalog_picture_file = UploadedFile::getInstance($model, 'catalog_picture_file');
-                if(!empty($model->catalog_picture_file)){
-                    $uploadPath1 = Yii::getAlias('@webroot') .'/web/img/business/catalog/image/high/';
-                    $fileName1 = $model->catalog_picture_file->baseName . '.' . $model->catalog_picture_file->extension;
-                    $model->catalog_picture = $fileName1;
-                    $model->catalog_picture_file->saveAs($uploadPath1 . $fileName1);
-                }
-
-                $model->catalog_video_file = UploadedFile::getInstance($model, 'catalog_video_file');
-                if(!empty($model->catalog_video_file)){
-                    $uploadPath2 = Yii::getAlias('@webroot') .'/web/img/business/catalog/video/';
-                    $fileName2 = $model->catalog_video_file->baseName . '.' . $model->catalog_video_file->extension;
-                    $model->catalog_video = $fileName2;
-                    $model->catalog_video_file->saveAs($uploadPath2 . $fileName2);
-                }
-
-
+                $model->created_at = date('Y-m-d h:i:s');
+                
                 $model->save();
-                return $this->redirect(['catalog-view', 'id' => $model->catalog_id]);
+                
+                if($type == 'new'){
+                    $link = Url::to(['/business/user-business/create-catalog', 'businessId' => $businessId]);
+                }else{
+                    $link = Url::to(['/business/user-business/update-catalog', 'id' => $businessId]);
+                }
+                return $this->redirect($link);
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->render('update-catalog-details', [
-            'model' => $model
+        return $this->render('add_catalog_cat', [
+            'model' => $model,
         ]);
     }
 
@@ -478,7 +576,7 @@ class UserBusinessController extends Controller
         }
 
         return $this->render('details-catalog', [
-            'model' => $model,
+            'model' => $model
         ]);
     }
 
@@ -542,15 +640,13 @@ class UserBusinessController extends Controller
      */
     public function actionCatalogDelete($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findCatalogModel($id);
+        $model->status = 0;
+        $model->save();
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update-catalog', [
-            'model' => $model,
-        ]);
+        $bid = $model->assignmentCatalog->business_id;
+        $url = Url::to(['/business/user-business/catalog', 'id' => $bid]);
+        return $this->redirect($url);
     }
 
     /**

@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="m-3">
-<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+    <?=Html::a("Back", ["/business/user-business/"]);?>
 </div>
 
 <div class="container-fluid">
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <tr>
                             <td colspan='2' style="text-align:right">
                                 <a class="btn btn-primary"
-                                    href="<?=Yii::getAlias('@web')?>/business/user-business/business-update?user_id=<?=$user_id?>&id=<?=$model->id?>">Update</a>
+                                    href="<?=Yii::getAlias('@web')?>/business/user-business/update-business?id=<?=$model->id?>">Update</a>
                             </td>
                         </tr>
 
@@ -84,13 +84,21 @@ $this->params['breadcrumbs'][] = $this->title;
                         <tr>
                             <th>Status</th>
                             <td><?php
-                            if($model->status == 0){
+
+                            $newStatus = '<span style=color:grey>Undefined</span>';
+                            
+                            if($model->status === 0){
                                 $newStatus = '<span style=color:red>Deactive</span>';
                             }
-                            if($model->status == 1){
+                            if($model->status === 1){
                                 $newStatus = '<span style=color:green>Active</span>';
                             }
-                            if($model->status == 3){
+
+                            if($model->status === 2){
+                                $newStatus = '<span style=color:grey>Hide</span>';
+                            }
+
+                            if($model->status === 3){
                                 $newStatus = '<span style=color:grey>Hide</span>';
                             }
                             echo $newStatus;
@@ -102,22 +110,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             </div>
         </div>
-    </div>
-
-
-    <div class="card shadow mb-4">
+                            
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Business Details</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-
-                    <td colspan='2' style="text-align:right">
-                        <a class="btn btn-primary"
-                            href="<?=Yii::getAlias('@web')?>/business/user-business/business-update-details?&id=<?=$model->id?>">Update</a>
-
-                    </td>
                     <tbody>
                         <?php if(!empty($model->businessDetails)>0){ ?>
                         <tr>
@@ -191,16 +190,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         </tr>
                         <tr>
                             <th scop="col">From Time</th>
-                            <td><?=$businessWorkingDay->from_time?></td>
+                            <td><?=date('h:i a', strtotime($businessWorkingDay->from_time))?></td>
                         </tr>
                         <tr>
                             <th scop="col">To Time</th>
-                            <td><?=$businessWorkingDay->to_time?></td>
+                            <td><?=date('h:i a', strtotime($businessWorkingDay->to_time))?></td>
                         </tr>
 
                         <tr>
                             <th scop="col">Is Working Day</th>
-                            <td><?=($businessWorkingDay->working_day == 1) ? 'Yes' : 'No'?></td>
+                            <td><?=($businessWorkingDay->working_day == 1) ? 'Open' : 'Close'?></td>
                         </tr>
                     </tbody>
                 </table>

@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         
             <?= $this->render('_form-catalog', [
                 'model' => $model,
+                'categories' => $categories
             ]) ?>
 
             </div>

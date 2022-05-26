@@ -11,11 +11,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'catalog_description') ?>
-        <?= $form->field($model, 'catalog_keyword') ?>
-        <?= $form->field($model, 'catalog_price') ?>
-        <?= $form->field($model, 'catalog_picture_file')->fileInput() ?>
-        <?= $form->field($model, 'catalog_video_file')->fileInput() ?>
+        <?= $form->field($model, 'title') ?>
     
         <div class="form-group">
             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>

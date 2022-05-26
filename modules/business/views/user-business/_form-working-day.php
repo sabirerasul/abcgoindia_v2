@@ -34,11 +34,11 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'working_day')->dropDownList(
         [
-            '0' => 'No',
-            '1' => 'Yes',
+            '0' => 'Close',
+            '1' => 'Open',
                     
         ],           
-        ['prompt'=>'Is Working Day']
+        ['prompt'=>'Select Working Day']
     ); ?>
     
         <div class="form-group">

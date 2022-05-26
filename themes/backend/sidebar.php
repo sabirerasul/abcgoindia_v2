@@ -1,12 +1,15 @@
 
 <?php
 
+use yii\helpers\Url;
+
 $userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role : 'undefined';
+
 ?>
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion bg-gradient-secon" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?=Yii::getAlias('@web')?>/">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?=Url::to(['/'])?>">
         <div class="sidebar-brand-icon rotate-n-15">
             <!--<i class="fas fa-laugh-wink"></i>-->
             <img src="<?=Yii::getAlias('@web')?>/web/img/logo/Relogo.png" width="30" height="30"
@@ -22,12 +25,12 @@ $userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role
     <li class="nav-item active">
 
         <?php if ($userRole == 'org') { ?>
-        <a class="nav-link" href="<?=Yii::getAlias('@web')?>/org">
+        <a class="nav-link" href="<?=Url::to(['/org'])?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
         <?php } else { ?>
 
-        <a class="nav-link" href="<?=Yii::getAlias('@web')?>/business">
+        <a class="nav-link" href="<?=Url::to(['/business'])?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
 
@@ -48,27 +51,27 @@ $userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role
         <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Business Components:</h6>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business">
+                <a class="collapse-item" href="<?=Url::to(['/org/business'])?>">
                     <i class="fas fa-briefcase"></i>
                     Business
                 </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business/create">
+                <a class="collapse-item" href="<?=Url::to(['/org/business/create'])?>">
                     <i class="fas fa-plus"></i>
                     Add
                 </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business-catalog">
+                <a class="collapse-item" href="<?=Url::to(['/org/business-catalog'])?>">
                     <i class="fas fa-boxes"></i>
                     Catalog
                 </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business-catalog/create">
+                <a class="collapse-item" href="<?=Url::to(['/org/business-catalog/create'])?>">
                     <i class="fas fa-plus"></i>
                     Add
                 </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business-cat">
+                <a class="collapse-item" href="<?=Url::to(['/org/business-cat'])?>">
                     <i class="fas fa-clipboard-list"></i>
                     Category
                 </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/business-cat/create">
+                <a class="collapse-item" href="<?=Url::to(['/org/business-cat/create'])?>">
                     <i class="fas fa-plus"></i>
                     Add
                 </a>
@@ -88,12 +91,12 @@ $userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">User Components:</h6>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/user">
+                <a class="collapse-item" href="<?=Url::to(['/org/user'])?>">
                     <i class="fas fa-user"></i>
                     Users
                 </a>
 
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/org/create">
+                <a class="collapse-item" href="<?=Url::to(['/org/user/create'])?>">
                     <i class="fas fa-plus"></i>
                     Add
                 </a>
@@ -168,11 +171,11 @@ $userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role
         <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Business Components:</h6>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user-business">
+                <a class="collapse-item" href="<?=Url::to(['/business/user-business'])?>">
                     <i class="fas fa-briefcase"></i>
                     Business
                 </a>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user-business/business-update">
+                <a class="collapse-item" href="<?=Url::to(['/business/user-business/business-update'])?>">
                     <i class="fas fa-plus"></i>
                     Add
                 </a>
@@ -180,7 +183,7 @@ $userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role
             </div>
         </div>
 
-        <a class="nav-link" href="<?=Yii::getAlias('@web')?>/" target="_blank">
+        <a class="nav-link" href="<?=Url::to(['/'])?>" target="_blank">
             <i class="fas fa-fw fa-globe"></i>
             <span>Visit Site</span></a>
     </li>
@@ -199,17 +202,17 @@ $userRole = (\Yii::$app->user->identity) ? \Yii::$app->user->identity->user_role
         <div id="collapseFive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Settings Components:</h6>
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user/change-password">
+                <a class="collapse-item" href="<?=Url::to(['/business/user/change-password'])?>">
                     <i class="fas fa-lock"></i>
                     Change Password
                 </a>
 
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user/user-update">
+                <a class="collapse-item" href="<?=Url::to(['/business/user/user-update'])?>">
                     <i class="fas fa-user-edit"></i>
                     Edit Profile
                 </a>
 
-                <a class="collapse-item" href="<?=Yii::getAlias('@web')?>/business/user/user-profile">
+                <a class="collapse-item" href="<?=Url::to(['/business/user/user-profile'])?>">
                     <i class="fas fa-user-circle"></i>
                     View Profile
                 </a>

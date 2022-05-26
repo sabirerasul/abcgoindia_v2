@@ -1,16 +1,44 @@
 <?php
 
 /* @var $this yii\web\View */
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 $this->title = $model->bus_name.' | ABCGO INDIA';
 ?>
 
+<style>
+    @media screen and (max-width: 425px){
+        .business-header {
+            margin-bottom: 60px;
+        }
+
+        .business-header > .profile-banner > img{
+            height:150px;
+        }
+        
+        .business-header>.profile-picture {
+            bottom: -50px;
+        }
+
+        .table-bordered th, .table-bordered td{
+            border: 0 !important;
+        }
+
+        .business-header>.profile-picture>div>.picture-circle {
+            width: 100px;
+            height: 100px;
+        }
+    }
+</style>
 <div class="container-fluid">
 
     <div class="body-content">
 
         <div class='container'>
-
+        <div class="m-3">
+            <?= Html::a( 'Back', ['/e-market/'])?>
+        </div>
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <div class="business-header">
@@ -20,7 +48,7 @@ $this->title = $model->bus_name.' | ABCGO INDIA';
                             $bpath .= ($model->businessDetails && $model->businessDetails->business_banner) ? '/web/img/business/business-banner/high/'.$model->businessDetails->business_banner : '/web/img/blog/banner/upload_banner.png';
                         ?>
                         <div class="profile-banner">
-                            <img src='<?=$bpath?>'
+                            <img src='<?=$bpath?>' class="object-fit-cover"
                                 width="100%" height="420px">
                         </div>
 
@@ -41,7 +69,7 @@ $this->title = $model->bus_name.' | ABCGO INDIA';
 
                             <div class="">
                                 <img 
-                                    class="rounded-circle z-depth-2 picture-circle" 
+                                    class="rounded-circle z-depth-2 picture-circle object-fit-cover" 
                                     alt="100x100" 
                                     src="<?=$tlogo?>"
                                     data-holder-rendered="true"
@@ -63,7 +91,7 @@ $this->title = $model->bus_name.' | ABCGO INDIA';
                             foreach ($model->businessProfileLinks as $urlKey => $urlValue) {
                                 if($urlValue->status == 1){
                             ?>
-                            <div class="links-item">
+                            <div class="links-item px-3 m-1">
                                 <a href="<?=$urlValue->link?>">
                                 <i class="fa fa-link"></i>
                                 <?=$urlValue->title?>
@@ -115,12 +143,12 @@ $this->title = $model->bus_name.' | ABCGO INDIA';
 
                                 <tr>
                                     <th>Mobile</th>
-                                    <td><?=$model->bus_number?></td>
+                                    <td><a href="tel:<?=$model->bus_number?>"> <i class="fas fa-phone"></i> Call</a></td>
                                 </tr>
 
                                 <tr>
                                     <th scop="col">Email</th>
-                                    <td><?=$model->businessDetails->email?></td>
+                                    <td><a href="mailto:<?=$model->businessDetails->email?>"> <i class="fas fa-envelope"></i> Mail </a></td>
                                 </tr>
                             
                                 <tr>
@@ -195,14 +223,21 @@ $this->title = $model->bus_name.' | ABCGO INDIA';
                         }
                     ?>
 
-                    
+                    <div class="text-h3 my-4">
+                            <h6>Catalogs</h6>
+                    </div>
+                    <div class="working-day-wrapper">
+                        <a href="<?=Url::to(['/e-market/catalog/', 'id' => $_GET['id']])?>" class="btn btn-primary btn-lg">View Catalog</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+
 <style>
+
     .working-day-wrapper{
         display:flex;
         justify-content:center;

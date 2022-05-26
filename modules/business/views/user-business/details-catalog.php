@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="m-3">
-<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+    <?= Html::a( 'Back', ['/business/user-business/catalog', 'id' => $model->assignmentCatalog->business_id])?>
 </div>
 
 <div class="container-fluid">
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <tr>
                             <td colspan='2' style="text-align:right">
                                 <a class="btn btn-primary"
-                                    href="<?=Yii::getAlias('@web')?>/business/user-business/update-catalog?businessId=0&id=<?=$model->id?>">Update</a>
+                                    href="<?=Yii::getAlias('@web')?>/business/user-business/update-catalog?id=<?=$model->id?>">Update</a>
                             </td>
                         </tr>
 
@@ -59,6 +59,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             if($model->status == 1){
                                 $newStatus = '<span style=color:green>Active</span>';
                             }
+                            if($model->status == 2){
+                                $newStatus = '<span style=color:grey>Hide</span>';
+                            }
                             if($model->status == 3){
                                 $newStatus = '<span style=color:grey>Hide</span>';
                             }
@@ -71,22 +74,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             </div>
         </div>
-    </div>
+    
 
 
-    <div class="card shadow mb-4">
+  
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Catalog Details</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-
-                <td colspan='2' style="text-align:right">
-                        <a class="btn btn-primary"
-                            href="<?=Yii::getAlias('@web')?>/business/user-business/update-catalog-details?id=<?=$model->id?>">Update</a>
-
-                    </td>
                     <tbody>
                         <?php if(!empty($model->businessCatalogDetails)>0){ ?>
                             

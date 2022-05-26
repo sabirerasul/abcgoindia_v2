@@ -5,13 +5,13 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\org\models\business\Business */
 
-$this->title = Yii::t('app', 'Create Business');
+$this->title = Yii::t('app', 'Catalog');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Businesses'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="m-3">
-<?= Html::a( 'Back', Yii::$app->request->referrer)?>
+<?= Html::a( 'Back', ['/business/user-business/catalog', 'id' => $businessId])?>
 </div>
 
 <div class="container-fluid">
@@ -27,6 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
         
             <?= $this->render('_form-catalog', [
                 'model' => $model,
+                'modelDetails' => $modelDetails,
+                'categories' => $categories,
+                'businessId' => $businessId,
+                'type' => $type,
+                'catalogId' => $catalogId
             ]) ?>
 
             </div>

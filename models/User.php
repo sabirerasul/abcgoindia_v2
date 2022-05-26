@@ -28,7 +28,7 @@ $addressStatus = 1;
  * @property UserHobby[] $aiUserHobbies
  * @property UserProfileLink[] $aiUserProfileLinks
  */
-class User extends ActiveRecord  implements IdentityInterface
+class User extends ActiveRecord implements IdentityInterface
 {
     public $password;
     public $c_password;
@@ -223,6 +223,14 @@ class User extends ActiveRecord  implements IdentityInterface
     public function validateAuthKey($authKey)
     {
         return $this->auth_key === $authKey;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPasswordResetToken()
+    {
+        return $this->password_reset_token;
     }
 
     /**

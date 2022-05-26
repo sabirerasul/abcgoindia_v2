@@ -1,10 +1,20 @@
-RewriteEngine on
+#RewriteEngine on
 
 # if a directory or a file exists, use it directly
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
 
 # otherwise forward it to index.php
 
-RewriteRule ^(.*)\?*$ index.php?r=$1 [L,QSA]
+#RewriteRule ^(.*)\?*$ index.php?r=$1 [L,QSA]
 #RewriteRule . index.php
+
+
+RewriteEngine on
+# If a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Otherwise forward it to index.php
+#RewriteRule . index.php
+RewriteRule ^(.*)\?*$ index.php?r=$1 [L,QSA]
+#RewriteRule ^reg/([0-9]+)$ index?id=$1 [QSA, L]

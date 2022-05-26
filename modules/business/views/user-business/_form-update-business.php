@@ -20,6 +20,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'bus_number')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($modelDetails, 'email') ?>
+    <?= $form->field($modelDetails, 'description')->textarea(['rows' => '6']) ?>
+    <?= $form->field($modelDetails, 'keyword')->textarea(['rows' => '6']) ?>
+    <?= $form->field($modelDetails, 'business_logo_file')->fileInput() ?>
+    <?= $form->field($modelDetails, 'business_banner_file')->fileInput() ?>
+
+
     <?= $form->field($model, 'status')
         ->dropDownList(
             [0 => 'Deactive', 1 => 'Active', 2 => 'Hide'],           // Flat array ('id'=>'label')

@@ -24,11 +24,7 @@ use app\models\business\BusinessWorkingDay;
 use app\models\business\AssignmentCatalog;
 use app\models\business\BusinessCatalogLink;
 use app\models\business\BusinessCatalogDetail;
-
-
-
-
-
+use app\models\business\BusinessCatalogCat;
 /**
  * UserBusinessController implements the CRUD actions for Business model.
  */
@@ -341,6 +337,7 @@ class UserBusinessController extends Controller
         $old = BusinessCatalog::find()->where(['id' => $id])->one();
         $model = $old ? $old : new BusinessCatalog();
 
+        $categories = ArrayHelper::map(BusinessCatalogCat::find()->where(['status' => 1])->all(), 'id', 'title');
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 if($old){
@@ -366,6 +363,7 @@ class UserBusinessController extends Controller
 
         return $this->render('update-catalog', [
             'model' => $model,
+            'categories' => $categories
         ]);
     }
 
@@ -399,12 +397,37 @@ class UserBusinessController extends Controller
     public function actionCatalogUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update-catalog', [
+            'model' => $model
+        ]);
+    }
+
+    public function actionAddCatalogCat($business_id=0, $id=0)
+    {
+        $model = new BusinessCatalogCat();
+
+        // if(empty($businessId)){
+        //     $this->redirect(Yii::getAlias('@web').'/business/user-business/');
+        // }
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+
+                $model->created_at = date('Y-m-d h:i:s');
+                
+                $model->save();
+
+                $link = Yii::getAlias('@web').'/org/user-business/update-catalog?business_id='.$business_id.'&id='.$id;
+                return $this->redirect($link);
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('add_catalog_cat', [
             'model' => $model,
         ]);
     }

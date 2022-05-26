@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 
 $this->title = "Login - ABCGO INDIA";
 ?>
@@ -81,13 +82,13 @@ $this->title = "Login - ABCGO INDIA";
                             
                             <hr>-->
                             <div class="text-center">
-                                <a class="small" href="<?=Yii::getAlias('@web')?>/forgot">Forgot Password?</a>
+                                <a class="small" href="<?=Url::to(['/site/forgot'])?>">Forgot Password?</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="<?=Yii::getAlias('@web')?>/register">Create an Account!</a>
+                                <a class="small" href="<?=Url::to(['/site/signup/'])?>">Create an Account!</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="<?=Yii::getAlias('@web')?>/">Go Home</a>
+                                <a class="small" href="<?=Url::to(['/'])?>">Go Home</a>
                             </div>
                         </div>
                     </div>

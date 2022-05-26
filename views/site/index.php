@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 
 $this->title = 'WELCOME - ABCGOINDIA.COM(service provider portal)';
@@ -15,20 +16,15 @@ $this->title = 'WELCOME - ABCGOINDIA.COM(service provider portal)';
     <div class='container-fluid bg-white'>
         <div class="row mt-3">
             <div class="col-lg-12">
-                <h2>Business Profile</h2>
+                <h2>Business Plan</h2>
 
                 <img src='<?=Yii::getAlias('@web')?>/web/img/Business%20profile.jpg' width="100%">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                     ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                    fugiat nulla pariatur.</p> -->
 
-                    <?php
-                    echo "<pre>";
-                    //print_r(Yii::$app->user->identity->username);
-                    echo "</pre>";
-                    ?>
-                <p><a class="btn btn-outline-secondary" href="https://abcgoindia.com/business/">learn more &raquo;</a></p>
+                <p><a class="btn btn-outline-secondary my-2" href="<?=Yii::getAlias('@web')?>/business-plan/">learn more &raquo;</a></p>
             </div>
         </div>
 </div>
@@ -40,18 +36,18 @@ $this->title = 'WELCOME - ABCGOINDIA.COM(service provider portal)';
                 <h2>E- market</h2>
 
                 <img src='<?=Yii::getAlias('@web')?>/web/img/ads/img/20072020_022910.png' width="100%">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                     ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                    fugiat nulla pariatur.</p> -->
 
-                <p><a class="btn btn-outline-secondary" href="<?=Yii::getAlias('@web')?>/web/e-market/">learn more &raquo;</a></p>
+                <p><a class="btn btn-outline-secondary my-2" href="<?=Yii::getAlias('@web')?>/e-market/">Go to E-Market &raquo;</a></p>
             </div>
         </div>
 </div>
 
 
-<div class='container-fluid bg-white'>
+<!-- <div class='container-fluid bg-white'>
         <div class="row mt-3">
             <div class="col-lg-12">
                 <h2>Ads</h2>
@@ -65,7 +61,7 @@ $this->title = 'WELCOME - ABCGOINDIA.COM(service provider portal)';
                 <p><a class="btn btn-outline-secondary" href="<?=Yii::getAlias('@web')?>/web/promote/index.php">learn more &raquo;</a></p>
             </div>
         </div>
-</div>
+</div> -->
 
     <div class='container-fluid bg-white'>
         <div class="row mt-4">
@@ -80,7 +76,7 @@ $this->title = 'WELCOME - ABCGOINDIA.COM(service provider portal)';
                     धन्यवाद आपका दिन शुभ हो
                 </p>
 
-                <p><a class="btn btn-outline-secondary" href="<?=Yii::getAlias('@web')?>/web/aboutus.php/">learn more &raquo;</a></p>
+                <p><a class="btn btn-outline-secondary" href="<?=Yii::getAlias('@web')?>/about">learn more &raquo;</a></p>
             </div>
         </div>
     </div>

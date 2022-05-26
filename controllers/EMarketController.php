@@ -11,6 +11,7 @@ use app\models\User;
 use app\models\business\Business;
 use app\models\business\AssignmentCatalog;
 use app\models\business\BusinessCatalog;
+use yii\helpers\Url;
 
 class EMarketController extends Controller
 {
@@ -61,48 +62,129 @@ class EMarketController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($query = '')
     {
-        $model = Business::find()->all();
-        return $this->render('index', ['model' => $model]);
+        if(!empty($query)){
+            $model = Business::find()
+                        ->where(['is_deleted' => 0, 'status' => 1])
+                        ->andFilterWhere([
+                            'or',
+                            ['like', 'ai_business.bus_name', $query],
+                        ])
+                        ->all();
+        }else{
+            $model = Business::find()->where(['is_deleted' => 0, 'status' => 1])->all();
+        }
+        
+        return $this->render('index', ['model' => $model, 'query' => $query]);
     }
 
     public function actionBusinessProfile($id = 0)
     {
         if(empty($id)){
-            $this->redirect('index');
+            $link = Url::to(['/e-market/']);
+            return $this->redirect($link);
         }
 
-        $model = Business::find()->where(['bus_username' => $id])->one();
+        $model = Business::find()->where(['bus_username' => $id, 'is_deleted' => 0, 'status' => 1])->one();
+        if(empty($model)){
+            $link = Url::to(['/e-market/']);
+            return $this->redirect($link);
+        }
         return $this->render('business-profile', ['model' => $model]);
     }
 
-    public function actionCatalogs($id = 0)
+    public function actionCatalog($id = 0, $query = '')
     {
         if(empty($id)){
-            $this->redirect('index');
+            $link = Url::to(['/e-market/']);
+            return $this->redirect($link);
         }
 
         $model = Business::find()->where(['bus_username' => $id])->one();
         $catalog = $model->assignmentCatalog;
-        return $this->render('catalogs', ['model' => $catalog, 'businessModel' => $model]);
+        
+        $catalogCatArr = [];
+        $catalogArr = [];
+        foreach ($catalog as $key => $value) {
+            $catalog = $value->catalog;
+
+            if(!empty($query)){
+                if (!strpos($catalog->catalog_name, $query)) { 
+                    continue;
+                }
+            }
+            $catalogArr[] = $catalog;
+
+            //if(count($catalogCatArr)>0){
+
+                
+                if (array_search($catalog->catalog_cat_id, array_column($catalogCatArr, 'id')) !== FALSE) {
+                    
+                    /*$catalogCatArr[] = [
+                        'id' => $catalog->catalog_cat_id,
+                        'title' => $catalog->businessCatalogCat->title,
+                        //'catalog' => $catalogArr
+                    ];*/
+                    //$k = '';
+
+                    
+
+                    //$catalogCatArr[$k]['catalog'][] = $catalog;
+                    
+                  } else {
+                    
+                    $catalogCatArr[] = [
+                        'id' => $catalog->catalog_cat_id,
+                        'title' => $catalog->businessCatalogCat->title,
+                        //'catalog' => $catalogArr
+                    ];
+                }
+
+            // }else{
+
+            //     $catalogArr[] = $catalog;
+            //     $catalogCatArr[$key] = [
+            //         'id' => $catalog->catalog_cat_id,
+            //         'title' => $catalog->businessCatalogCat->title,
+            //         'catalog' => $catalogArr
+            //     ];
+            // }
+            
+        }
+
+        return $this->render('catalog', [
+            'model' => $catalog, 
+            'businessModel' => $model, 
+            'catalogCatArr' => $catalogCatArr,
+            'catalogArr' => $catalogArr,
+            'id' => $id,
+            'query' => $query
+        ]);
     }
 
-    public function actionCatalogView($id = 0, $catalog_id = 0)
+    public function actionView($id = 0, $catalogId = 0)
     {
 
         if(empty($id)){
-            $this->redirect('index');
+            $link = Url::to(['/e-market/']);
+            return $this->redirect($link);
         }
 
-        if(empty($catalog_id)){
-            $this->redirect('index');
+        if(empty($catalogId)){
+            $link = Url::to(['/e-market/']);
+            return $this->redirect($link);
         }
 
-        $businessModel = Business::find()->where(['bus_username' => $id])->one();
-        $model = BusinessCatalog::find()->where(['id' => $catalog_id])->one();
+        $businessModel = Business::find()->where(['bus_username' => $id, 'is_deleted' => 0, 'status' => 1])->one();
+        $model = BusinessCatalog::find()->where(['id' => $catalogId, 'status' => 1])->one();
         
-        return $this->render('view-catalog', ['model' => $model, 'businessModel' => $businessModel]);
+        if(empty($businessModel) || empty($model)){
+            $link = Url::to(['/e-market/']);
+            return $this->redirect($link);
+        }
+
+        return $this->render('view-catalog', ['model' => $model, 'businessModel' => $businessModel, 'id' => $id]);
     }
    
 

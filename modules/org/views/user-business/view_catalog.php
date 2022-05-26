@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- DataTales Example -->
         <?php foreach ($model as $key => $val) { ?>
         <?php $value = $val->catalog; ?>
-        <div class="col-md-6 col">
+        <div class="col-md-12 col">
             <div class="card shadow mb-4">
 
                 <div class="card-header py-3">
@@ -41,43 +41,60 @@ $this->params['breadcrumbs'][] = $this->title;
                             <tbody>
                                 
                                 <tr>
-                                    <th>Cataog Name</th>
-                                    <td><?=$value->catalog_name?></td>
-                                </tr>
-                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Tag</th>
                                     <th>Status</th>
+                                    <th>Created</th>
+                                    <th>Updated</th>
+                                    <th>Action</th>
+                                </tr>
+
+                                <tr>
+                                    
+                                    <td>
+
+                                    <?php
+                                                        $logo = ($value->businessCatalogDetails && $value->businessCatalogDetails->catalog_picture) ? $value->businessCatalogDetails->catalog_picture : $value->catalog_name[0].'.jpg';
+                                                        
+                                                        $tlogo = Yii::getAlias('@web');
+                                                        $tlogo .= ($value->businessCatalogDetails && $value->businessCatalogDetails->catalog_picture) ? '/web/img/business/catalog/image/high/'.$logo : '/web/img/alphabet/'.$logo;
+                                                        ?>
+                                                        <img class="catalog-img" alt="<?=$value->catalog_name?>"
+                                                            src="<?=$tlogo?>" data-holder-rendered="true" width="100px">
+
+                                    </td>
+                                    <td><?=$value->catalog_name?></td>
+                                
+                                    <td>
+                                        <span class="badge badge-pill badge-secondary"><?=$value->businessCatalogCat->title;?></span>
+                                    </td>
                                     <td>
                                         <?php
                             
-                                $newStatus = 1;
-                            
-                                if($value->status == 0){
-                                    $newStatus = '<span style=color:red>Deactive</span>';
-                                }
-                                if($value->status == 1){
-                                    $newStatus = '<span style=color:green>Active</span>';
-                                }
-                                if($value->status == 2){
-                                    $newStatus = '<span style=color:grey>Hide</span>';
-                                }
-                                echo $newStatus;
+                                        $newStatus = 1;
+                                    
+                                        if($value->status == 0){
+                                            $newStatus = '<span style=color:red>Deactive</span>';
+                                        }
+                                        if($value->status == 1){
+                                            $newStatus = '<span style=color:green>Active</span>';
+                                        }
+                                        if($value->status == 2){
+                                            $newStatus = '<span style=color:grey>Hide</span>';
+                                        }
+                                        echo $newStatus;
 
-                                ?>
+                                        ?>
                                     </td>
-                                </tr>
-
-                                <tr>
-                                    <th>catalog Since</th>
+                                
                                     <td><?=date("jS \of F Y", strtotime($value->created_at))?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Updated At</th>
+                                
+                                    
                                     <td><?=date("jS \of F Y", strtotime($value->updated_at))?></td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan='2'>
+                                    
+                                    
+                                    <td>
                                         
                                         <?= Html::a(Yii::t('app', 'view'), ['catalog-view', 'id' => $value->id], ['class' => 'btn btn-success']) ?>
 

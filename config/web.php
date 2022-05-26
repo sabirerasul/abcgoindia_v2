@@ -43,6 +43,14 @@ $config = [
             // 'useFileTransport' to false and configure transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'encryption' => 'tls',
+                'host' => 'smtp.gmail.com',
+                'port' => '587',
+                'username' => 'itsabirerasul@gmail.com',
+                'password' => '12@Sabir',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -55,15 +63,29 @@ $config = [
         ],
         'db' => $db,
         'urlManager' => [
-            'enablePrettyUrl' => true,
+            'class' => 'yii\web\UrlManager',
+            // Disable index.php
             'showScriptName' => false,
+            // Disable r= routes
+            'enablePrettyUrl' => true,
             'rules' => [
-                'login' => 'site/login',
-                'forgot' => 'site/forgot',
-                'signup' => 'site/register',
-                'register' => 'site/register',
-                'about' => 'site/about',
-                'why-join' => 'site/why-join',
+                '/login' => 'site/login',
+                '/forgot' => 'site/forgot',
+                '/signup' => 'site/register',
+                '/register' => 'site/register',
+                '/about' => 'site/about',
+                '/why-join' => 'site/why-join',
+                '/services/profile.php' => 'services/profile',
+                
+                // '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                // '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action><id:\d+>',
+                // '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                'e-market/search' => 'e-market/search',
+                'e-market/<id:\w+>' => 'e-market/business-profile',
+                'e-market/<id:\w+>/catalog' => 'e-market/catalog',
+                'e-market/<id:\w+>/catalog/<catalogId:\w+>' => 'e-market/view',
+                
+                
             ],
         ],
         'authManager' => [
